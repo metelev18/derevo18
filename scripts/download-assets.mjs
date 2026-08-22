@@ -39,13 +39,24 @@ const assets = {
   'news-5.webp': 'https://static.tildacdn.com/tild3862-3536-4439-a534-326162303861/E5YrR8emoXI.jpg',
   'news-6.webp': 'https://static.tildacdn.com/tild3739-6432-4332-a231-656539616164/_viber_2024-02-27_12.jpg',
   'contact-building.webp': 'https://static.tildacdn.com/tild6434-3933-4537-a162-326335643765/image.jpg',
+  'history-house-1.webp': 'https://static.tildacdn.com/tild3361-3462-4763-a339-323038326534/_viber_2024-01-31_14.jpg',
+  'history-house-2.webp': 'https://static.tildacdn.com/tild3530-6130-4031-b838-636361313835/_viber_2024-01-25_12.jpg',
   'og.jpg': 'https://static.tildacdn.com/tild6333-6536-4137-b535-616462623932/Frame_279.png',
 };
 
 const outputDir = join(process.cwd(), 'public', 'media');
 await mkdir(outputDir, { recursive: true });
 
-for (const [name, url] of Object.entries(assets)) {
+const requestedNames = new Set(process.argv.slice(2).filter((name) => name !== '--'));
+const knownNames = new Set([...Object.keys(assets), 'montserrat.ttf']);
+for (const requestedName of requestedNames) {
+  if (!knownNames.has(requestedName)) throw new Error(`Unknown asset: ${requestedName}`);
+}
+const selectedAssets = requestedNames.size === 0
+  ? Object.entries(assets)
+  : Object.entries(assets).filter(([name]) => requestedNames.has(name));
+
+for (const [name, url] of selectedAssets) {
   const response = await fetch(url);
   if (!response.ok) throw new Error(`${response.status} ${url}`);
   const source = Buffer.from(await response.arrayBuffer());
@@ -58,8 +69,10 @@ for (const [name, url] of Object.entries(assets)) {
 }
 
 const fontDir = join(process.cwd(), 'public', 'fonts');
-await mkdir(fontDir, { recursive: true });
-const fontResponse = await fetch('https://raw.githubusercontent.com/google/fonts/main/ofl/montserrat/Montserrat%5Bwght%5D.ttf');
-if (!fontResponse.ok) throw new Error(`${fontResponse.status} Montserrat`);
-await writeFile(join(fontDir, 'montserrat.ttf'), Buffer.from(await fontResponse.arrayBuffer()));
-process.stdout.write('montserrat.ttf\n');
+if (requestedNames.size === 0 || requestedNames.has('montserrat.ttf')) {
+  await mkdir(fontDir, { recursive: true });
+  const fontResponse = await fetch('https://raw.githubusercontent.com/google/fonts/main/ofl/montserrat/Montserrat%5Bwght%5D.ttf');
+  if (!fontResponse.ok) throw new Error(`${fontResponse.status} Montserrat`);
+  await writeFile(join(fontDir, 'montserrat.ttf'), Buffer.from(await fontResponse.arrayBuffer()));
+  process.stdout.write('montserrat.ttf\n');
+}

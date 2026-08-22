@@ -1,0 +1,19 @@
+---
+import { siteContent } from '../../data/site';
+---
+
+<section id="contacts" class="contact-map" aria-labelledby="contact-map-title">
+  <iframe title="ДревМастер на карте" loading="lazy" src={siteContent.mapEmbedUrl}></iframe>
+  <div class="contact-map__inner container">
+    <div class="contact-map__card">
+      <h2 id="contact-map-title">Контакты</h2>
+      <p>{siteContent.contact.company}</p>
+      <p class="contact-map__label">Адрес:</p>
+      <p>{siteContent.contact.address}</p>
+      <p class="contact-map__label">Связаться:</p>
+      <a href={siteContent.contact.phoneHref}>{siteContent.contact.phoneLabel}</a>
+      <p class="contact-map__label">Написать на электронную почту:</p>
+      <a href={`mailto:${siteContent.contact.email}`}>{siteContent.contact.email}</a>
+    </div>
+  </div>
+</section>

@@ -5,6 +5,7 @@ describe('site content', () => {
   it('keeps shared navigation usable from nested pages', () => {
     expect(siteContent.navigation).toHaveLength(7);
     expect(siteContent.navigation.every((item) => item.href.startsWith('/'))).toBe(true);
+    expect(siteContent.navigation[0]?.href).toBe('/history/');
   });
 
   it('defines every demo form exactly once', () => {

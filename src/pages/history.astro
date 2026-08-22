@@ -1,0 +1,32 @@
+---
+import HistoryGallery from '../components/history/HistoryGallery';
+import ContactMapSection from '../components/site/ContactMapSection.astro';
+import Breadcrumbs from '../components/ui/Breadcrumbs.astro';
+import { historyContent } from '../data/history';
+import SiteLayout from '../layouts/SiteLayout.astro';
+---
+
+<SiteLayout seo={historyContent.seo}>
+  <div class="history-page">
+    <Breadcrumbs items={[{ label: 'Главная', href: '/' }, { label: 'История компании' }]} />
+    <header class="history-intro container">
+      <h1>{historyContent.title}</h1>
+      <p>{historyContent.lead.map((line) => <span>{line}</span>)}</p>
+    </header>
+    <section class="history-timeline container" aria-label="Этапы развития компании">
+      {historyContent.periods.map((period, index) => (
+        <article class="history-card">
+          <h2>{period.title}</h2>
+          <div class="history-card__content">
+            {period.milestones.map((milestone) => (
+              <p>{milestone.year && <><strong>{milestone.year}</strong><span aria-hidden="true"> — </span></>}{milestone.text}</p>
+            ))}
+          </div>
+          <span class="history-card__number" aria-hidden="true">{index + 1}</span>
+        </article>
+      ))}
+    </section>
+    <HistoryGallery images={historyContent.gallery} client:visible />
+  </div>
+  <ContactMapSection />
+</SiteLayout>
