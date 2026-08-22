@@ -1,0 +1,25 @@
+---
+import type { CatalogProject } from '../../data/catalog';
+
+interface Props {
+  project: CatalogProject;
+}
+
+const { project } = Astro.props;
+---
+
+<article class="catalog-card">
+  <a class="catalog-card__image" href={project.route} aria-label={project.title}>
+    <img src={project.image} alt={project.title} width="640" height="520" loading="lazy" />
+  </a>
+  <div class="catalog-card__body">
+    <h3><a href={project.route}>{project.title}</a></h3>
+    <dl>
+      <div><dt>Площадь:</dt><dd>{project.area}</dd></div>
+      <div><dt>Размер:</dt><dd>{project.size}</dd></div>
+      <div><dt>Этажей:</dt><dd>{project.floors.replace(/\D/g, '')}</dd></div>
+      {project.rooms && <div><dt>Комнат:</dt><dd>{project.rooms.replace(/\D/g, '')}</dd></div>}
+    </dl>
+    <a class="text-link" href={project.route}>Подробнее <span aria-hidden="true">→</span></a>
+  </div>
+</article>

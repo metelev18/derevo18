@@ -13,7 +13,7 @@ export default function Catalog() {
       <div className="project-grid container">
         {projects.map((project) => (
           <article className="project-card" key={project.title}>
-            <a href={`/coming-soon/?target=${encodeURIComponent(project.target)}`} className="project-card__image">
+            <a href={project.target} className="project-card__image">
               <img src={project.image} alt={project.title} loading="lazy" width="560" height="390" />
             </a>
             <div className="project-card__body">
@@ -24,7 +24,7 @@ export default function Catalog() {
                 <div><dt>Этажей:</dt><dd>{project.floors}</dd></div>
                 <div><dt>Комнат:</dt><dd>{project.rooms}</dd></div>
               </dl>
-              <a className="text-link" href={`/coming-soon/?target=${encodeURIComponent(project.target)}`}>Подробнее <ArrowIcon /></a>
+              <a className="text-link" href={project.target}>Подробнее <ArrowIcon /></a>
             </div>
           </article>
         ))}

@@ -1,0 +1,9 @@
+---
+import ProjectDetail from '../components/catalog/ProjectDetail.astro';
+import { houseProjects } from '../data/catalog';
+
+const project = houseProjects.find((candidate) => candidate.route === '/proekt-doma-bars/');
+if (!project) throw new Error('Project Bars is missing from the catalog.');
+---
+
+<ProjectDetail project={project} />

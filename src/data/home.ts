@@ -49,12 +49,12 @@ export const homeContent = {
     ],
   },
   projects: [
-    { title: 'Проект дома «Подшивалово»', image: '/media/project-podshivalovo.webp', area: '91 кв.м.', size: '9×12 м', floors: '1', rooms: '3', target: 'catalog-house/dom-podshivalovo' },
-    { title: 'Проект дома «Барс»', image: '/media/project-bars.webp', area: '76 кв.м.', size: '7×12 м', floors: '1', rooms: '3', target: 'proekt-doma-bars' },
-    { title: 'Проект дома «Солнечный»', image: '/media/project-solnechniy.webp', area: '70 кв.м.', size: '8×10 м', floors: '1', rooms: '3', target: 'catalog-house/solnechniy' },
-    { title: 'Проект дома «Светлый терем»', image: '/media/project-svetliy-terem.webp', area: '75 кв.м.', size: '9×9 м', floors: '1', rooms: '3', target: 'catalog-house/svetlyi-terem' },
-    { title: 'Проект дома «Дубрава»', image: '/media/project-dubrava.webp', area: '92 кв.м.', size: '9×11 м', floors: '1', rooms: '3', target: 'catalog-house/dubrava' },
-    { title: 'Проект дома «Скандик»', image: '/media/project-scandic.webp', area: '56 кв.м.', size: '6×10 м', floors: '1', rooms: '1', target: 'catalog-house/scandic' },
+    { title: 'Проект дома «Подшивалово»', image: '/media/project-podshivalovo.webp', area: '91 кв.м.', size: '9×12 м', floors: '1', rooms: '3', target: '/catalog-house/dom-podshivalovo/' },
+    { title: 'Проект дома «Барс»', image: '/media/project-bars.webp', area: '76 кв.м.', size: '7×12 м', floors: '1', rooms: '3', target: '/proekt-doma-bars/' },
+    { title: 'Проект дома «Солнечный»', image: '/media/project-solnechniy.webp', area: '70 кв.м.', size: '8×10 м', floors: '1', rooms: '3', target: '/catalog-house/solnechniy/' },
+    { title: 'Проект дома «Светлый терем»', image: '/media/project-svetliy-terem.webp', area: '75 кв.м.', size: '9×9 м', floors: '1', rooms: '3', target: '/catalog-house/svetlyi-terem/' },
+    { title: 'Проект дома «Дубрава»', image: '/media/project-dubrava.webp', area: '92 кв.м.', size: '9×11 м', floors: '1', rooms: '3', target: '/catalog-house/dubrava/' },
+    { title: 'Проект дома «Скандик»', image: '/media/project-scandic.webp', area: '56 кв.м.', size: '6×10 м', floors: '1', rooms: '1', target: '/catalog-house/scandic/' },
   ],
   portfolio: [
     { title: 'Дом из сухого профилированного бруса, 106 кв.м.', image: '/media/portfolio-1.webp' },

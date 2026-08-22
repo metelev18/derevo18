@@ -1,0 +1,37 @@
+---
+import ContactMapSection from '../site/ContactMapSection.astro';
+import Breadcrumbs from '../ui/Breadcrumbs.astro';
+import type { CatalogProject, ProjectCategory } from '../../data/catalog';
+import { catalogSeo } from '../../data/catalog';
+import SiteLayout from '../../layouts/SiteLayout.astro';
+import CatalogCard from './CatalogCard.astro';
+
+interface Props {
+  category: ProjectCategory;
+  projects: CatalogProject[];
+}
+
+const { category, projects } = Astro.props;
+const isHouse = category === 'house';
+const title = isHouse ? 'Дома' : 'Проекты бань';
+---
+
+<SiteLayout seo={catalogSeo[category]}>
+  <div class="catalog-page">
+    <Breadcrumbs items={[{ label: 'Главная', href: '/' }, { label: isHouse ? 'Дома' : 'Бани' }]} />
+    <section class="catalog-list container" aria-labelledby="catalog-title">
+      <div class="catalog-list__header">
+        <h1 id="catalog-title">{title}</h1>
+        <nav class="catalog-tabs" aria-label="Тип проектов">
+          <a class:list={['catalog-tabs__item', { 'catalog-tabs__item--active': isHouse }]} href="/catalog-house/" aria-current={isHouse ? 'page' : undefined}>Дома</a>
+          <a class:list={['catalog-tabs__item', { 'catalog-tabs__item--active': !isHouse }]} href="/catalog-sauna/" aria-current={!isHouse ? 'page' : undefined}>Бани</a>
+        </nav>
+      </div>
+      <h2 class="sr-only">Список проектов</h2>
+      <div class="catalog-grid">
+        {projects.map((project) => <CatalogCard project={project} />)}
+      </div>
+    </section>
+  </div>
+  <ContactMapSection />
+</SiteLayout>

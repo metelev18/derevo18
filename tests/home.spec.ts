@@ -48,14 +48,14 @@ test('form validates locally and never sends a request', async ({ page }) => {
   expect(writeRequests).toEqual([]);
 });
 
-test('catalog expands and unfinished links use the local placeholder', async ({ page }) => {
+test('catalog expands and links to implemented project pages', async ({ page }) => {
   await page.locator('#catalog').scrollIntoViewIfNeeded();
   await waitForVisibleIsland(page, '.catalog__more');
   await expect(page.locator('.project-card')).toHaveCount(3);
   await page.getByRole('button', { name: 'Загрузить ещё' }).click();
   await expect(page.locator('.project-card')).toHaveCount(6);
   const href = await page.locator('.project-card .text-link').first().getAttribute('href');
-  expect(href).toMatch(/^\/coming-soon\//);
+  expect(href).toBe('/catalog-house/dom-podshivalovo/');
 });
 
 test('portfolio opens and closes an accessible lightbox', async ({ page }) => {

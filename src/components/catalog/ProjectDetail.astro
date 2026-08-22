@@ -1,0 +1,114 @@
+---
+import LeadForm from '../site/LeadForm';
+import ContactMapSection from '../site/ContactMapSection.astro';
+import Breadcrumbs from '../ui/Breadcrumbs.astro';
+import CatalogCard from './CatalogCard.astro';
+import { basePackageSections, getProjectDescription, getProjectSeo, getRelatedProjects, type CatalogProject } from '../../data/catalog';
+import { siteContent } from '../../data/site';
+import SiteLayout from '../../layouts/SiteLayout.astro';
+
+interface Props {
+  project: CatalogProject;
+}
+
+const { project } = Astro.props;
+const categoryLabel = project.category === 'house' ? 'Дома' : 'Бани';
+const categoryRoute = project.category === 'house' ? '/catalog-house/' : '/catalog-sauna/';
+const description = getProjectDescription(project);
+const related = getRelatedProjects(project);
+const specs = [
+  { label: 'Площадь', value: project.area },
+  { label: 'Размер', value: project.size },
+  { label: 'Этажность', value: project.floors },
+  project.rooms ? { label: 'Комнаты', value: project.rooms } : null,
+  project.bathrooms ? { label: 'Санузлы', value: project.bathrooms } : null,
+  { label: 'Срок', value: project.duration },
+].filter(Boolean) as Array<{ label: string; value: string }>;
+---
+
+<SiteLayout seo={getProjectSeo(project)}>
+  <article class="project-detail">
+    <Breadcrumbs items={[{ label: 'Главная', href: '/' }, { label: categoryLabel, href: categoryRoute }, { label: project.name }]} />
+    <header class="project-detail__header container">
+      <h1>{project.title}</h1>
+    </header>
+    <section class="project-showcase container" aria-label="Основная информация о проекте">
+      <div class="project-showcase__image">
+        <img src={project.image} alt={project.title} width="1200" height="900" />
+      </div>
+      <aside class="project-showcase__aside">
+        <button class="button button--accent project-showcase__download" type="button" data-lead-form="project">Скачать презентацию проекта</button>
+        <dl class="project-specs">
+          {specs.map((spec, index) => (
+            <div><span aria-hidden="true">{['⌂', '↔', '⌁', '□', '◇', '◷'][index]}</span><dt>{spec.label}</dt><dd>{spec.value}</dd></div>
+          ))}
+        </dl>
+        <button class="button project-showcase__discuss" type="button" data-lead-form="application">Обсудить проект</button>
+        <p>Планировку, материалы и комплектацию можно изменить под ваш участок.</p>
+      </aside>
+    </section>
+
+    <section class="project-description section-space">
+      <div class="container project-description__grid">
+        <div>
+          <p class="section-heading__eyebrow">О ПРОЕКТЕ</p>
+          <h2>Описание</h2>
+        </div>
+        <div>
+          <p>{description}</p>
+          <p>Домокомплект доступен из оцилиндрованного бревна, профилированного или клееного бруса, кедра и лиственницы. Итоговый вариант подбирается после консультации и обследования участка.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="project-plan container section-space" aria-labelledby="project-plan-title">
+      <div>
+        <p class="section-heading__eyebrow">ИНДИВИДУАЛЬНЫЙ ПОДХОД</p>
+        <h2 id="project-plan-title">Планировка</h2>
+        <p>В планировку можно внести любые изменения и дополнения. Архитектор адаптирует размеры помещений, расположение входов, окон и инженерных зон под образ жизни вашей семьи.</p>
+      </div>
+      <div class="project-plan__facts">
+        <span>{project.area}</span>
+        <strong>{project.size}</strong>
+        <small>Базовые параметры проекта</small>
+      </div>
+    </section>
+
+    <section class="project-package section-space" aria-labelledby="project-package-title">
+      <div class="container">
+        <div class="section-heading">
+          <p class="section-heading__eyebrow">ЧТО ВХОДИТ В СТОИМОСТЬ</p>
+          <h2 id="project-package-title">Базовая комплектация</h2>
+        </div>
+        <div class="project-package__grid">
+          {basePackageSections.map((section, index) => (
+            <article>
+              <span>{String(index + 1).padStart(2, '0')}</span>
+              <h3>{section.title}</h3>
+              <ul>{section.items.map((item) => <li>{item}</li>)}</ul>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="project-request section-space">
+      <div class="container project-request__grid">
+        <div>
+          <p class="section-heading__eyebrow">ОБСУДИМ ИЗМЕНЕНИЯ</p>
+          <h2>Хотите изменить проект?</h2>
+          <p>Оставьте контакты — форма работает в демо-режиме и не отправляет введённые данные.</p>
+        </div>
+        <LeadForm definition={siteContent.forms.project} client:visible />
+      </div>
+    </section>
+
+    <section class="related-projects section-space">
+      <div class="container">
+        <div class="section-heading"><h2>Похожие проекты</h2></div>
+        <div class="catalog-grid catalog-grid--related">{related.map((relatedProject) => <CatalogCard project={relatedProject} />)}</div>
+      </div>
+    </section>
+  </article>
+  <ContactMapSection />
+</SiteLayout>

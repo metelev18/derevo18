@@ -1,0 +1,18 @@
+---
+import ProjectDetail from '../../components/catalog/ProjectDetail.astro';
+import { allProjects, type CatalogProject } from '../../data/catalog';
+
+export function getStaticPaths() {
+  return allProjects
+    .filter((project) => project.route.startsWith('/catalog-house/'))
+    .map((project) => ({ params: { slug: project.route.split('/').filter(Boolean).at(-1) }, props: { project } }));
+}
+
+interface Props {
+  project: CatalogProject;
+}
+
+const { project } = Astro.props;
+---
+
+<ProjectDetail project={project} />

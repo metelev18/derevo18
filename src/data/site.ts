@@ -51,7 +51,7 @@ const comingSoon = (target: string) => `/coming-soon/?target=${encodeURIComponen
 export const siteContent = {
   navigation: [
     { label: 'О компании', href: '/history/' },
-    { label: 'Каталог', href: '/#catalog' },
+    { label: 'Каталог', href: '/catalog-house/' },
     { label: 'Портфолио', href: '/#portfolio' },
     { label: 'Отзывы', href: '/#reviews' },
     { label: 'Материалы', href: comingSoon('material') },

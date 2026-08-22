@@ -41,20 +41,57 @@ const assets = {
   'contact-building.webp': 'https://static.tildacdn.com/tild6434-3933-4537-a162-326335643765/image.jpg',
   'history-house-1.webp': 'https://static.tildacdn.com/tild3361-3462-4763-a339-323038326534/_viber_2024-01-31_14.jpg',
   'history-house-2.webp': 'https://static.tildacdn.com/tild3530-6130-4031-b838-636361313835/_viber_2024-01-25_12.jpg',
+  'catalog-house-tet-a-tet.webp': 'https://static.tildacdn.com/stor6532-6137-4461-b266-636365373861/83462250.png',
+  'catalog-house-semejnyj.webp': 'https://static.tildacdn.com/stor3531-6139-4461-b632-383239353031/61830118.png',
+  'catalog-house-svetlyj.webp': 'https://static.tildacdn.com/stor6531-3136-4132-a563-663661663262/76339157.png',
+  'catalog-house-sakura.webp': 'https://static.tildacdn.com/stor6332-3863-4736-b738-383536663430/61583993.jpg',
+  'catalog-house-pomeste.webp': 'https://static.tildacdn.com/stor3731-6464-4534-b432-313438306437/46848533.png',
+  'catalog-house-mechta.webp': 'https://static.tildacdn.com/stor3030-3731-4234-a661-373266666535/85105199.jpg',
+  'catalog-house-krasnaya-shapochka.webp': 'https://static.tildacdn.com/stor6163-3135-4265-b336-383830663237/96900472.png',
+  'catalog-house-komfort.webp': 'https://static.tildacdn.com/stor3665-3665-4165-b763-663966333738/10910111.jpg',
+  'catalog-house-dom-kompakt.webp': 'https://static.tildacdn.com/stor3132-6439-4636-a135-316231343132/71879547.jpg',
+  'catalog-house-dom-kompakt-2.webp': 'https://static.tildacdn.com/stor3466-3634-4961-b331-636433366561/26697497.jpg',
+  'catalog-house-dom-idilliya.webp': 'https://static.tildacdn.com/stor6437-3934-4137-b464-366161316666/45623933.jpg',
+  'catalog-house-dom-dymka.webp': 'https://static.tildacdn.com/stor6164-3161-4564-b366-616232313239/90364580.jpg',
+  'catalog-house-dom-dushevnyj.webp': 'https://static.tildacdn.com/stor3166-6664-4736-b737-623139626138/82079496.png',
+  'catalog-house-dom-banya-sosnovaya.webp': 'https://static.tildacdn.com/stor6238-6532-4533-b065-656237383566/53010445.jpg',
+  'catalog-house-dom-banya-kompleks.webp': 'https://static.tildacdn.com/stor6661-6662-4863-b962-323735636135/89934040.jpg',
+  'catalog-house-dom-grafit.webp': 'https://static.tildacdn.com/stor3164-3131-4962-b836-626663326538/21389803.jpg',
+  'catalog-house-dom-vesthill.webp': 'https://static.tildacdn.com/stor3063-6434-4565-b836-323161633535/50966537.jpg',
+  'catalog-house-dom-bezmyatezhnost.webp': 'https://static.tildacdn.com/stor3435-6330-4333-a662-393562663062/56415543.jpg',
+  'catalog-house-dom-astra.webp': 'https://static.tildacdn.com/stor3433-3764-4263-a361-316632363239/40093339.png',
+  'catalog-house-dom-astra-2.webp': 'https://static.tildacdn.com/stor6363-3766-4162-b230-666239636263/30459423.jpg',
+  'catalog-house-rodnye-penaty.webp': 'https://static.tildacdn.com/stor6230-6463-4630-b133-333462383431/31719598.jpg',
+  'catalog-sauna-banya-s-hozblokom.webp': 'https://static.tildacdn.com/stor3932-3937-4365-b036-303132623937/49076402.jpg',
+  'catalog-sauna-uslada.webp': 'https://static.tildacdn.com/stor3331-3163-4038-b366-643962346562/72352390.png',
+  'catalog-sauna-evropa.webp': 'https://static.tildacdn.com/stor6233-3036-4365-a639-306566323264/207dc82eaad31012c2533102c97e33c9.jpg',
+  'catalog-sauna-zdravnitsa.webp': 'https://static.tildacdn.com/stor3664-6361-4339-b063-333038323630/ec008b5054a3bfef32d0f1708e42db1e.jpg',
+  'catalog-sauna-udachnaya.webp': 'https://static.tildacdn.com/stor6665-3062-4334-b231-323765613633/95773588.png',
+  'catalog-sauna-solnechnaya.webp': 'https://static.tildacdn.com/stor3464-3632-4933-a132-633031333865/56303716.png',
+  'catalog-sauna-lesnaya.webp': 'https://static.tildacdn.com/stor6162-6362-4639-a166-306435636231/51340628.jpg',
+  'catalog-sauna-klassika.webp': 'https://static.tildacdn.com/stor3432-3338-4938-b235-663932313036/68556301.jpg',
+  'catalog-sauna-zagorodnaya.webp': 'https://static.tildacdn.com/stor3362-3332-4433-a465-633031303237/64911893.png',
+  'catalog-sauna-zharkaya.webp': 'https://static.tildacdn.com/stor3533-3366-4565-b639-353862366663/37559997.jpg',
+  'catalog-sauna-banya-ohotnika.webp': 'https://static.tildacdn.com/stor3934-6161-4165-b964-346563373965/84472590.jpg',
+  'catalog-sauna-dikaya-rubka.webp': 'https://static.tildacdn.com/stor3039-6636-4639-a163-316635316366/51704167.jpg',
+  'catalog-sauna-boyarynya.webp': 'https://static.tildacdn.com/stor6230-6538-4364-b437-343832616236/57467145.jpg',
+  'catalog-sauna-rodnaya.webp': 'https://static.tildacdn.com/stor3935-6338-4133-b830-616161313361/71462943.png',
   'og.jpg': 'https://static.tildacdn.com/tild6333-6536-4137-b535-616462623932/Frame_279.png',
 };
 
 const outputDir = join(process.cwd(), 'public', 'media');
 await mkdir(outputDir, { recursive: true });
 
-const requestedNames = new Set(process.argv.slice(2).filter((name) => name !== '--'));
+const requestedArgs = process.argv.slice(2).filter((name) => name !== '--');
+const syncCatalog = requestedArgs.includes('catalog');
+const requestedNames = new Set(requestedArgs.filter((name) => name !== 'catalog'));
 const knownNames = new Set([...Object.keys(assets), 'montserrat.ttf']);
 for (const requestedName of requestedNames) {
   if (!knownNames.has(requestedName)) throw new Error(`Unknown asset: ${requestedName}`);
 }
-const selectedAssets = requestedNames.size === 0
+const selectedAssets = requestedNames.size === 0 && !syncCatalog
   ? Object.entries(assets)
-  : Object.entries(assets).filter(([name]) => requestedNames.has(name));
+  : Object.entries(assets).filter(([name]) => requestedNames.has(name) || (syncCatalog && name.startsWith('catalog-')));
 
 for (const [name, url] of selectedAssets) {
   const response = await fetch(url);
@@ -69,7 +106,7 @@ for (const [name, url] of selectedAssets) {
 }
 
 const fontDir = join(process.cwd(), 'public', 'fonts');
-if (requestedNames.size === 0 || requestedNames.has('montserrat.ttf')) {
+if ((requestedNames.size === 0 && !syncCatalog) || requestedNames.has('montserrat.ttf')) {
   await mkdir(fontDir, { recursive: true });
   const fontResponse = await fetch('https://raw.githubusercontent.com/google/fonts/main/ofl/montserrat/Montserrat%5Bwght%5D.ttf');
   if (!fontResponse.ok) throw new Error(`${fontResponse.status} Montserrat`);
