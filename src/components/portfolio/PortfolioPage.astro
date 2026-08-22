@@ -1,0 +1,27 @@
+---
+import type { PortfolioProject } from '../../data/portfolio';
+import { portfolioSeo } from '../../data/portfolio';
+import SiteLayout from '../../layouts/SiteLayout.astro';
+import ContactMapSection from '../site/ContactMapSection.astro';
+import Breadcrumbs from '../ui/Breadcrumbs.astro';
+import PortfolioCard from './PortfolioCard.astro';
+
+interface Props {
+  projects: PortfolioProject[];
+}
+
+const { projects } = Astro.props;
+---
+
+<SiteLayout seo={portfolioSeo}>
+  <div class="portfolio-page">
+    <Breadcrumbs items={[{ label: 'Главная', href: '/' }, { label: 'Портфолио' }]} />
+    <section class="portfolio-listing container" aria-labelledby="portfolio-title">
+      <h1 id="portfolio-title">ПОРТФОЛИО</h1>
+      <div class="portfolio-list-grid">
+        {projects.map((project) => <PortfolioCard project={project} />)}
+      </div>
+    </section>
+    <ContactMapSection />
+  </div>
+</SiteLayout>

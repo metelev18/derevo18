@@ -61,6 +61,7 @@ test('catalog expands and links to implemented project pages', async ({ page }) 
 test('portfolio opens and closes an accessible lightbox', async ({ page }) => {
   await page.locator('#portfolio').scrollIntoViewIfNeeded();
   await waitForVisibleIsland(page, '.portfolio-card');
+  await expect(page.locator('.portfolio__more')).toHaveAttribute('href', '/portfolio/');
   await page.locator('.portfolio-card').first().click();
   await expect(page.getByRole('dialog', { name: /106 кв.м/i })).toBeVisible();
   await page.keyboard.press('Escape');

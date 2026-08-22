@@ -1,0 +1,19 @@
+---
+import type { PortfolioProject } from '../../data/portfolio';
+import { getPortfolioProjectSeo } from '../../data/portfolio';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PortfolioGallery from './PortfolioGallery';
+
+interface Props {
+  project: PortfolioProject;
+}
+
+const { project } = Astro.props;
+---
+
+<BaseLayout seo={getPortfolioProjectSeo(project)} bodyClass="portfolio-viewer-page">
+  <a class="skip-link" href="#portfolio-work-title">К описанию работы</a>
+  <main>
+    <PortfolioGallery title={project.title} images={project.images} client:load />
+  </main>
+</BaseLayout>

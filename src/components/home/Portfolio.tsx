@@ -30,7 +30,7 @@ export default function Portfolio() {
           </button>
         ))}
       </div>
-      <a className="button button--accent portfolio__more" href="/coming-soon/?target=portfolio">+ Показать еще</a>
+      <a className="button button--accent portfolio__more" href="/portfolio/">+ Показать еще</a>
       {item && (
         <div className="lightbox" role="dialog" aria-modal="true" aria-label={item.title} onMouseDown={(event) => event.target === event.currentTarget && setActive(null)}>
           <button className="lightbox__close" type="button" onClick={() => setActive(null)} aria-label="Закрыть галерею">×</button>

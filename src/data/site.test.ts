@@ -7,6 +7,7 @@ describe('site content', () => {
     expect(siteContent.navigation.every((item) => item.href.startsWith('/'))).toBe(true);
     expect(siteContent.navigation[0]?.href).toBe('/history/');
     expect(siteContent.navigation[1]?.href).toBe('/catalog-house/');
+    expect(siteContent.navigation[2]?.href).toBe('/portfolio/');
   });
 
   it('defines every demo form exactly once', () => {

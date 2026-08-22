@@ -1,0 +1,15 @@
+---
+import PortfolioDetail from '../../../components/portfolio/PortfolioDetail.astro';
+import { portfolioProjects } from '../../../data/portfolio';
+
+export function getStaticPaths() {
+  return portfolioProjects.map((project) => ({
+    params: { slug: project.slug },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props;
+---
+
+<PortfolioDetail project={project} />

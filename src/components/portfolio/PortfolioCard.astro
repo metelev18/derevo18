@@ -1,0 +1,18 @@
+---
+import type { PortfolioProject } from '../../data/portfolio';
+
+interface Props {
+  project: PortfolioProject;
+}
+
+const { project } = Astro.props;
+---
+
+<article class="portfolio-list-card">
+  <a href={project.route} aria-label={project.title}>
+    <figure>
+      <img src={project.cover} alt="" loading="lazy" width="720" height="500" />
+    </figure>
+    <h2>{project.title}</h2>
+  </a>
+</article>
