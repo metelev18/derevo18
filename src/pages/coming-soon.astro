@@ -1,23 +1,21 @@
 ---
-import '../styles/global.css';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const seo = {
+  title: 'Раздел в разработке — ДревМастер',
+  description: 'Раздел пилотной версии сайта ДревМастер находится в разработке.',
+  canonicalPath: '/coming-soon/',
+  ogImage: '/media/og.jpg',
+  noindex: true,
+};
 ---
 
-<!doctype html>
-<html lang="ru">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="robots" content="noindex, nofollow" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <title>Раздел в разработке — ДревМастер</title>
-  </head>
-  <body class="stub-page">
-    <main class="stub-card">
-      <img src="/media/logo.webp" width="220" height="55" alt="ДревМастер" />
-      <p class="section-heading__eyebrow">ПИЛОТНАЯ ВЕРСИЯ</p>
-      <h1>РАЗДЕЛ В РАЗРАБОТКЕ</h1>
-      <p>Сейчас в Astro перенесена только главная страница. Этот раздел появится на следующем этапе.</p>
-      <a class="button button--accent" href="/">Вернуться на главную</a>
-    </main>
-  </body>
-</html>
+<BaseLayout seo={seo} bodyClass="stub-page">
+  <main class="stub-card">
+    <img src="/media/logo.webp" width="220" height="55" alt="ДревМастер" />
+    <p class="section-heading__eyebrow">ПИЛОТНАЯ ВЕРСИЯ</p>
+    <h1>РАЗДЕЛ В РАЗРАБОТКЕ</h1>
+    <p>Сейчас в Astro перенесена только главная страница. Этот раздел появится на следующем этапе.</p>
+    <a class="button button--accent" href="/">Вернуться на главную</a>
+  </main>
+</BaseLayout>

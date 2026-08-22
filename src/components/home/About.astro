@@ -1,0 +1,26 @@
+---
+const services = ['Проектирование', 'Изготовление фундамента', 'Рубка и сборка срубов', 'Кровельные работы', 'Установка окосячки и окон', 'Дизайн интерьера', 'Покраска и шлифовка', 'Герметизация', 'Канализация', 'Электрика и отопление'];
+---
+
+<section id="about" class="about section-space">
+  <div class="about__intro container">
+    <div>
+      <p class="section-heading__eyebrow">ДРЕВМАСТЕР</p>
+      <h2>О КОМПАНИИ</h2>
+      <p class="about__lead">С 2008 года мы специализируемся исключительно на деревянных домах. Нами выполнено более 200 объектов домов и бань по Удмуртии и России.</p>
+      <h3>Наши услуги:</h3>
+      <ul class="service-list">{services.map((service) => <li>{service}</li>)}</ul>
+      <a class="text-link" href="/coming-soon/?target=history">Подробнее <span aria-hidden="true">→</span></a>
+    </div>
+    <div class="about__collage" aria-label="Наши работы">
+      <img class="about__image about__image--main" src="/media/about-carpentry.webp" alt="Строительство деревянного дома" loading="lazy" />
+      <img class="about__image about__image--small" src="/media/about-interior.webp" alt="Интерьер деревянного дома" loading="lazy" />
+      <div class="about__badge"><strong>5 лет</strong><span>гарантия на все работы</span></div>
+    </div>
+  </div>
+  <div class="feature-strip container">
+    <article><strong>РУБИМ</strong><span>Сосну, кедр, лиственницу</span></article>
+    <article><strong>РАБОТАЕМ</strong><span>С материнским капиталом и госсертификатами</span></article>
+    <article><strong>ТЕХНОЛОГИЯ</strong><span>Русская, канадская и норвежская рубка</span></article>
+  </div>
+</section>

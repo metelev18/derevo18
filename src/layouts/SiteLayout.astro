@@ -1,0 +1,25 @@
+---
+import type { SeoSettings } from '../data/site';
+import FormModalController from '../components/site/FormModalController';
+import MessengerWidget from '../components/site/MessengerWidget';
+import SiteFooter from '../components/site/SiteFooter';
+import SiteHeader from '../components/site/SiteHeader';
+import BaseLayout from './BaseLayout.astro';
+
+interface Props {
+  seo: SeoSettings;
+}
+
+const { seo } = Astro.props;
+---
+
+<BaseLayout seo={seo}>
+  <a class="skip-link" href="#main">К основному контенту</a>
+  <SiteHeader client:load />
+  <main id="main">
+    <slot />
+  </main>
+  <SiteFooter />
+  <MessengerWidget client:load />
+  <FormModalController client:load />
+</BaseLayout>

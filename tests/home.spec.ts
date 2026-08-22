@@ -3,10 +3,19 @@ import { expect, test } from '@playwright/test';
 test.beforeEach(async ({ page }) => {
   await page.goto('/');
   await page.waitForFunction(() => {
-    const island = document.querySelector('astro-island');
-    return island && !island.hasAttribute('ssr');
+    const headerIsland = document.querySelector('.site-header')?.closest('astro-island');
+    return document.documentElement.dataset.leadFormsReady === 'true'
+      && headerIsland
+      && !headerIsland.hasAttribute('ssr');
   });
 });
+
+async function waitForVisibleIsland(page: import('@playwright/test').Page, selector: string) {
+  await page.waitForFunction((targetSelector) => {
+    const island = document.querySelector(targetSelector)?.closest('astro-island');
+    return island && !island.hasAttribute('ssr');
+  }, selector);
+}
 
 test('renders all key homepage sections without horizontal overflow', async ({ page }) => {
   await expect(page.getByRole('heading', { level: 1, name: /деревянные дома и бани/i })).toBeVisible();
@@ -41,6 +50,7 @@ test('form validates locally and never sends a request', async ({ page }) => {
 
 test('catalog expands and unfinished links use the local placeholder', async ({ page }) => {
   await page.locator('#catalog').scrollIntoViewIfNeeded();
+  await waitForVisibleIsland(page, '.catalog__more');
   await expect(page.locator('.project-card')).toHaveCount(3);
   await page.getByRole('button', { name: 'Загрузить ещё' }).click();
   await expect(page.locator('.project-card')).toHaveCount(6);
@@ -50,10 +60,20 @@ test('catalog expands and unfinished links use the local placeholder', async ({ 
 
 test('portfolio opens and closes an accessible lightbox', async ({ page }) => {
   await page.locator('#portfolio').scrollIntoViewIfNeeded();
+  await waitForVisibleIsland(page, '.portfolio-card');
   await page.locator('.portfolio-card').first().click();
   await expect(page.getByRole('dialog', { name: /106 кв.м/i })).toBeVisible();
   await page.keyboard.press('Escape');
   await expect(page.locator('.lightbox')).toHaveCount(0);
+});
+
+test('uses preview SEO policy and keeps static sections outside React islands', async ({ page }) => {
+  await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex, nofollow');
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://derevo18-astro.workers.dev/');
+  await expect(page.locator('.hero').locator('xpath=ancestor::astro-island')).toHaveCount(0);
+
+  const response = await page.request.get('/robots.txt');
+  expect(await response.text()).toContain('Disallow: /');
 });
 
 test('mobile navigation opens without moving the page sideways', async ({ page }, testInfo) => {

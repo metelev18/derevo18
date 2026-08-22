@@ -1,54 +1,28 @@
 ---
-import HomePage from '../components/HomePage';
+import About from '../components/home/About.astro';
+import Catalog from '../components/home/Catalog';
+import Director from '../components/home/Director.astro';
+import FeedCarousel from '../components/home/FeedCarousel';
+import Hero from '../components/home/Hero.astro';
+import Portfolio from '../components/home/Portfolio';
+import Promo from '../components/home/Promo.astro';
+import Technology from '../components/home/Technology.astro';
+import VideoSection from '../components/home/VideoSection.astro';
+import ContactsSection from '../components/site/ContactsSection';
 import { homeContent } from '../data/home';
-import '../styles/global.css';
-
-const { seo } = homeContent;
-const ogImage = new URL(seo.ogImage, Astro.site).toString();
-const analyticsEnabled = import.meta.env.PROD;
+import SiteLayout from '../layouts/SiteLayout.astro';
 ---
 
-<!doctype html>
-<html lang="ru">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="robots" content="noindex, nofollow" />
-    <meta name="description" content={seo.description} />
-    <meta name="theme-color" content="#96ce5a" />
-    <meta property="og:type" content="website" />
-    <meta property="og:title" content={seo.title} />
-    <meta property="og:description" content="Надежные деревянные дома и бани под ключ" />
-    <meta property="og:url" content={seo.canonical} />
-    <meta property="og:image" content={ogImage} />
-    <link rel="canonical" href={seo.canonical} />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <title>{seo.title}</title>
-    {analyticsEnabled && (
-      <script is:inline>
-        {`if (!window.__derevoAnalyticsLoaded) {
-          window.__derevoAnalyticsLoaded = true;
-          window.dataLayer = window.dataLayer || [];
-          window.gtag = function(){window.dataLayer.push(arguments);};
-          window.gtag('js', new Date());
-          window.gtag('config', 'G-PG0SDVJEDX');
-          var gtagScript = document.createElement('script');
-          gtagScript.async = true;
-          gtagScript.src = 'https://www.googletagmanager.com/gtag/js?id=G-PG0SDVJEDX';
-          document.head.appendChild(gtagScript);
-          setTimeout(function(){
-            (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();k=e.createElement(t);a=e.getElementsByTagName(t)[0];k.async=1;k.src=r;a.parentNode.insertBefore(k,a);})(window,document,'script','https://mc.yandex.ru/metrika/tag.js','ym');
-            window.ym(48718478,'init',{clickmap:true,trackLinks:true,accurateTrackBounce:true,webvisor:true,ecommerce:'dataLayer'});
-          }, 2000);
-          setTimeout(function(){
-            (function(i,s,o,g,r,a,m){i.GoogleAnalyticsObject=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)};i[r].l=1*new Date();a=s.createElement(o);m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m);})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-            window.ga('create','333879943','auto');window.ga('send','pageview');
-          }, 2000);
-        }`}
-      </script>
-    )}
-  </head>
-  <body>
-    <HomePage client:load />
-  </body>
-</html>
+<SiteLayout seo={homeContent.seo}>
+  <Hero />
+  <Catalog client:visible />
+  <About />
+  <Promo />
+  <VideoSection />
+  <Technology />
+  <Director />
+  <Portfolio client:visible />
+  <FeedCarousel client:visible id="reviews" title="ОТЗЫВЫ" items={homeContent.reviews} />
+  <FeedCarousel client:visible id="news" title="НОВОСТИ" items={homeContent.news} />
+  <ContactsSection client:visible />
+</SiteLayout>

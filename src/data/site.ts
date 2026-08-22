@@ -1,0 +1,87 @@
+export interface NavigationItem {
+  label: string;
+  href: string;
+}
+
+export interface Contact {
+  phoneLabel: string;
+  phoneHref: string;
+  email: string;
+  address: string;
+  company: string;
+}
+
+export interface SocialLink {
+  label: string;
+  href: string;
+  kind: 'vk' | 'telegram' | 'whatsapp';
+}
+
+export const formIds = ['callback', 'catalog', 'application', 'project'] as const;
+
+export type FormId = (typeof formIds)[number];
+
+export interface FormDefinition {
+  id: FormId;
+  title: string;
+  description: string;
+  button: string;
+  showEmail?: boolean;
+}
+
+export interface SeoSettings {
+  title: string;
+  description: string;
+  canonicalPath: string;
+  ogImage: string;
+  noindex?: boolean;
+}
+
+export interface SiteContent {
+  navigation: NavigationItem[];
+  contact: Contact;
+  socials: SocialLink[];
+  forms: Record<FormId, FormDefinition>;
+  mapEmbedUrl: string;
+  copyright: string;
+}
+
+const comingSoon = (target: string) => `/coming-soon/?target=${encodeURIComponent(target)}`;
+
+export const siteContent = {
+  navigation: [
+    { label: 'О компании', href: '/#about' },
+    { label: 'Каталог', href: '/#catalog' },
+    { label: 'Портфолио', href: '/#portfolio' },
+    { label: 'Отзывы', href: '/#reviews' },
+    { label: 'Материалы', href: comingSoon('material') },
+    { label: 'Как мы строим', href: '/#technology' },
+    { label: 'Контакты', href: '/#contacts' },
+  ],
+  contact: {
+    phoneLabel: '+7 (3412) 56-80-22',
+    phoneHref: 'tel:+73412568022',
+    email: '569286@mail.ru',
+    address: 'г. Ижевск, ул. Коммунаров, д. 244, офис 306',
+    company: 'ООО «КДМ-строй» · ИНН 1831203795',
+  },
+  socials: [
+    { label: 'ВКонтакте', href: 'https://vk.com/derevodom18', kind: 'vk' },
+    { label: 'WhatsApp', href: 'https://wa.me/79199091048', kind: 'whatsapp' },
+    { label: 'Telegram', href: 'https://t.me/drevmasterizh', kind: 'telegram' },
+  ],
+  forms: {
+    callback: { id: 'callback', title: 'Заказать звонок', description: 'Укажите свои контакты, и мы свяжемся с вами в ближайшее время.', button: 'Заказать звонок' },
+    catalog: { id: 'catalog', title: 'Скачать каталог', description: 'Оставьте контакты, чтобы получить каталог проектов.', button: 'Заказать каталог' },
+    application: { id: 'application', title: 'Оставить заявку', description: 'Оставьте контактные данные, с вами свяжутся в ближайшее время.', button: 'Оставить заявку' },
+    project: { id: 'project', title: 'Получить проект', description: 'Заполните заявку, чтобы получить проект на указанную электронную почту.', button: 'Отправить', showEmail: true },
+  },
+  mapEmbedUrl: 'https://yandex.ru/map-widget/v1/?text=%D0%98%D0%B6%D0%B5%D0%B2%D1%81%D0%BA%2C%20%D1%83%D0%BB.%20%D0%9A%D0%BE%D0%BC%D0%BC%D1%83%D0%BD%D0%B0%D1%80%D0%BE%D0%B2%2C%20244&z=16',
+  copyright: '© 2008–2026 ДревМастер',
+} satisfies SiteContent;
+
+export function isFormId(value: string | undefined): value is FormId {
+  return formIds.some((formId) => formId === value);
+}
+
+export { comingSoon };

@@ -1,9 +1,15 @@
 ---
-import '../styles/global.css';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const seo = {
+  title: 'Страница не найдена — ДревМастер',
+  description: 'Запрошенная страница не найдена.',
+  canonicalPath: '/404/',
+  ogImage: '/media/og.jpg',
+  noindex: true,
+};
 ---
 
-<!doctype html>
-<html lang="ru">
-  <head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width" /><meta name="robots" content="noindex" /><title>Страница не найдена — ДревМастер</title></head>
-  <body class="stub-page"><main class="stub-card"><p class="section-heading__eyebrow">ОШИБКА 404</p><h1>СТРАНИЦА НЕ НАЙДЕНА</h1><p>Вернитесь на главную страницу пилотного сайта.</p><a class="button button--accent" href="/">На главную</a></main></body>
-</html>
+<BaseLayout seo={seo} bodyClass="stub-page">
+  <main class="stub-card"><p class="section-heading__eyebrow">ОШИБКА 404</p><h1>СТРАНИЦА НЕ НАЙДЕНА</h1><p>Вернитесь на главную страницу пилотного сайта.</p><a class="button button--accent" href="/">На главную</a></main>
+</BaseLayout>
