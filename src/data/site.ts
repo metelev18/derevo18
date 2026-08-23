@@ -54,7 +54,7 @@ export const siteContent = {
     { label: 'Каталог', href: '/catalog-house/' },
     { label: 'Портфолио', href: '/portfolio/' },
     { label: 'Отзывы', href: '/rewies/' },
-    { label: 'Материалы', href: comingSoon('material') },
+    { label: 'Материалы', href: '/material/' },
     { label: 'Как мы строим', href: '/news/' },
     { label: 'Контакты', href: '/#contacts' },
   ],

@@ -1,0 +1,24 @@
+---
+import { materialArticles, materialsSeo } from '../../data/materials';
+import SiteLayout from '../../layouts/SiteLayout.astro';
+import ContactMapSection from '../site/ContactMapSection.astro';
+import Breadcrumbs from '../ui/Breadcrumbs.astro';
+import MaterialCard from './MaterialCard.astro';
+---
+
+<SiteLayout seo={materialsSeo}>
+  <div class="materials-page">
+    <div class="materials-breadcrumbs">
+      <Breadcrumbs items={[{ label: 'Главная', href: '/' }, { label: 'Материалы' }]} />
+    </div>
+    <section class="materials-listing" aria-labelledby="materials-title">
+      <div class="materials-listing__inner container">
+        <h1 id="materials-title">Материалы для строительства домов и бань</h1>
+        <div class="materials-grid">
+          {materialArticles.map((article) => <MaterialCard article={article} />)}
+        </div>
+      </div>
+    </section>
+    <ContactMapSection />
+  </div>
+</SiteLayout>

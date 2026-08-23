@@ -1,0 +1,19 @@
+---
+import type { MaterialArticle } from '../../data/materials';
+
+interface Props {
+  article: MaterialArticle;
+}
+
+const { article } = Astro.props;
+---
+
+<article class="material-card">
+  <a href={article.route} aria-label={article.title}>
+    <figure><img src={article.cover} alt="" loading="lazy" width="720" height="554" /></figure>
+    <div class="material-card__body">
+      <h2>{article.title}</h2>
+      <time datetime={article.date.split('.').reverse().join('-')}>{article.date}</time>
+    </div>
+  </a>
+</article>

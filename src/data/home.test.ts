@@ -20,5 +20,6 @@ describe('home content', () => {
     expect(homeContent.projects.every((project) => !project.target.startsWith('http'))).toBe(true);
     expect(homeContent.reviews.every((review) => review.href?.includes('/tpost/'))).toBe(true);
     expect(homeContent.news.every((article) => article.href?.startsWith('/news/tpost/'))).toBe(true);
+    expect(homeContent.hero.materials.every((material) => material.href.startsWith('/material/tpost/'))).toBe(true);
   });
 });

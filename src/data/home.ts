@@ -28,7 +28,7 @@ export interface HomeContent {
     eyebrow: string;
     title: string;
     background: string;
-    materials: Array<{ title: string; image: string }>;
+    materials: Array<{ title: string; image: string; href: string }>;
   };
   projects: ProjectCard[];
   portfolio: PortfolioItem[];
@@ -43,10 +43,10 @@ export const homeContent = {
     title: 'ДЕРЕВЯННЫЕ ДОМА И БАНИ ПОД КЛЮЧ',
     background: '/media/hero.webp',
     materials: [
-      { title: 'ДОМА ИЗ ОЦИЛИНДРОВАННОГО БРЕВНА', image: '/media/material-log.webp' },
-      { title: 'ДОМА ИЗ КЛЕЕНЫЙ БРУС', image: '/media/material-glued.webp' },
-      { title: 'ДОМА ИЗ СУХОГО ПРОФИЛИРОВАННОГО БРУСА', image: '/media/material-profiled.webp' },
-      { title: 'ДОМА ИЗ КЕДРА', image: '/media/material-cedar.webp' },
+      { title: 'ДОМА ИЗ ОЦИЛИНДРОВАННОГО БРЕВНА', image: '/media/material-log.webp', href: '/material/tpost/ikgi690ei1-otsilindrovannoe-brevno/' },
+      { title: 'ДОМА ИЗ КЛЕЕНЫЙ БРУС', image: '/media/material-glued.webp', href: '/material/tpost/l40u16ex91-kleenii-brus/' },
+      { title: 'ДОМА ИЗ СУХОГО ПРОФИЛИРОВАННОГО БРУСА', image: '/media/material-profiled.webp', href: '/material/tpost/tdpfx99oc1-suhoi-profilirovannii-brus/' },
+      { title: 'ДОМА ИЗ КЕДРА', image: '/media/material-cedar.webp', href: '/material/tpost/kg0smn8vd1-kedr-listvennitsa/' },
     ],
   },
   projects: [

@@ -1,0 +1,39 @@
+---
+import type { MaterialArticle } from '../../data/materials';
+import { getMaterialArticleSeo } from '../../data/materials';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+interface Props {
+  article: MaterialArticle;
+}
+
+const { article } = Astro.props;
+const datetime = article.date.split('.').reverse().join('-');
+---
+
+<BaseLayout seo={getMaterialArticleSeo(article)} bodyClass="material-reader-page">
+  <a class="skip-link" href="#material-title">К материалу</a>
+  <header class="material-reader-bar">
+    <a class="material-reader-bar__back" href="/material/" aria-label="Вернуться к материалам">←</a>
+    <a class="material-reader-bar__title" href="/material/">Материалы</a>
+  </header>
+  <main class="material-article">
+    <article class="material-article__inner">
+      <h1 id="material-title">{article.title}</h1>
+      {article.showCover && <img class="material-article__cover" src={article.cover} alt="" width="1250" height="938" />}
+      <div class="material-article__content">
+        {article.blocks.map((block, index) => (
+          block.type === 'paragraph' ? <p>{block.text}</p>
+          : block.type === 'heading' ? <h2>{block.text}</h2>
+          : block.type === 'list' ? (
+            block.ordered
+              ? <ol>{block.items.map((item) => <li>{item}</li>)}</ol>
+              : <ul>{block.items.map((item) => <li>{item}</li>)}</ul>
+          )
+          : <figure><img src={block.src} alt={block.alt || `${article.title}, фотография ${index + 1}`} loading="lazy" width="1250" height="938" /></figure>
+        ))}
+      </div>
+      <time datetime={datetime}>{article.date}</time>
+    </article>
+  </main>
+</BaseLayout>

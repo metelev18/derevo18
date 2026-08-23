@@ -1,0 +1,26 @@
+export const materialArticleAssets = {
+  "material-article-001.webp": "https://static.tildacdn.com/tild6461-3065-4964-a165-356232383364/A9xNvYdO_dM.jpg",
+  "material-article-002.webp": "https://static.tildacdn.com/tild3936-3265-4536-b164-626639376562/KH-1CiDWzEc.jpg",
+  "material-article-003.webp": "https://static.tildacdn.com/tild3135-3434-4432-b236-656339313865/LC78yKi3u9Q.jpg",
+  "material-article-004.webp": "https://static.tildacdn.com/tild3863-3831-4461-a535-303661646466/A9xNvYdO_dM.jpg",
+  "material-article-005.webp": "https://static.tildacdn.com/tild6637-3638-4436-b134-643361326437/HJsi5txiCOo.jpg",
+  "material-article-006.webp": "https://static.tildacdn.com/tild3631-3464-4865-a133-303138363335/e89c9bd888f4da5b448b.jpeg",
+  "material-article-007.webp": "https://static.tildacdn.com/tild3038-6434-4165-b230-306634346462/qNfC8qXxGBs.jpg",
+  "material-article-008.webp": "https://static.tildacdn.com/tild3765-3032-4531-b134-646264303338/5E46uz4nmd4.jpg",
+  "material-article-009.webp": "https://static.tildacdn.com/tild6131-6165-4630-b062-336330303862/0d81067e5d14f882aadb.jpeg",
+  "material-article-010.webp": "https://static.tildacdn.com/tild3363-3234-4364-b536-383265616639/brevna.jpg",
+  "material-article-011.webp": "https://static.tildacdn.com/tild6561-3032-4664-a263-633061653830/otsilindrovannoe-bre.jpg",
+  "material-article-012.webp": "https://static.tildacdn.com/tild3137-3336-4530-a264-303539383336/2deda45322535e167994.jpeg",
+  "material-article-013.webp": "https://static.tildacdn.com/tild6338-6238-4138-b130-366366626433/kleenie-materialy-01.jpg",
+  "material-article-014.webp": "https://static.tildacdn.com/tild3334-3263-4730-b132-353433363933/30836597.jpg",
+  "material-article-015.webp": "https://static.tildacdn.com/tild3831-3732-4331-a438-333265356466/6c3abc8caecacb4b00bb.jpeg",
+  "material-article-016.webp": "https://static.tildacdn.com/tild3835-3861-4231-a562-343766396531/brus_profilirovannyy.jpg",
+  "material-article-017.webp": "https://static.tildacdn.com/tild3830-3832-4664-b935-366364343530/FnPaX5ntxsc.jpg",
+  "material-article-018.webp": "https://static.tildacdn.com/tild6163-3839-4735-b566-636364633436/8srK0yxv8Ps.jpg",
+  "material-article-019.webp": "https://static.tildacdn.com/tild6330-6665-4364-a262-393362626663/1SIgDvu3q3Y.jpg",
+  "material-article-020.webp": "https://static.tildacdn.com/tild6235-3633-4630-b038-653861643235/t_vN7v1lqH0.jpg",
+  "material-article-021.webp": "https://static.tildacdn.com/tild3861-3634-4538-b161-376361386361/27EM8mw_u3w.jpg",
+  "material-article-022.webp": "https://static.tildacdn.com/tild3431-3130-4861-b363-313933646134/NoKvYR8H6Ak.jpg",
+  "material-article-023.webp": "https://static.tildacdn.com/tild3633-3266-4534-a535-303831626630/vJjKXv9meqo.jpg"
+};
+

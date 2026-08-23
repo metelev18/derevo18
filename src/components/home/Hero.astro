@@ -14,7 +14,7 @@ import { homeContent } from '../../data/home';
     </div>
     <div class="hero__materials">
       {homeContent.hero.materials.map((material) => (
-        <a href="/coming-soon/?target=material" class="material-link">
+        <a href={material.href} class="material-link">
           <img src={material.image} width="54" height="54" alt="" />
           <span>{material.title}</span>
         </a>

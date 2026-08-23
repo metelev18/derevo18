@@ -82,6 +82,12 @@ test('reviews carousel links to implemented customer stories', async ({ page }) 
   await expect(page.locator('#reviews .feed__more')).toHaveAttribute('href', '/rewies/');
 });
 
+test('hero material links open implemented articles', async ({ page }) => {
+  const links = page.locator('.hero__materials .material-link');
+  await expect(links).toHaveCount(4);
+  await expect(links.first()).toHaveAttribute('href', '/material/tpost/ikgi690ei1-otsilindrovannoe-brevno/');
+});
+
 test('uses preview SEO policy and keeps static sections outside React islands', async ({ page }) => {
   await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex, nofollow');
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://derevo18-astro.workers.dev/');
