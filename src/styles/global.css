@@ -407,6 +407,37 @@ h1, h2 { letter-spacing: -.045em; }
 .news-article__video iframe { width: 100%; height: 100%; border: 0; }
 .news-article__inner > time { display: block; margin-top: 40px; color: var(--muted); font-size: 12px; letter-spacing: .06em; }
 
+.reviews-page { background: #f9f9f9; }
+.reviews-listing { padding-top: 102px; padding-bottom: 120px; }
+.reviews-listing h1 { margin: 0 0 50px; color: var(--brown); font-size: 46px; line-height: 1.35; }
+.reviews-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 78px 40px; }
+.review-card { min-width: 0; }
+.review-card a { display: grid; gap: 20px; color: var(--text); text-decoration: none; }
+.review-card figure { overflow: hidden; margin: 0; background: var(--cream); aspect-ratio: 1.3; }
+.review-card figure img { width: 100%; height: 100%; object-fit: cover; transition: transform .35s ease; }
+.review-card__body { display: grid; align-content: start; gap: 10px; }
+.review-card h2 { margin: 0; font-size: 18px; line-height: 1.35; }
+.review-card p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.5; }
+.review-card time { color: var(--muted); font-size: 11px; letter-spacing: .04em; }
+.review-card a:hover img, .review-card a:focus-visible img { transform: scale(1.035); }
+.review-card a:focus-visible { outline: 3px solid var(--accent-dark); outline-offset: 8px; }
+
+.review-reader-page { min-width: 320px; background: #fff; }
+.review-reader-bar { position: fixed; z-index: 5; top: 0; right: 0; left: 0; height: 55px; border-bottom: 1px solid #d8d8d8; background: rgba(255,255,255,.98); }
+.review-reader-bar__back { position: absolute; top: 0; left: 18px; display: grid; width: 42px; height: 54px; place-items: center; color: var(--text); font-size: 32px; font-weight: 300; text-decoration: none; }
+.review-reader-bar__title { display: grid; width: max-content; height: 54px; place-items: center; margin: 0 auto; color: var(--text); font-size: 14px; font-weight: 600; text-decoration: none; }
+.review-article { min-height: 100vh; padding: 95px 24px 80px; }
+.review-article__inner { width: min(100%, 760px); margin: 0 auto; }
+.review-article h1 { margin: 0 0 30px; color: var(--text); font-size: clamp(34px, 3.5vw, 40px); font-weight: 500; line-height: 1.2; }
+.review-article__cover { display: block; width: 100%; height: auto; max-height: 760px; object-fit: contain; background: var(--cream); }
+.review-article__content { display: flow-root; margin-top: 36px; color: #666; }
+.review-article__content p { margin: 0 0 24px; font-size: 20px; line-height: 1.55; }
+.review-article__content figure { margin: 28px 0; }
+.review-article__content figure img { width: 100%; height: auto; max-height: 820px; object-fit: contain; }
+.review-article__video { overflow: hidden; margin: 34px 0; background: #111; aspect-ratio: 16 / 9; }
+.review-article__video iframe { width: 100%; height: 100%; border: 0; }
+.review-article__inner > time { display: block; margin-top: 40px; color: var(--muted); font-size: 12px; letter-spacing: .06em; }
+
 .stub-page { display: grid; min-height: 100vh; place-items: center; padding: 24px; background: var(--cream); }
 .stub-card { width: min(680px, 100%); border-radius: 24px; padding: clamp(36px, 7vw, 72px); background: #fff; box-shadow: var(--shadow); text-align: center; }
 .stub-card img { margin: 0 auto 48px; }
@@ -431,6 +462,7 @@ h1, h2 { letter-spacing: -.045em; }
   .project-package__grid { grid-template-columns: repeat(2, 1fr); }
   .portfolio-list-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .news-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .reviews-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
 @media (max-width: 800px) {
@@ -500,6 +532,9 @@ h1, h2 { letter-spacing: -.045em; }
   .news-listing { padding-top: 48px; padding-bottom: 90px; }
   .news-listing h1 { margin-bottom: 48px; }
   .news-grid { gap: 48px 24px; }
+  .reviews-listing { padding-top: 61px; padding-bottom: 90px; }
+  .reviews-listing h1 { margin-bottom: 48px; }
+  .reviews-grid { gap: 54px 24px; }
 }
 
 @media (max-width: 560px) {
@@ -628,6 +663,16 @@ h1, h2 { letter-spacing: -.045em; }
   .news-article__content p { margin-bottom: 20px; }
   .news-article__content h2 { margin-top: 38px; font-size: 25px; }
   .news-article__content figure, .news-article__video { margin-block: 22px; }
+  .reviews-listing { width: calc(100% - 40px); padding-top: 61px; padding-bottom: 72px; }
+  .reviews-listing h1 { margin-bottom: 36px; font-size: 46px; }
+  .reviews-grid { grid-template-columns: 1fr; gap: 42px; }
+  .review-card a { gap: 17px; }
+  .review-card h2 { font-size: 17px; }
+  .review-article { padding: 80px 14px 58px; }
+  .review-article h1 { margin-bottom: 24px; font-size: 30px; }
+  .review-article__content { margin-top: 28px; }
+  .review-article__content p { margin-bottom: 20px; font-size: 14px; line-height: 1.65; }
+  .review-article__content figure, .review-article__video { margin-block: 22px; }
   .stub-card { padding-inline: 24px; }
 }
 

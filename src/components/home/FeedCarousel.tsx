@@ -6,6 +6,7 @@ import SectionTitle from '../ui/SectionTitle';
 export default function FeedCarousel({ title, items, id }: { title: string; items: FeedItem[]; id: string }) {
   const trackRef = useRef<HTMLDivElement>(null);
   const scroll = (direction: number) => trackRef.current?.scrollBy({ left: direction * Math.min(trackRef.current.clientWidth * .86, 420), behavior: 'smooth' });
+  const moreHref = id === 'news' ? '/news/' : id === 'reviews' ? '/rewies/' : `/coming-soon/?target=${id}`;
 
   return (
     <section id={id} className="feed section-space">
@@ -22,7 +23,7 @@ export default function FeedCarousel({ title, items, id }: { title: string; item
         </div>
         <button className="carousel-arrow carousel-arrow--right" type="button" onClick={() => scroll(1)} aria-label="Следующие карточки"><ArrowIcon /></button>
       </div>
-      <a className="text-link feed__more" href={id === 'news' ? '/news/' : `/coming-soon/?target=${id}`}>Подробнее <ArrowIcon /></a>
+      <a className="text-link feed__more" href={moreHref}>Подробнее <ArrowIcon /></a>
     </section>
   );
 }

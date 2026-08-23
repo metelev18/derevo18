@@ -1,0 +1,20 @@
+---
+import { customerReviews, reviewsSeo } from '../../data/reviews';
+import SiteLayout from '../../layouts/SiteLayout.astro';
+import ContactMapSection from '../site/ContactMapSection.astro';
+import Breadcrumbs from '../ui/Breadcrumbs.astro';
+import ReviewCard from './ReviewCard.astro';
+---
+
+<SiteLayout seo={reviewsSeo}>
+  <div class="reviews-page">
+    <Breadcrumbs items={[{ label: 'Главная', href: '/' }, { label: 'Отзывы' }]} />
+    <section class="reviews-listing container" aria-labelledby="reviews-title">
+      <h1 id="reviews-title">ОТЗЫВЫ</h1>
+      <div class="reviews-grid">
+        {customerReviews.map((review) => <ReviewCard review={review} />)}
+      </div>
+    </section>
+    <ContactMapSection />
+  </div>
+</SiteLayout>

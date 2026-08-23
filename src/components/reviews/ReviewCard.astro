@@ -1,0 +1,20 @@
+---
+import type { CustomerReview } from '../../data/reviews';
+
+interface Props {
+  review: CustomerReview;
+}
+
+const { review } = Astro.props;
+---
+
+<article class="review-card">
+  <a href={review.route} aria-label={review.title}>
+    <figure><img src={review.cover} alt="" loading="lazy" width="720" height="554" /></figure>
+    <div class="review-card__body">
+      <h2>{review.title}</h2>
+      {review.description && <p>{review.description}</p>}
+      <time datetime={review.date.split('.').reverse().join('-')}>{review.date}</time>
+    </div>
+  </a>
+</article>

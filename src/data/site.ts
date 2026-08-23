@@ -53,7 +53,7 @@ export const siteContent = {
     { label: 'О компании', href: '/history/' },
     { label: 'Каталог', href: '/catalog-house/' },
     { label: 'Портфолио', href: '/portfolio/' },
-    { label: 'Отзывы', href: '/#reviews' },
+    { label: 'Отзывы', href: '/rewies/' },
     { label: 'Материалы', href: comingSoon('material') },
     { label: 'Как мы строим', href: '/news/' },
     { label: 'Контакты', href: '/#contacts' },

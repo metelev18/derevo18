@@ -1,0 +1,39 @@
+---
+import type { CustomerReview } from '../../data/reviews';
+import { getCustomerReviewSeo } from '../../data/reviews';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+interface Props {
+  review: CustomerReview;
+}
+
+const { review } = Astro.props;
+const datetime = review.date.split('.').reverse().join('-');
+const paragraphs = review.text.split(/\n+/).map((paragraph) => paragraph.trim()).filter(Boolean);
+---
+
+<BaseLayout seo={getCustomerReviewSeo(review)} bodyClass="review-reader-page">
+  <a class="skip-link" href="#review-title">К отзыву</a>
+  <header class="review-reader-bar">
+    <a class="review-reader-bar__back" href="/rewies/" aria-label="Вернуться к отзывам">←</a>
+    <a class="review-reader-bar__title" href="/rewies/">Отзывы</a>
+  </header>
+  <main class="review-article">
+    <article class="review-article__inner">
+      <h1 id="review-title">{review.title}</h1>
+      <img class="review-article__cover" src={review.cover} alt="" width="1800" height="1200" />
+      <div class="review-article__content">
+        {paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+        {review.videos.map((video, index) => (
+          <div class="review-article__video">
+            <iframe src={video} title={`Видеоотзыв: ${review.title}${review.videos.length > 1 ? `, часть ${index + 1}` : ''}`} loading="lazy" allow="fullscreen; picture-in-picture; encrypted-media" allowfullscreen></iframe>
+          </div>
+        ))}
+        {review.images.map((image, index) => (
+          <figure><img src={image} alt={`${review.title}, фотография ${index + 1}`} loading="lazy" width="1800" height="1200" /></figure>
+        ))}
+      </div>
+      <time datetime={datetime}>{review.date}</time>
+    </article>
+  </main>
+</BaseLayout>

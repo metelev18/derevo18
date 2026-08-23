@@ -66,12 +66,12 @@ export const homeContent = {
     { title: 'Пристрой к дому, 51 кв.м., СНТ «Молодежный»', image: '/media/portfolio-6.webp' },
   ],
   reviews: [
-    { title: 'Залогины Кирилл и Иляна', date: '14.02.2024', image: '/media/review-1.webp' },
-    { title: 'Людмила, г. Можга. Дом 97 кв. м. из сухого профилированного бруса.', date: '15.09.2024', image: '/media/review-2.webp' },
-    { title: 'Олег, д. Шудья. Баня 42,5 кв. м. из оцилиндрованного бревна.', date: '15.09.2024', image: '/media/review-3.webp' },
-    { title: 'Ирина, дом в черте Ижевска, оцилиндрованное бревно, 99 кв.м.', date: '17.05.2024', image: '/media/review-4.webp' },
-    { title: 'Татьяна, дачный дом 50 кв.м.', date: '08.05.2024', image: '/media/review-5.webp' },
-    { title: 'Светлана, г. Агрыз, каменный дом, 92 кв.м.', date: '09.04.2024', image: '/media/review-6.webp' },
+    { title: 'Залогины Кирилл и Иляна', date: '14.02.2024', image: '/media/review-1.webp', href: '/rewies/tpost/4tga35zx21-zalogini-kirill-i-ilyana/' },
+    { title: 'Людмила, г. Можга. Дом 97 кв. м. из сухого профилированного бруса.', date: '15.09.2024', image: '/media/review-2.webp', href: '/rewies/tpost/en7hrrehr1-lyudmila-g-mozhga-dom-97-kv-m-iz-suhogo/' },
+    { title: 'Олег, д. Шудья. Баня 42,5 кв. м. из оцилиндрованного бревна.', date: '15.09.2024', image: '/media/review-3.webp', href: '/rewies/tpost/gkism6sbt1-oleg-d-shudya-kp-tihie-zori-banya-425-kv/' },
+    { title: 'Ирина, дом в черте Ижевска, оцилиндрованное бревно, 99 кв.м.', date: '17.05.2024', image: '/media/review-4.webp', href: '/rewies/tpost/c6j9966j11-irina-dom-v-cherte-izhevska-otsilindrova/' },
+    { title: 'Татьяна, дачный дом 50 кв.м.', date: '08.05.2024', image: '/media/review-5.webp', href: '/rewies/tpost/0va26cpud1-tatyana-dachnii-dom-50-kvm/' },
+    { title: 'Светлана, г. Агрыз, каменный дом, 92 кв.м.', date: '09.04.2024', image: '/media/review-6.webp', href: '/rewies/tpost/lz3ioz8ic1-svetlana-g-agriz-kamennii-dom-92-kvm/' },
   ],
   news: [
     { title: 'Монтаж фундамента', excerpt: 'Фундамент — это основа всего дома.', date: '18.12.2023', image: '/media/news-1.webp', href: '/news/tpost/s6plpy65i1-montazh-fundament/' },

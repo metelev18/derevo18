@@ -1,0 +1,14 @@
+---
+import ReviewArticlePage from '../../components/reviews/ReviewArticlePage.astro';
+import { customerReviews } from '../../data/reviews';
+
+export function getStaticPaths() {
+  return customerReviews
+    .filter((review) => review.route.startsWith('/tpost/'))
+    .map((review) => ({ params: { slug: review.route.split('/').filter(Boolean).at(-1) }, props: { review } }));
+}
+
+const { review } = Astro.props;
+---
+
+<ReviewArticlePage review={review} />

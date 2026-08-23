@@ -75,6 +75,13 @@ test('news carousel links to implemented publications', async ({ page }) => {
   await expect(page.locator('#news .feed__more')).toHaveAttribute('href', '/news/');
 });
 
+test('reviews carousel links to implemented customer stories', async ({ page }) => {
+  await page.locator('#reviews').scrollIntoViewIfNeeded();
+  await waitForVisibleIsland(page, '#reviews .feed-card');
+  await expect(page.locator('#reviews .feed-card').first()).toHaveAttribute('href', '/rewies/tpost/4tga35zx21-zalogini-kirill-i-ilyana/');
+  await expect(page.locator('#reviews .feed__more')).toHaveAttribute('href', '/rewies/');
+});
+
 test('uses preview SEO policy and keeps static sections outside React islands', async ({ page }) => {
   await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex, nofollow');
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://derevo18-astro.workers.dev/');

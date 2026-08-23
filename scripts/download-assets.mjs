@@ -3,6 +3,7 @@ import { extname, join } from 'node:path';
 import sharp from 'sharp';
 import { newsAssets } from './news-assets.mjs';
 import { portfolioAssets } from './portfolio-assets.mjs';
+import { reviewsAssets } from './reviews-assets.mjs';
 
 const assets = {
   'logo.webp': 'https://static.tildacdn.com/tild3961-3666-4565-a632-386532353866/logo_1.png',
@@ -81,6 +82,7 @@ const assets = {
   'og.jpg': 'https://static.tildacdn.com/tild6333-6536-4137-b535-616462623932/Frame_279.png',
   ...newsAssets,
   ...portfolioAssets,
+  ...reviewsAssets,
 };
 
 const outputDir = join(process.cwd(), 'public', 'media');
@@ -90,17 +92,19 @@ const requestedArgs = process.argv.slice(2).filter((name) => name !== '--');
 const syncCatalog = requestedArgs.includes('catalog');
 const syncPortfolio = requestedArgs.includes('portfolio');
 const syncNews = requestedArgs.includes('news');
-const requestedNames = new Set(requestedArgs.filter((name) => name !== 'catalog' && name !== 'portfolio' && name !== 'news'));
+const syncReviews = requestedArgs.includes('reviews');
+const requestedNames = new Set(requestedArgs.filter((name) => name !== 'catalog' && name !== 'portfolio' && name !== 'news' && name !== 'reviews'));
 const knownNames = new Set([...Object.keys(assets), 'montserrat.ttf']);
 for (const requestedName of requestedNames) {
   if (!knownNames.has(requestedName)) throw new Error(`Unknown asset: ${requestedName}`);
 }
-const selectedAssets = requestedNames.size === 0 && !syncCatalog && !syncPortfolio && !syncNews
+const selectedAssets = requestedNames.size === 0 && !syncCatalog && !syncPortfolio && !syncNews && !syncReviews
   ? Object.entries(assets)
   : Object.entries(assets).filter(([name]) => requestedNames.has(name)
     || (syncCatalog && name.startsWith('catalog-'))
     || (syncNews && name.startsWith('news-'))
-    || (syncPortfolio && name.startsWith('portfolio-work-')));
+    || (syncPortfolio && name.startsWith('portfolio-work-'))
+    || (syncReviews && name.startsWith('review-')));
 
 for (const [name, url] of selectedAssets) {
   const response = await fetch(url);
@@ -115,7 +119,7 @@ for (const [name, url] of selectedAssets) {
 }
 
 const fontDir = join(process.cwd(), 'public', 'fonts');
-if ((requestedNames.size === 0 && !syncCatalog && !syncPortfolio && !syncNews) || requestedNames.has('montserrat.ttf')) {
+if ((requestedNames.size === 0 && !syncCatalog && !syncPortfolio && !syncNews && !syncReviews) || requestedNames.has('montserrat.ttf')) {
   await mkdir(fontDir, { recursive: true });
   const fontResponse = await fetch('https://raw.githubusercontent.com/google/fonts/main/ofl/montserrat/Montserrat%5Bwght%5D.ttf');
   if (!fontResponse.ok) throw new Error(`${fontResponse.status} Montserrat`);

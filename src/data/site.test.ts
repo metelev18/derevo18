@@ -8,6 +8,7 @@ describe('site content', () => {
     expect(siteContent.navigation[0]?.href).toBe('/history/');
     expect(siteContent.navigation[1]?.href).toBe('/catalog-house/');
     expect(siteContent.navigation[2]?.href).toBe('/portfolio/');
+    expect(siteContent.navigation[3]?.href).toBe('/rewies/');
     expect(siteContent.navigation[5]?.href).toBe('/news/');
   });
 
