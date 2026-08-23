@@ -1,0 +1,15 @@
+---
+import NewsArticlePage from '../../../components/news/NewsArticlePage.astro';
+import { newsArticles } from '../../../data/news';
+
+export function getStaticPaths() {
+  return newsArticles.map((article) => ({
+    params: { slug: article.slug },
+    props: { article },
+  }));
+}
+
+const { article } = Astro.props;
+---
+
+<NewsArticlePage article={article} />

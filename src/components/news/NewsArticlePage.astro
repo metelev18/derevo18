@@ -1,0 +1,40 @@
+---
+import type { NewsArticle } from '../../data/news';
+import { getNewsArticleSeo } from '../../data/news';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+interface Props {
+  article: NewsArticle;
+}
+
+const { article } = Astro.props;
+const datetime = article.date.split('.').reverse().join('-');
+---
+
+<BaseLayout seo={getNewsArticleSeo(article)} bodyClass="news-reader-page">
+  <a class="skip-link" href="#article-title">К публикации</a>
+  <header class="news-reader-bar">
+    <a class="news-reader-bar__back" href="/news/" aria-label="Вернуться к новостям">←</a>
+    <a class="news-reader-bar__title" href="/news/">Новости</a>
+  </header>
+  <main class="news-article">
+    <article class="news-article__inner">
+      <h1 id="article-title">{article.title}</h1>
+      <div class="news-article__content">
+        {article.blocks.map((block, index) => (
+          block.type === 'paragraph' ? <p>{block.text}</p>
+          : block.type === 'heading' ? <h2>{block.text}</h2>
+          : block.type === 'quote' ? <blockquote>{block.text}</blockquote>
+          : block.type === 'list' ? (
+            block.ordered
+              ? <ol>{block.items.map((item) => <li>{item}</li>)}</ol>
+              : <ul>{block.items.map((item) => <li>{item}</li>)}</ul>
+          )
+          : block.type === 'image' ? <figure><img src={block.src} alt={block.alt || `${article.title}, фотография ${index + 1}`} loading="lazy" width="1800" height="1200" /></figure>
+          : <div class="news-article__video"><iframe src={block.src} title={`Видео: ${article.title}`} loading="lazy" allow="fullscreen; picture-in-picture; encrypted-media" allowfullscreen></iframe></div>
+        ))}
+      </div>
+      <time datetime={datetime}>{article.date}</time>
+    </article>
+  </main>
+</BaseLayout>

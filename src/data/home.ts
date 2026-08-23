@@ -20,6 +20,7 @@ export interface FeedItem {
   excerpt?: string;
   date: string;
   image: string;
+  href?: string;
 }
 
 export interface HomeContent {
@@ -73,12 +74,12 @@ export const homeContent = {
     { title: 'Светлана, г. Агрыз, каменный дом, 92 кв.м.', date: '09.04.2024', image: '/media/review-6.webp' },
   ],
   news: [
-    { title: 'Монтаж фундамента', excerpt: 'Фундамент — это основа всего дома.', date: '18.12.2023', image: '/media/news-1.webp' },
-    { title: 'Деревянный дом 50 кв.м.', excerpt: 'Видеообзор небольшого дачного дома', date: '28.05.2024', image: '/media/news-2.webp' },
-    { title: 'Видеообзор дома 67 кв.м. из бруса', date: '28.05.2024', image: '/media/news-3.webp' },
-    { title: 'Виды профиля бруса', excerpt: 'Какой профиль бруса выбрать?', date: '28.05.2024', image: '/media/news-4.webp' },
-    { title: '7 ошибок в строительстве деревянного дома', excerpt: 'Главные ошибки при выборе подрядчика', date: '28.05.2024', image: '/media/news-5.webp' },
-    { title: 'Проект дома — зачем он нужен?', excerpt: 'В чем важность проекта дома', date: '27.02.2024', image: '/media/news-6.webp' },
+    { title: 'Монтаж фундамента', excerpt: 'Фундамент — это основа всего дома.', date: '18.12.2023', image: '/media/news-1.webp', href: '/news/tpost/s6plpy65i1-montazh-fundament/' },
+    { title: 'Деревянный дом 50 кв.м.', excerpt: 'Видеообзор небольшого дачного дома', date: '28.05.2024', image: '/media/news-2.webp', href: '/news/tpost/49onyv55x1-derevyannii-dom-50-kvm/' },
+    { title: 'Видеообзор дома 67 кв.м. из бруса', date: '28.05.2024', image: '/media/news-3.webp', href: '/news/tpost/iygy96inf1-videoobzor-doma-67-kvm-iz-brusa/' },
+    { title: 'Виды профиля бруса', excerpt: 'Какой профиль бруса выбрать?', date: '28.05.2024', image: '/media/news-4.webp', href: '/news/tpost/uvdnxdi6p1-vidi-profilya-brusa/' },
+    { title: '7 ошибок в строительстве деревянного дома', excerpt: 'Главные ошибки при выборе подрядчика', date: '28.05.2024', image: '/media/news-5.webp', href: '/news/tpost/1k1fzo5ze1-7-oshibok-v-stroitelstve-derevyannogo-do/' },
+    { title: 'Проект дома — зачем он нужен?', excerpt: 'В чем важность проекта дома', date: '27.02.2024', image: '/media/news-6.webp', href: '/news/tpost/ttch0zfvt1-proekt-doma-zachem-on-nuzhen/' },
   ],
   seo: {
     title: 'Строительство деревянных домов и бань в Ижевске от компании Древмастер',

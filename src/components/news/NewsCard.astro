@@ -1,0 +1,20 @@
+---
+import type { NewsArticle } from '../../data/news';
+
+interface Props {
+  article: NewsArticle;
+}
+
+const { article } = Astro.props;
+---
+
+<article class="news-card">
+  <a href={article.route} aria-label={article.title}>
+    <figure><img src={article.cover} alt="" loading="lazy" width="720" height="554" /></figure>
+    <div class="news-card__body">
+      <h2>{article.title}</h2>
+      {article.description && <p>{article.description}</p>}
+      <time datetime={article.date.split('.').reverse().join('-')}>{article.date}</time>
+    </div>
+  </a>
+</article>

@@ -18,5 +18,6 @@ describe('home content', () => {
 
   it('routes unfinished product pages to a local stub target', () => {
     expect(homeContent.projects.every((project) => !project.target.startsWith('http'))).toBe(true);
+    expect(homeContent.news.every((article) => article.href?.startsWith('/news/tpost/'))).toBe(true);
   });
 });

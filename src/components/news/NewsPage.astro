@@ -1,0 +1,20 @@
+---
+import { newsArticles, newsSeo } from '../../data/news';
+import SiteLayout from '../../layouts/SiteLayout.astro';
+import ContactMapSection from '../site/ContactMapSection.astro';
+import Breadcrumbs from '../ui/Breadcrumbs.astro';
+import NewsCard from './NewsCard.astro';
+---
+
+<SiteLayout seo={newsSeo}>
+  <div class="news-page">
+    <Breadcrumbs items={[{ label: 'Главная', href: '/' }, { label: 'Как мы строим' }]} />
+    <section class="news-listing container" aria-labelledby="news-title">
+      <h1 id="news-title">БЛОГ</h1>
+      <div class="news-grid">
+        {newsArticles.map((article) => <NewsCard article={article} />)}
+      </div>
+    </section>
+    <ContactMapSection />
+  </div>
+</SiteLayout>

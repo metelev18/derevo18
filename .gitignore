@@ -9,6 +9,14 @@ coverage/
 .env
 .env.*
 !.env.example
+.dev.vars
+.envrc
+*.pem
+*.key
+*.p12
+*.pfx
+credentials*.json
+secrets*.json
 .DS_Store
 *.log
 .vs/

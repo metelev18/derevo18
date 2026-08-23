@@ -68,6 +68,13 @@ test('portfolio opens and closes an accessible lightbox', async ({ page }) => {
   await expect(page.locator('.lightbox')).toHaveCount(0);
 });
 
+test('news carousel links to implemented publications', async ({ page }) => {
+  await page.locator('#news').scrollIntoViewIfNeeded();
+  await waitForVisibleIsland(page, '#news .feed-card');
+  await expect(page.locator('#news .feed-card').first()).toHaveAttribute('href', '/news/tpost/s6plpy65i1-montazh-fundament/');
+  await expect(page.locator('#news .feed__more')).toHaveAttribute('href', '/news/');
+});
+
 test('uses preview SEO policy and keeps static sections outside React islands', async ({ page }) => {
   await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex, nofollow');
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://derevo18-astro.workers.dev/');
