@@ -1,0 +1,24 @@
+{
+  "order": 4,
+  "id": "ttch0zfvt1",
+  "slug": "ttch0zfvt1-proekt-doma-zachem-on-nuzhen",
+  "route": "/news/tpost/ttch0zfvt1-proekt-doma-zachem-on-nuzhen/",
+  "title": "ПРОЕКТ ДОМА ! ЗАЧЕМ ОН НУЖЕН?!",
+  "description": "Проекты домов! В чем же их важность?",
+  "date": "27.02.2024",
+  "cover": "/media/news-6.webp",
+  "blocks": [
+    {
+      "text": "Проекты домов! В чем же их важность? И почему не стоит строить дом по зарисовке на листочке?!",
+      "type": "paragraph"
+    },
+    {
+      "text": "Эскизный проект дома, технический проект. Об этом и о многом другом расскажет наш специалист Александр Метелев. На примере проекта деревянного дома",
+      "type": "paragraph"
+    },
+    {
+      "src": "https://kinescope.io/embed/rnUghsiF8WG6xNjyaDG6SR",
+      "type": "video"
+    }
+  ]
+}

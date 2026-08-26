@@ -1,0 +1,15 @@
+{
+  "order": 9,
+  "slug": "sakura",
+  "route": "/catalog-house/sakura/",
+  "category": "house",
+  "title": "Проект дома «Сакура»",
+  "name": "Сакура",
+  "area": "112 кв. м",
+  "size": "8,5×13 м",
+  "floors": "1 этаж",
+  "rooms": "4 комнаты",
+  "bathrooms": "1 санузел",
+  "duration": "от 60 дней",
+  "image": "/media/catalog-house-sakura.webp"
+}

@@ -1,0 +1,15 @@
+{
+  "order": 40,
+  "slug": "dom-banya-rodnaya",
+  "route": "/catalog-house/dom-banya-rodnaya/",
+  "category": "sauna",
+  "title": "Проект дома-бани «Родная»",
+  "name": "Родная",
+  "area": "74 кв. м",
+  "size": "6×8 м",
+  "floors": "2 этажа",
+  "rooms": "3 комнаты",
+  "bathrooms": "1 санузел",
+  "duration": "от 60 дней",
+  "image": "/media/catalog-sauna-rodnaya.webp"
+}

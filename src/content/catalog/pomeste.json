@@ -1,0 +1,15 @@
+{
+  "order": 10,
+  "slug": "pomeste",
+  "route": "/catalog-house/pomeste/",
+  "category": "house",
+  "title": "Проект дома «Поместье»",
+  "name": "Поместье",
+  "area": "174 кв. м",
+  "size": "11×15 м",
+  "floors": "2 этажа",
+  "rooms": "6 комнат",
+  "bathrooms": "2 санузла",
+  "duration": "от 90 дней",
+  "image": "/media/catalog-house-pomeste.webp"
+}

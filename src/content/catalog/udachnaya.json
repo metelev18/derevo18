@@ -1,0 +1,13 @@
+{
+  "order": 31,
+  "slug": "udachnaya",
+  "route": "/catalog-sauna/udachnaya/",
+  "category": "sauna",
+  "title": "Проект бани «Удачная»",
+  "name": "Удачная",
+  "area": "31 кв. м",
+  "size": "5×6 м",
+  "floors": "1 этаж",
+  "duration": "от 25 дней",
+  "image": "/media/catalog-sauna-udachnaya.webp"
+}

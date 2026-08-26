@@ -1,0 +1,15 @@
+{
+  "order": 22,
+  "slug": "dom-vesthill",
+  "route": "/catalog-house/dom-vesthill/",
+  "category": "house",
+  "title": "Проект дома «Вестхилл»",
+  "name": "Вестхилл",
+  "area": "226 кв. м",
+  "size": "15×18 м",
+  "floors": "1 этаж",
+  "rooms": "6 комнат",
+  "bathrooms": "2 санузла",
+  "duration": "от 100 дней",
+  "image": "/media/catalog-house-dom-vesthill.webp"
+}

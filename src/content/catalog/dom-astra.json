@@ -1,0 +1,15 @@
+{
+  "order": 24,
+  "slug": "dom-astra",
+  "route": "/catalog-house/dom-astra/",
+  "category": "house",
+  "title": "Проект дома «Астра»",
+  "name": "Астра",
+  "area": "84 кв. м",
+  "size": "8×11 м",
+  "floors": "1 этаж",
+  "rooms": "4 комнаты",
+  "bathrooms": "1 санузел",
+  "duration": "от 60 дней",
+  "image": "/media/catalog-house-dom-astra.webp"
+}

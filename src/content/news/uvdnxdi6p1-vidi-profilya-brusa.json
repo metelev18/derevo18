@@ -1,0 +1,16 @@
+{
+  "order": 2,
+  "id": "uvdnxdi6p1",
+  "slug": "uvdnxdi6p1-vidi-profilya-brusa",
+  "route": "/news/tpost/uvdnxdi6p1-vidi-profilya-brusa/",
+  "title": "Виды профиля бруса",
+  "description": "Какой брус бывает? Какой профиль бруса выбрать?",
+  "date": "28.05.2024",
+  "cover": "/media/news-4.webp",
+  "blocks": [
+    {
+      "src": "https://kinescope.io/embed/u2Fw4ULNt8QdWoMZgiM7GK",
+      "type": "video"
+    }
+  ]
+}

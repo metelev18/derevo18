@@ -1,0 +1,15 @@
+{
+  "order": 26,
+  "slug": "rodnye-penaty",
+  "route": "/catalog-house/rodnye-penaty/",
+  "category": "house",
+  "title": "Проект дома «Родные пенаты»",
+  "name": "Родные пенаты",
+  "area": "78 кв. м",
+  "size": "9×12 м",
+  "floors": "1 этаж",
+  "rooms": "3 комнаты",
+  "bathrooms": "1 санузел",
+  "duration": "от 60 дней",
+  "image": "/media/catalog-house-rodnye-penaty.webp"
+}

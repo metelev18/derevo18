@@ -1,0 +1,15 @@
+{
+  "order": 18,
+  "slug": "dom-dushevnyj",
+  "route": "/catalog-house/dom-dushevnyj/",
+  "category": "house",
+  "title": "Проект дома «Душевный»",
+  "name": "Душевный",
+  "area": "95 кв. м",
+  "size": "7×8 м",
+  "floors": "2 этажа",
+  "rooms": "5 комнат",
+  "bathrooms": "1 санузел",
+  "duration": "от 75 дней",
+  "image": "/media/catalog-house-dom-dushevnyj.webp"
+}

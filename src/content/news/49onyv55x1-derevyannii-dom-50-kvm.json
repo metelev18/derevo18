@@ -1,0 +1,16 @@
+{
+  "order": 0,
+  "id": "49onyv55x1",
+  "slug": "49onyv55x1-derevyannii-dom-50-kvm",
+  "route": "/news/tpost/49onyv55x1-derevyannii-dom-50-kvm/",
+  "title": "Деревянный дом 50 кв.м.",
+  "description": "Видеообзор небольшого дачного дома",
+  "date": "28.05.2024",
+  "cover": "/media/news-2.webp",
+  "blocks": [
+    {
+      "src": "https://kinescope.io/embed/uJGd7MEsyiyderJtbHBcoM",
+      "type": "video"
+    }
+  ]
+}

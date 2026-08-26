@@ -1,0 +1,13 @@
+{
+  "order": 34,
+  "slug": "klassika",
+  "route": "/catalog-sauna/klassika/",
+  "category": "sauna",
+  "title": "Проект бани «Классика»",
+  "name": "Классика",
+  "area": "43 кв. м",
+  "size": "6×7 м",
+  "floors": "1 этаж",
+  "duration": "от 25 дней",
+  "image": "/media/catalog-sauna-klassika.webp"
+}

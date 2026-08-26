@@ -1,0 +1,15 @@
+{
+  "order": 21,
+  "slug": "dom-grafit",
+  "route": "/catalog-house/dom-grafit/",
+  "category": "house",
+  "title": "Проект дома «Графит»",
+  "name": "Графит",
+  "area": "115 кв. м",
+  "size": "8×15 м",
+  "floors": "1 этаж",
+  "rooms": "3 комнаты",
+  "bathrooms": "1 санузел",
+  "duration": "от 60 дней",
+  "image": "/media/catalog-house-dom-grafit.webp"
+}

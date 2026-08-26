@@ -1,0 +1,15 @@
+{
+  "order": 8,
+  "slug": "svetlyj",
+  "route": "/catalog-house/svetlyj/",
+  "category": "house",
+  "title": "Проект дома «Светлый»",
+  "name": "Светлый",
+  "area": "75 кв. м",
+  "size": "9×11 м",
+  "floors": "1 этаж",
+  "rooms": "3 комнаты",
+  "bathrooms": "1 санузел",
+  "duration": "от 60 дней",
+  "image": "/media/catalog-house-svetlyj.webp"
+}

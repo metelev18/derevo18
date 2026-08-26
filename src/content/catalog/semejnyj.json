@@ -1,0 +1,15 @@
+{
+  "order": 7,
+  "slug": "semejnyj",
+  "route": "/catalog-house/semejnyj/",
+  "category": "house",
+  "title": "Проект дома «Семейный»",
+  "name": "Семейный",
+  "area": "61 кв. м",
+  "size": "8×8 м",
+  "floors": "1 этаж",
+  "rooms": "3 комнаты",
+  "bathrooms": "1 санузел",
+  "duration": "от 60 дней",
+  "image": "/media/catalog-house-semejnyj.webp"
+}

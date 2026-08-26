@@ -1,0 +1,15 @@
+{
+  "order": 13,
+  "slug": "komfort",
+  "route": "/catalog-house/komfort/",
+  "category": "house",
+  "title": "Проект дома «Комфорт»",
+  "name": "Комфорт",
+  "area": "114 кв. м",
+  "size": "11×14 м",
+  "floors": "1 этаж",
+  "rooms": "3 комнаты",
+  "bathrooms": "1 санузел",
+  "duration": "от 60 дней",
+  "image": "/media/catalog-house-komfort.webp"
+}

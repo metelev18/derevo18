@@ -1,0 +1,15 @@
+{
+  "order": 3,
+  "slug": "svetlyi-terem",
+  "route": "/catalog-house/svetlyi-terem/",
+  "category": "house",
+  "title": "Проект дома «Светлый терем»",
+  "name": "Светлый терем",
+  "area": "75 кв. м",
+  "size": "9×9 м",
+  "floors": "1 этаж",
+  "rooms": "3 комнаты",
+  "bathrooms": "1 санузел",
+  "duration": "от 60 дней",
+  "image": "/media/project-svetliy-terem.webp"
+}

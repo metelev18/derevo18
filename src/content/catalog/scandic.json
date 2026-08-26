@@ -1,0 +1,15 @@
+{
+  "order": 5,
+  "slug": "scandic",
+  "route": "/catalog-house/scandic/",
+  "category": "house",
+  "title": "Проект дома «Скандик»",
+  "name": "Скандик",
+  "area": "56 кв. м",
+  "size": "6×10 м",
+  "floors": "1 этаж",
+  "rooms": "1 комната",
+  "bathrooms": "1 санузел",
+  "duration": "от 60 дней",
+  "image": "/media/project-scandic.webp"
+}

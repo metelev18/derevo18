@@ -1,0 +1,15 @@
+{
+  "order": 6,
+  "slug": "tet-a-tet",
+  "route": "/catalog-house/tet-a-tet/",
+  "category": "house",
+  "title": "Проект дома «Тет-а-тет»",
+  "name": "Тет-а-тет",
+  "area": "60 кв. м",
+  "size": "7×9 м",
+  "floors": "1 этаж",
+  "rooms": "2 комнаты",
+  "bathrooms": "1 санузел",
+  "duration": "от 60 дней",
+  "image": "/media/catalog-house-tet-a-tet.webp"
+}

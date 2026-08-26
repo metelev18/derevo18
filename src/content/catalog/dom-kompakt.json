@@ -1,0 +1,15 @@
+{
+  "order": 14,
+  "slug": "dom-kompakt",
+  "route": "/catalog-house/dom-kompakt/",
+  "category": "house",
+  "title": "Проект дома «Компакт»",
+  "name": "Компакт",
+  "area": "50 кв. м",
+  "size": "7×9 м",
+  "floors": "1 этаж",
+  "rooms": "2 комнаты",
+  "bathrooms": "1 санузел",
+  "duration": "от 50 дней",
+  "image": "/media/catalog-house-dom-kompakt.webp"
+}

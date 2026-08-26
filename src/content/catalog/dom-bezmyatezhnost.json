@@ -1,0 +1,15 @@
+{
+  "order": 23,
+  "slug": "dom-bezmyatezhnost",
+  "route": "/catalog-house/dom-bezmyatezhnost/",
+  "category": "house",
+  "title": "Проект дома «Безмятежность»",
+  "name": "Безмятежность",
+  "area": "85 кв. м",
+  "size": "8×11 м",
+  "floors": "1 этаж",
+  "rooms": "2 комнаты",
+  "bathrooms": "1 санузел",
+  "duration": "от 60 дней",
+  "image": "/media/catalog-house-dom-bezmyatezhnost.webp"
+}

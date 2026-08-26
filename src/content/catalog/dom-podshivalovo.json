@@ -1,0 +1,15 @@
+{
+  "order": 0,
+  "slug": "dom-podshivalovo",
+  "route": "/catalog-house/dom-podshivalovo/",
+  "category": "house",
+  "title": "Проект дома «Подшивалово»",
+  "name": "Подшивалово",
+  "area": "91 кв. м",
+  "size": "9×12 м",
+  "floors": "1 этаж",
+  "rooms": "3 комнаты",
+  "bathrooms": "1 санузел",
+  "duration": "от 60 дней",
+  "image": "/media/project-podshivalovo.webp"
+}

@@ -1,0 +1,15 @@
+{
+  "order": 1,
+  "slug": "proekt-doma-bars",
+  "route": "/proekt-doma-bars/",
+  "category": "house",
+  "title": "Проект дома «Барс»",
+  "name": "Барс",
+  "area": "76 кв. м",
+  "size": "7×12 м",
+  "floors": "1 этаж",
+  "rooms": "3 комнаты",
+  "bathrooms": "1 санузел",
+  "duration": "от 60 дней",
+  "image": "/media/project-bars.webp"
+}

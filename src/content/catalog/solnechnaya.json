@@ -1,0 +1,13 @@
+{
+  "order": 32,
+  "slug": "solnechnaya",
+  "route": "/catalog-sauna/solnechnaya/",
+  "category": "sauna",
+  "title": "Проект бани «Солнечная»",
+  "name": "Солнечная",
+  "area": "56 кв. м",
+  "size": "5×12 м",
+  "floors": "1 этаж",
+  "duration": "от 30 дней",
+  "image": "/media/catalog-sauna-solnechnaya.webp"
+}

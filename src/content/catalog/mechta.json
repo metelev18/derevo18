@@ -1,0 +1,15 @@
+{
+  "order": 11,
+  "slug": "mechta",
+  "route": "/catalog-house/mechta/",
+  "category": "house",
+  "title": "Проект дома «Мечта»",
+  "name": "Мечта",
+  "area": "100 кв. м",
+  "size": "8×9 м",
+  "floors": "2 этажа",
+  "rooms": "4 комнаты",
+  "bathrooms": "1 санузел",
+  "duration": "от 75 дней",
+  "image": "/media/catalog-house-mechta.webp"
+}

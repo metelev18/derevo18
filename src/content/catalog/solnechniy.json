@@ -1,0 +1,15 @@
+{
+  "order": 2,
+  "slug": "solnechniy",
+  "route": "/catalog-house/solnechniy/",
+  "category": "house",
+  "title": "Проект дома «Солнечный»",
+  "name": "Солнечный",
+  "area": "70 кв. м",
+  "size": "8×10 м",
+  "floors": "1 этаж",
+  "rooms": "3 комнаты",
+  "bathrooms": "1 санузел",
+  "duration": "от 60 дней",
+  "image": "/media/project-solnechniy.webp"
+}

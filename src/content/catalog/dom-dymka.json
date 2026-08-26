@@ -1,0 +1,15 @@
+{
+  "order": 17,
+  "slug": "dom-dymka",
+  "route": "/catalog-house/dom-dymka/",
+  "category": "house",
+  "title": "Проект дома «Дымка»",
+  "name": "Дымка",
+  "area": "107 кв. м",
+  "size": "9×12 м",
+  "floors": "1 этаж",
+  "rooms": "4 комнаты",
+  "bathrooms": "1 санузел",
+  "duration": "от 60 дней",
+  "image": "/media/catalog-house-dom-dymka.webp"
+}

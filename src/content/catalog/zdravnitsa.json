@@ -1,0 +1,13 @@
+{
+  "order": 30,
+  "slug": "zdravnitsa",
+  "route": "/catalog-sauna/zdravnitsa/",
+  "category": "sauna",
+  "title": "Проект банного комплекса «Здравница»",
+  "name": "Здравница",
+  "area": "52 кв. м",
+  "size": "6×11 м",
+  "floors": "1 этаж",
+  "duration": "от 30 дней",
+  "image": "/media/catalog-sauna-zdravnitsa.webp"
+}

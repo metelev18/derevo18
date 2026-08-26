@@ -1,0 +1,13 @@
+{
+  "order": 35,
+  "slug": "zagorodnaya",
+  "route": "/catalog-sauna/zagorodnaya/",
+  "category": "sauna",
+  "title": "Проект бани «Загородная»",
+  "name": "Загородная",
+  "area": "72 кв. м",
+  "size": "7×10 м",
+  "floors": "2 этажа",
+  "duration": "от 40 дней",
+  "image": "/media/catalog-sauna-zagorodnaya.webp"
+}

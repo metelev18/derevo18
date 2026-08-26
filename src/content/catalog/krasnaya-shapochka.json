@@ -1,0 +1,15 @@
+{
+  "order": 12,
+  "slug": "krasnaya-shapochka",
+  "route": "/catalog-house/krasnaya-shapochka/",
+  "category": "house",
+  "title": "Проект дома «Красная шапочка»",
+  "name": "Красная шапочка",
+  "area": "66 кв. м",
+  "size": "7×11 м",
+  "floors": "1 этаж",
+  "rooms": "2 комнаты",
+  "bathrooms": "1 санузел",
+  "duration": "от 60 дней",
+  "image": "/media/catalog-house-krasnaya-shapochka.webp"
+}

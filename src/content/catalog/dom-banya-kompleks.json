@@ -1,0 +1,15 @@
+{
+  "order": 20,
+  "slug": "dom-banya-kompleks",
+  "route": "/catalog-house/dom-banya-kompleks/",
+  "category": "house",
+  "title": "Проект дома-бани «Комплекс»",
+  "name": "Комплекс",
+  "area": "106 кв. м",
+  "size": "8×10 м",
+  "floors": "2 этажа",
+  "rooms": "3 комнаты",
+  "bathrooms": "1 санузел",
+  "duration": "от 75 дней",
+  "image": "/media/catalog-house-dom-banya-kompleks.webp"
+}
