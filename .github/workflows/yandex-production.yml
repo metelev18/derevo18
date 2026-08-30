@@ -1,0 +1,97 @@
+name: Deploy production to Yandex Cloud
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm:
+        description: Publish the selected revision to derevo18.com
+        required: true
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: yandex-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Check, build and deploy production
+    if: inputs.confirm
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    environment:
+      name: production
+      url: https://derevo18.com
+    env:
+      PUBLIC_DEPLOY_ENV: production
+      PUBLIC_SITE_URL: https://derevo18.com
+      AWS_ACCESS_KEY_ID: ${{ secrets.YANDEX_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.YANDEX_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: ru-central1
+      AWS_REGION: ru-central1
+      AWS_EC2_METADATA_DISABLED: "true"
+      YANDEX_BUCKET_NAME: ${{ vars.YANDEX_BUCKET_NAME }}
+      YANDEX_STORAGE_ENDPOINT: https://storage.yandexcloud.net
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run lint
+        run: pnpm lint
+
+      - name: Run unit tests
+        run: pnpm test
+
+      - name: Build production
+        run: pnpm build
+
+      - name: Validate deployment configuration
+        shell: bash
+        run: |
+          if [ -z "${YANDEX_BUCKET_NAME}" ]; then
+            echo "YANDEX_BUCKET_NAME is not configured in the production environment."
+            exit 1
+          fi
+
+          if [ ! -f dist/index.html ] || [ ! -f dist/404.html ]; then
+            echo "The production build is incomplete."
+            exit 1
+          fi
+
+          aws --version
+          aws s3api head-bucket \
+            --bucket "${YANDEX_BUCKET_NAME}" \
+            --endpoint-url "${YANDEX_STORAGE_ENDPOINT}"
+
+      - name: Synchronize website with Object Storage
+        shell: bash
+        run: |
+          aws s3 sync dist/ "s3://${YANDEX_BUCKET_NAME}/" \
+            --endpoint-url "${YANDEX_STORAGE_ENDPOINT}" \
+            --delete \
+            --only-show-errors \
+            --cache-control "public, max-age=300"
+
+          if [ -d dist/_astro ]; then
+            aws s3 cp dist/_astro/ "s3://${YANDEX_BUCKET_NAME}/_astro/" \
+              --endpoint-url "${YANDEX_STORAGE_ENDPOINT}" \
+              --recursive \
+              --only-show-errors \
+              --cache-control "public, max-age=31536000, immutable"
+          fi
