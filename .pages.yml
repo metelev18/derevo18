@@ -1,0 +1,1230 @@
+media:
+  input: public/media
+  output: /media
+  extensions: [webp, jpg, jpeg, png, avif]
+  categories: [image]
+  rename: safe
+
+settings:
+  content:
+    merge: true
+  commit:
+    identity: app
+    templates:
+      create: "content: добавить {name}"
+      update: "content: обновить {name}"
+      delete: "content: удалить {name}"
+      rename: "content: переименовать {oldFilename} в {newFilename}"
+
+components:
+  seo:
+    type: object
+    label: SEO и отображение в поиске
+    fields:
+      - name: title
+        label: Заголовок страницы
+        type: string
+        required: true
+      - name: description
+        label: Описание страницы
+        type: text
+        required: true
+      - name: canonicalPath
+        label: Канонический адрес
+        type: string
+        required: true
+        description: Путь должен начинаться и заканчиваться символом /.
+      - name: ogImage
+        label: Изображение для социальных сетей
+        type: image
+        required: true
+      - name: noindex
+        label: Запретить индексацию
+        type: boolean
+        default: false
+
+content:
+  - name: pages
+    label: Страницы
+    type: group
+    items:
+      - name: home
+        label: Главная страница
+        type: file
+        path: src/content/home/index.json
+        format: json
+        operations:
+          create: false
+          rename: false
+          delete: false
+        fields:
+          - name: hero
+            label: Первый экран
+            type: object
+            required: true
+            fields:
+              - name: eyebrow
+                label: Надзаголовок
+                type: string
+                required: true
+              - name: title
+                label: Главный заголовок
+                type: string
+                required: true
+              - name: background
+                label: Фоновое изображение
+                type: image
+                required: true
+              - name: materials
+                label: Ссылки на материалы
+                type: object
+                required: true
+                list:
+                  collapsible:
+                    collapsed: true
+                    summary: "{title}"
+                fields:
+                  - name: title
+                    label: Название
+                    type: string
+                    required: true
+                  - name: image
+                    label: Изображение
+                    type: image
+                    required: true
+                  - name: href
+                    label: Ссылка
+                    type: string
+                    required: true
+          - name: about
+            label: О компании
+            type: object
+            required: true
+            fields:
+              - name: eyebrow
+                label: Надзаголовок
+                type: string
+                required: true
+              - name: title
+                label: Заголовок
+                type: string
+                required: true
+              - name: lead
+                label: Вводный текст
+                type: text
+                required: true
+              - name: servicesTitle
+                label: Заголовок списка услуг
+                type: string
+                required: true
+              - name: services
+                label: Услуги
+                type: string
+                required: true
+                list: true
+              - name: detailsHref
+                label: Ссылка «Подробнее»
+                type: string
+                required: true
+              - name: mainImage
+                label: Основное изображение
+                type: image
+                required: true
+              - name: mainImageAlt
+                label: Описание основного изображения
+                type: string
+                required: true
+              - name: secondaryImage
+                label: Дополнительное изображение
+                type: image
+                required: true
+              - name: secondaryImageAlt
+                label: Описание дополнительного изображения
+                type: string
+                required: true
+              - name: badgeTitle
+                label: Текст на плашке
+                type: string
+                required: true
+              - name: badgeText
+                label: Подпись на плашке
+                type: string
+                required: true
+              - name: features
+                label: Преимущества
+                type: object
+                required: true
+                list:
+                  collapsible:
+                    collapsed: true
+                    summary: "{title}"
+                fields:
+                  - name: title
+                    label: Заголовок
+                    type: string
+                    required: true
+                  - name: text
+                    label: Текст
+                    type: text
+                    required: true
+          - name: promo
+            label: Промо-блок
+            type: object
+            required: true
+            fields:
+              - name: background
+                label: Фоновое изображение
+                type: image
+                required: true
+              - name: cards
+                label: Карточки
+                type: object
+                required: true
+                list:
+                  collapsible:
+                    collapsed: true
+                    summary: "{title}"
+                fields:
+                  - name: eyebrow
+                    label: Надзаголовок
+                    type: string
+                    required: true
+                  - name: title
+                    label: Заголовок
+                    type: string
+                    required: true
+                  - name: button
+                    label: Текст кнопки
+                    type: string
+                    required: true
+                  - name: href
+                    label: Ссылка
+                    type: string
+                    required: true
+          - name: video
+            label: Видео о компании
+            type: object
+            required: true
+            fields:
+              - name: src
+                label: Ссылка для встраивания Kinescope
+                type: string
+                required: true
+                pattern:
+                  regex: "^https://kinescope\\.io/embed/"
+                  message: Укажите ссылку вида https://kinescope.io/embed/...
+              - name: title
+                label: Описание видео
+                type: string
+                required: true
+          - name: technology
+            label: Технологии
+            type: object
+            required: true
+            fields:
+              - name: eyebrow
+                label: Надзаголовок
+                type: string
+                required: true
+              - name: title
+                label: Заголовок
+                type: string
+                required: true
+              - name: image
+                label: Изображение
+                type: image
+                required: true
+              - name: imageAlt
+                label: Описание изображения
+                type: string
+                required: true
+              - name: items
+                label: Технологии
+                type: object
+                required: true
+                list:
+                  collapsible:
+                    collapsed: true
+                    summary: "{number}: {text}"
+                fields:
+                  - name: number
+                    label: Номер
+                    type: string
+                    required: true
+                  - name: text
+                    label: Описание
+                    type: text
+                    required: true
+          - name: director
+            label: Обращение директора
+            type: object
+            required: true
+            fields:
+              - name: image
+                label: Фотография
+                type: image
+                required: true
+              - name: imageAlt
+                label: Описание фотографии
+                type: string
+                required: true
+              - name: quote
+                label: Цитата
+                type: text
+                required: true
+              - name: text
+                label: Текст под цитатой
+                type: text
+                required: true
+              - name: name
+                label: Имя
+                type: string
+                required: true
+              - name: role
+                label: Должность
+                type: string
+                required: true
+          - name: projects
+            label: Проекты на главной
+            type: object
+            required: true
+            list:
+              collapsible:
+                collapsed: true
+                summary: "{title}"
+            fields:
+              - name: title
+                label: Название
+                type: string
+                required: true
+              - name: image
+                label: Изображение
+                type: image
+                required: true
+              - name: area
+                label: Площадь
+                type: string
+                required: true
+              - name: size
+                label: Размер
+                type: string
+                required: true
+              - name: floors
+                label: Этажей
+                type: string
+                required: true
+              - name: rooms
+                label: Комнат
+                type: string
+                required: true
+              - name: target
+                label: Ссылка на проект
+                type: string
+                required: true
+          - name: portfolio
+            label: Портфолио на главной
+            type: object
+            required: true
+            list:
+              collapsible:
+                collapsed: true
+                summary: "{title}"
+            fields:
+              - name: title
+                label: Название
+                type: string
+                required: true
+              - name: image
+                label: Изображение
+                type: image
+                required: true
+          - name: reviews
+            label: Отзывы на главной
+            type: object
+            required: true
+            list:
+              collapsible:
+                collapsed: true
+                summary: "{title}"
+            fields:
+              - name: title
+                label: Заголовок
+                type: string
+                required: true
+              - name: excerpt
+                label: Краткий текст
+                type: text
+              - name: date
+                label: Дата
+                type: date
+                required: true
+                options:
+                  format: "dd.MM.yyyy"
+              - name: image
+                label: Изображение
+                type: image
+                required: true
+              - name: href
+                label: Ссылка на отзыв
+                type: string
+                required: true
+          - name: news
+            label: Новости на главной
+            type: object
+            required: true
+            list:
+              collapsible:
+                collapsed: true
+                summary: "{title}"
+            fields:
+              - name: title
+                label: Заголовок
+                type: string
+                required: true
+              - name: excerpt
+                label: Краткий текст
+                type: text
+              - name: date
+                label: Дата
+                type: date
+                required: true
+                options:
+                  format: "dd.MM.yyyy"
+              - name: image
+                label: Изображение
+                type: image
+                required: true
+              - name: href
+                label: Ссылка на новость
+                type: string
+                required: true
+          - name: seo
+            component: seo
+
+      - name: history
+        label: О компании — история
+        type: file
+        path: src/content/history/index.json
+        format: json
+        operations:
+          create: false
+          rename: false
+          delete: false
+        fields:
+          - name: title
+            label: Заголовок
+            type: string
+            required: true
+          - name: lead
+            label: Вводные абзацы
+            type: text
+            required: true
+            list: true
+          - name: periods
+            label: Периоды
+            type: object
+            required: true
+            list:
+              collapsible:
+                collapsed: true
+                summary: "{title}"
+            fields:
+              - name: title
+                label: Название периода
+                type: string
+                required: true
+              - name: milestones
+                label: События
+                type: object
+                required: true
+                list:
+                  collapsible:
+                    collapsed: true
+                    summary: "{year}: {text}"
+                fields:
+                  - name: year
+                    label: Год
+                    type: string
+                  - name: text
+                    label: Событие
+                    type: text
+                    required: true
+          - name: gallery
+            label: Галерея
+            type: object
+            required: true
+            list:
+              collapsible:
+                collapsed: true
+                summary: "{alt}"
+            fields:
+              - name: src
+                label: Изображение
+                type: image
+                required: true
+              - name: alt
+                label: Описание изображения
+                type: string
+                required: true
+          - name: seo
+            component: seo
+
+  - name: projects
+    label: Проекты и работы
+    type: group
+    items:
+      - name: catalog
+        label: Каталог проектов
+        type: collection
+        path: src/content/catalog
+        format: json
+        filename:
+          template: "{title}.json"
+          field: false
+        operations:
+          create: true
+          rename: false
+          delete: true
+        view:
+          fields: [title, category, area, order]
+          primary: title
+          sort: [order, title, category]
+          search: [title, name, category]
+          default:
+            sort: order
+            order: asc
+        fields:
+          - name: order
+            label: Позиция в списке
+            type: number
+            required: true
+            default: 0
+            description: Чем меньше число, тем выше проект в списке.
+          - name: category
+            label: Раздел каталога
+            type: select
+            required: true
+            options:
+              values:
+                - name: house
+                  label: Дома
+                - name: sauna
+                  label: Бани
+          - name: title
+            label: Заголовок карточки
+            type: string
+            required: true
+          - name: name
+            label: Название проекта
+            type: string
+            required: true
+          - name: area
+            label: Площадь
+            type: string
+            required: true
+            description: Например, 91 кв.м.
+          - name: size
+            label: Размер
+            type: string
+            required: true
+            description: Например, 9×12 м.
+          - name: floors
+            label: Этажность
+            type: string
+            required: true
+          - name: rooms
+            label: Количество комнат
+            type: string
+          - name: bathrooms
+            label: Количество санузлов
+            type: string
+          - name: duration
+            label: Срок строительства
+            type: string
+            required: true
+          - name: image
+            label: Изображение проекта
+            type: image
+            required: true
+
+      - name: catalog_settings
+        label: Настройки каталога
+        type: file
+        path: src/content/catalog-settings/index.json
+        format: json
+        operations:
+          create: false
+          rename: false
+          delete: false
+        fields:
+          - name: seo
+            label: SEO разделов
+            type: object
+            required: true
+            fields:
+              - name: house
+                component: seo
+                label: Каталог домов
+              - name: sauna
+                component: seo
+                label: Каталог бань
+          - name: packageSections
+            label: Базовая комплектация
+            type: object
+            required: true
+            list:
+              collapsible:
+                collapsed: true
+                summary: "{title}"
+            fields:
+              - name: title
+                label: Раздел
+                type: string
+                required: true
+              - name: items
+                label: Пункты
+                type: string
+                required: true
+                list: true
+
+      - name: portfolio
+        label: Портфолио
+        type: collection
+        path: src/content/portfolio
+        format: json
+        filename:
+          template: "{title}.json"
+          field: false
+        operations:
+          create: true
+          rename: false
+          delete: true
+        view:
+          fields: [title, order]
+          primary: title
+          sort: [order, title]
+          search: [title]
+          default:
+            sort: order
+            order: asc
+        fields:
+          - name: order
+            label: Позиция в списке
+            type: number
+            required: true
+            default: 0
+            description: Чем меньше число, тем выше работа в списке.
+          - name: title
+            label: Название работы
+            type: string
+            required: true
+          - name: cover
+            label: Обложка
+            type: image
+            required: true
+          - name: images
+            label: Фотографии
+            type: image
+            required: true
+            options:
+              multiple: true
+              unique: true
+
+      - name: portfolio_settings
+        label: SEO портфолио
+        type: file
+        path: src/content/portfolio-settings/index.json
+        format: json
+        operations:
+          create: false
+          rename: false
+          delete: false
+        fields:
+          - name: title
+            label: Заголовок страницы
+            type: string
+            required: true
+          - name: description
+            label: Описание страницы
+            type: text
+            required: true
+          - name: canonicalPath
+            label: Канонический адрес
+            type: string
+            required: true
+          - name: ogImage
+            label: Изображение для социальных сетей
+            type: image
+            required: true
+          - name: noindex
+            label: Запретить индексацию
+            type: boolean
+            default: false
+
+  - name: publications
+    label: Публикации
+    type: group
+    items:
+      - name: news
+        label: Новости
+        type: collection
+        path: src/content/news
+        format: json
+        filename:
+          template: "{date}-{title}.json"
+          field: false
+        operations:
+          create: true
+          rename: false
+          delete: true
+        view:
+          fields: [title, date, order]
+          primary: title
+          sort: [order, date, title]
+          search: [title, description]
+          default:
+            sort: order
+            order: asc
+        fields:
+          - name: order
+            label: Позиция в списке
+            type: number
+            required: true
+            default: 0
+            description: Чем меньше число, тем выше публикация в списке.
+          - name: title
+            label: Заголовок
+            type: string
+            required: true
+          - name: description
+            label: Краткое описание
+            type: text
+            required: true
+          - name: date
+            label: Дата публикации
+            type: date
+            required: true
+            options:
+              format: "dd.MM.yyyy"
+          - name: cover
+            label: Обложка
+            type: image
+            required: true
+          - name: blocks
+            label: Содержание
+            type: block
+            required: true
+            list:
+              collapsible:
+                collapsed: false
+                summary: "Блок {index}"
+            blockKey: type
+            blocks:
+              - name: paragraph
+                label: Абзац
+                fields:
+                  - name: text
+                    label: Текст
+                    type: text
+                    required: true
+              - name: heading
+                label: Подзаголовок
+                fields:
+                  - name: text
+                    label: Текст
+                    type: string
+                    required: true
+              - name: quote
+                label: Цитата
+                fields:
+                  - name: text
+                    label: Текст
+                    type: text
+                    required: true
+              - name: list
+                label: Список
+                fields:
+                  - name: ordered
+                    label: Нумерованный список
+                    type: boolean
+                    default: false
+                  - name: items
+                    label: Пункты
+                    type: string
+                    required: true
+                    list: true
+              - name: image
+                label: Изображение
+                fields:
+                  - name: src
+                    label: Файл
+                    type: image
+                    required: true
+                  - name: alt
+                    label: Описание изображения
+                    type: string
+                    required: true
+              - name: video
+                label: Видео Kinescope
+                fields:
+                  - name: src
+                    label: Ссылка для встраивания
+                    type: string
+                    required: true
+                    pattern:
+                      regex: "^https://kinescope\\.io/embed/"
+                      message: Укажите ссылку вида https://kinescope.io/embed/...
+
+      - name: news_settings
+        label: SEO новостей
+        type: file
+        path: src/content/news-settings/index.json
+        format: json
+        operations:
+          create: false
+          rename: false
+          delete: false
+        fields:
+          - name: title
+            label: Заголовок страницы
+            type: string
+            required: true
+          - name: description
+            label: Описание страницы
+            type: text
+            required: true
+          - name: canonicalPath
+            label: Канонический адрес
+            type: string
+            required: true
+          - name: ogImage
+            label: Изображение для социальных сетей
+            type: image
+            required: true
+          - name: noindex
+            label: Запретить индексацию
+            type: boolean
+            default: false
+
+      - name: materials
+        label: Материалы
+        type: collection
+        path: src/content/materials
+        format: json
+        filename:
+          template: "{date}-{title}.json"
+          field: false
+        operations:
+          create: true
+          rename: false
+          delete: true
+        view:
+          fields: [title, date, order]
+          primary: title
+          sort: [order, date, title]
+          search: [title, description]
+          default:
+            sort: order
+            order: asc
+        fields:
+          - name: order
+            label: Позиция в списке
+            type: number
+            required: true
+            default: 0
+            description: Чем меньше число, тем выше материал в списке.
+          - name: title
+            label: Заголовок
+            type: string
+            required: true
+          - name: description
+            label: Краткое описание
+            type: text
+            required: true
+          - name: date
+            label: Дата публикации
+            type: date
+            required: true
+            options:
+              format: "dd.MM.yyyy"
+          - name: cover
+            label: Обложка
+            type: image
+            required: true
+          - name: showCover
+            label: Показывать обложку в статье
+            type: boolean
+            default: true
+          - name: blocks
+            label: Содержание
+            type: block
+            required: true
+            list:
+              collapsible:
+                collapsed: false
+                summary: "Блок {index}"
+            blockKey: type
+            blocks:
+              - name: paragraph
+                label: Абзац
+                fields:
+                  - name: text
+                    label: Текст
+                    type: text
+                    required: true
+              - name: heading
+                label: Подзаголовок
+                fields:
+                  - name: text
+                    label: Текст
+                    type: string
+                    required: true
+              - name: list
+                label: Список
+                fields:
+                  - name: ordered
+                    label: Нумерованный список
+                    type: boolean
+                    default: false
+                  - name: items
+                    label: Пункты
+                    type: string
+                    required: true
+                    list: true
+              - name: image
+                label: Изображение
+                fields:
+                  - name: src
+                    label: Файл
+                    type: image
+                    required: true
+                  - name: alt
+                    label: Описание изображения
+                    type: string
+                    required: true
+
+      - name: materials_settings
+        label: SEO материалов
+        type: file
+        path: src/content/materials-settings/index.json
+        format: json
+        operations:
+          create: false
+          rename: false
+          delete: false
+        fields:
+          - name: title
+            label: Заголовок страницы
+            type: string
+            required: true
+          - name: description
+            label: Описание страницы
+            type: text
+            required: true
+          - name: canonicalPath
+            label: Канонический адрес
+            type: string
+            required: true
+          - name: ogImage
+            label: Изображение для социальных сетей
+            type: image
+            required: true
+          - name: noindex
+            label: Запретить индексацию
+            type: boolean
+            default: false
+
+  - name: reviews_group
+    label: Отзывы
+    type: group
+    items:
+      - name: reviews
+        label: Отзывы заказчиков
+        type: collection
+        path: src/content/reviews
+        format: json
+        filename:
+          template: "{date}-{title}.json"
+          field: false
+        operations:
+          create: true
+          rename: false
+          delete: true
+        view:
+          fields: [title, date, order]
+          primary: title
+          sort: [order, date, title]
+          search: [title, description, text]
+          default:
+            sort: order
+            order: asc
+        fields:
+          - name: order
+            label: Позиция в списке
+            type: number
+            required: true
+            default: 0
+            description: Чем меньше число, тем выше отзыв в списке.
+          - name: title
+            label: Заголовок
+            type: string
+            required: true
+          - name: description
+            label: Краткое описание
+            type: text
+            required: true
+          - name: date
+            label: Дата
+            type: date
+            required: true
+            options:
+              format: "dd.MM.yyyy"
+          - name: cover
+            label: Обложка
+            type: image
+            required: true
+          - name: text
+            label: Текст отзыва
+            type: text
+            default: ""
+            description: Разделяйте абзацы пустой строкой.
+          - name: images
+            label: Фотографии
+            type: image
+            options:
+              multiple: true
+              unique: true
+          - name: videos
+            label: Видео Kinescope
+            type: string
+            list: true
+            pattern:
+              regex: "^https://kinescope\\.io/embed/"
+              message: Укажите ссылку вида https://kinescope.io/embed/...
+
+      - name: reviews_settings
+        label: SEO отзывов
+        type: file
+        path: src/content/reviews-settings/index.json
+        format: json
+        operations:
+          create: false
+          rename: false
+          delete: false
+        fields:
+          - name: title
+            label: Заголовок страницы
+            type: string
+            required: true
+          - name: description
+            label: Описание страницы
+            type: text
+            required: true
+          - name: canonicalPath
+            label: Канонический адрес
+            type: string
+            required: true
+          - name: ogImage
+            label: Изображение для социальных сетей
+            type: image
+            required: true
+          - name: noindex
+            label: Запретить индексацию
+            type: boolean
+            default: false
+
+  - name: site_settings
+    label: Общие настройки
+    type: group
+    items:
+      - name: site
+        label: Меню, контакты и формы
+        type: file
+        path: src/content/site/index.json
+        format: json
+        operations:
+          create: false
+          rename: false
+          delete: false
+        fields:
+          - name: navigation
+            label: Главное меню
+            type: object
+            required: true
+            list:
+              collapsible:
+                collapsed: true
+                summary: "{label}"
+            fields:
+              - name: label
+                label: Название
+                type: string
+                required: true
+              - name: href
+                label: Ссылка
+                type: string
+                required: true
+          - name: contact
+            label: Контактные данные
+            type: object
+            required: true
+            fields:
+              - name: phoneLabel
+                label: Телефон для отображения
+                type: string
+                required: true
+              - name: phoneHref
+                label: Ссылка телефона
+                type: string
+                required: true
+                description: Например, tel:+73412568022.
+              - name: email
+                label: Электронная почта
+                type: string
+                required: true
+              - name: address
+                label: Адрес
+                type: text
+                required: true
+              - name: company
+                label: Юридическая информация
+                type: text
+                required: true
+          - name: socials
+            label: Социальные сети
+            type: object
+            required: true
+            list:
+              collapsible:
+                collapsed: true
+                summary: "{label}"
+            fields:
+              - name: label
+                label: Название
+                type: string
+                required: true
+              - name: href
+                label: Ссылка
+                type: string
+                required: true
+              - name: kind
+                label: Сервис
+                type: select
+                required: true
+                options:
+                  values:
+                    - name: vk
+                      label: ВКонтакте
+                    - name: telegram
+                      label: Telegram
+                    - name: whatsapp
+                      label: WhatsApp
+          - name: forms
+            label: Тексты форм
+            type: object
+            required: true
+            fields:
+              - name: callback
+                label: Заказ звонка
+                type: object
+                required: true
+                fields:
+                  - name: id
+                    label: Идентификатор
+                    type: string
+                    required: true
+                    hidden: true
+                  - name: title
+                    label: Заголовок
+                    type: string
+                    required: true
+                  - name: description
+                    label: Описание
+                    type: text
+                    required: true
+                  - name: button
+                    label: Текст кнопки
+                    type: string
+                    required: true
+              - name: catalog
+                label: Получение каталога
+                type: object
+                required: true
+                fields:
+                  - name: id
+                    label: Идентификатор
+                    type: string
+                    required: true
+                    hidden: true
+                  - name: title
+                    label: Заголовок
+                    type: string
+                    required: true
+                  - name: description
+                    label: Описание
+                    type: text
+                    required: true
+                  - name: button
+                    label: Текст кнопки
+                    type: string
+                    required: true
+              - name: application
+                label: Заявка
+                type: object
+                required: true
+                fields:
+                  - name: id
+                    label: Идентификатор
+                    type: string
+                    required: true
+                    hidden: true
+                  - name: title
+                    label: Заголовок
+                    type: string
+                    required: true
+                  - name: description
+                    label: Описание
+                    type: text
+                    required: true
+                  - name: button
+                    label: Текст кнопки
+                    type: string
+                    required: true
+              - name: project
+                label: Получение проекта
+                type: object
+                required: true
+                fields:
+                  - name: id
+                    label: Идентификатор
+                    type: string
+                    required: true
+                    hidden: true
+                  - name: title
+                    label: Заголовок
+                    type: string
+                    required: true
+                  - name: description
+                    label: Описание
+                    type: text
+                    required: true
+                  - name: button
+                    label: Текст кнопки
+                    type: string
+                    required: true
+                  - name: showEmail
+                    label: Показывать поле электронной почты
+                    type: boolean
+                    default: true
+          - name: contactsEyebrow
+            label: Надзаголовок блока контактов
+            type: string
+            required: true
+          - name: mapEmbedUrl
+            label: Ссылка на карту Яндекса
+            type: text
+            required: true
+          - name: copyright
+            label: Авторские права
+            type: string
+            required: true

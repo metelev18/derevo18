@@ -1,11 +1,17 @@
+---
+import { homeContent } from '../../data/home';
+
+const { director } = homeContent;
+---
+
 <section class="director section-space">
   <div class="director__inner container">
-    <img src="/media/director.webp" alt="Александр Метелев, директор СК ДревМастер" loading="lazy" />
+    <img src={director.image} alt={director.imageAlt} loading="lazy" />
     <div>
-      <blockquote>«Я не буду рассказывать здесь про марки бетона, качество бревен, количество наших проектов и опыт работников. Потому что вас это не интересует. Вы просто хотите жить в красивом, надежном, удобном доме».</blockquote>
-      <p>Добавляйтесь в друзья и получайте полезный контент о строительстве деревянного дома.</p>
-      <strong>Александр Метелев</strong>
-      <span>Директор СК «ДревМастер»</span>
+      <blockquote>{director.quote}</blockquote>
+      <p>{director.text}</p>
+      <strong>{director.name}</strong>
+      <span>{director.role}</span>
     </div>
   </div>
 </section>

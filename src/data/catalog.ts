@@ -19,12 +19,23 @@ export interface CatalogProject {
   image: string;
 }
 
+type StoredCatalogProject = Omit<CatalogProject, 'slug' | 'route'> & {
+  slug?: string;
+  route?: string;
+};
+
 export interface PackageSection {
   title: string;
   items: string[];
 }
 
-export const allProjects = await loadContentDirectory<CatalogProject>('catalog');
+const catalogEntries = await loadContentDirectory<StoredCatalogProject>('catalog');
+
+export const allProjects: CatalogProject[] = catalogEntries.map(({ data, slug }) => ({
+  ...data,
+  slug,
+  route: data.route ?? (data.category === 'house' ? `/catalog-house/${slug}/` : `/catalog-sauna/${slug}/`),
+}));
 export const houseProjects = allProjects.filter((project) => project.category === 'house');
 export const saunaProjects = allProjects.filter((project) => project.category === 'sauna');
 

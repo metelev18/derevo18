@@ -20,7 +20,20 @@ export interface MaterialArticle {
   showCover: boolean;
 }
 
-export const materialArticles = await loadContentDirectory<MaterialArticle>('materials');
+type StoredMaterialArticle = Omit<MaterialArticle, 'id' | 'slug' | 'route'> & {
+  id?: string;
+  slug?: string;
+  route?: string;
+};
+
+const materialEntries = await loadContentDirectory<StoredMaterialArticle>('materials');
+
+export const materialArticles: MaterialArticle[] = materialEntries.map(({ data, slug }) => ({
+  ...data,
+  id: data.id ?? slug,
+  slug,
+  route: data.route ?? `/material/tpost/${slug}/`,
+}));
 export const materialsSeo = materialsSeoJson as SeoSettings;
 
 export function getMaterialArticleSeo(article: MaterialArticle): SeoSettings {

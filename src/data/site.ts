@@ -44,6 +44,7 @@ export interface SiteContent {
   contact: Contact;
   socials: SocialLink[];
   forms: Record<FormId, FormDefinition>;
+  contactsEyebrow: string;
   mapEmbedUrl: string;
   copyright: string;
 }

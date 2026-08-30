@@ -21,7 +21,20 @@ export interface NewsArticle {
   blocks: NewsBlock[];
 }
 
-export const newsArticles = await loadContentDirectory<NewsArticle>('news');
+type StoredNewsArticle = Omit<NewsArticle, 'id' | 'slug' | 'route'> & {
+  id?: string;
+  slug?: string;
+  route?: string;
+};
+
+const newsEntries = await loadContentDirectory<StoredNewsArticle>('news');
+
+export const newsArticles: NewsArticle[] = newsEntries.map(({ data, slug }) => ({
+  ...data,
+  id: data.id ?? slug,
+  slug,
+  route: data.route ?? `/news/tpost/${slug}/`,
+}));
 export const newsSeo = newsSeoJson as SeoSettings;
 
 export function getNewsArticleSeo(article: NewsArticle): SeoSettings {

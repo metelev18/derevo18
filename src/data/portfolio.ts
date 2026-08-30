@@ -11,7 +11,20 @@ export interface PortfolioProject {
   images: string[];
 }
 
-export const portfolioProjects = await loadContentDirectory<PortfolioProject>('portfolio');
+type StoredPortfolioProject = Omit<PortfolioProject, 'id' | 'slug' | 'route'> & {
+  id?: string;
+  slug?: string;
+  route?: string;
+};
+
+const portfolioEntries = await loadContentDirectory<StoredPortfolioProject>('portfolio');
+
+export const portfolioProjects: PortfolioProject[] = portfolioEntries.map(({ data, slug }) => ({
+  ...data,
+  id: data.id ?? slug,
+  slug,
+  route: data.route ?? `/portfolio/tproduct/${slug}/`,
+}));
 export const portfolioSeo = portfolioSeoJson as SeoSettings;
 
 export function getPortfolioProjectSeo(project: PortfolioProject): SeoSettings {

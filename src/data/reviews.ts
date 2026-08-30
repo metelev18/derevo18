@@ -14,7 +14,18 @@ export interface CustomerReview {
   videos: string[];
 }
 
-export const customerReviews = await loadContentDirectory<CustomerReview>('reviews');
+type StoredCustomerReview = Omit<CustomerReview, 'id' | 'route'> & {
+  id?: string;
+  route?: string;
+};
+
+const reviewEntries = await loadContentDirectory<StoredCustomerReview>('reviews');
+
+export const customerReviews: CustomerReview[] = reviewEntries.map(({ data, slug }) => ({
+  ...data,
+  id: data.id ?? slug,
+  route: data.route ?? `/rewies/tpost/${slug}/`,
+}));
 export const reviewsSeo = reviewsSeoJson as SeoSettings;
 
 export function getCustomerReviewSeo(review: CustomerReview): SeoSettings {

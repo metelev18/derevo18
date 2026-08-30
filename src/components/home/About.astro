@@ -1,26 +1,26 @@
 ---
-const services = ['Проектирование', 'Изготовление фундамента', 'Рубка и сборка срубов', 'Кровельные работы', 'Установка окосячки и окон', 'Дизайн интерьера', 'Покраска и шлифовка', 'Герметизация', 'Канализация', 'Электрика и отопление'];
+import { homeContent } from '../../data/home';
+
+const { about } = homeContent;
 ---
 
 <section id="about" class="about section-space">
   <div class="about__intro container">
     <div>
-      <p class="section-heading__eyebrow">ДРЕВМАСТЕР</p>
-      <h2>О КОМПАНИИ</h2>
-      <p class="about__lead">С 2008 года мы специализируемся исключительно на деревянных домах. Нами выполнено более 200 объектов домов и бань по Удмуртии и России.</p>
-      <h3>Наши услуги:</h3>
-      <ul class="service-list">{services.map((service) => <li>{service}</li>)}</ul>
-      <a class="text-link" href="/coming-soon/?target=history">Подробнее <span aria-hidden="true">→</span></a>
+      <p class="section-heading__eyebrow">{about.eyebrow}</p>
+      <h2>{about.title}</h2>
+      <p class="about__lead">{about.lead}</p>
+      <h3>{about.servicesTitle}</h3>
+      <ul class="service-list">{about.services.map((service) => <li>{service}</li>)}</ul>
+      <a class="text-link" href={about.detailsHref}>Подробнее <span aria-hidden="true">→</span></a>
     </div>
     <div class="about__collage" aria-label="Наши работы">
-      <img class="about__image about__image--main" src="/media/about-carpentry.webp" alt="Строительство деревянного дома" loading="lazy" />
-      <img class="about__image about__image--small" src="/media/about-interior.webp" alt="Интерьер деревянного дома" loading="lazy" />
-      <div class="about__badge"><strong>5 лет</strong><span>гарантия на все работы</span></div>
+      <img class="about__image about__image--main" src={about.mainImage} alt={about.mainImageAlt} loading="lazy" />
+      <img class="about__image about__image--small" src={about.secondaryImage} alt={about.secondaryImageAlt} loading="lazy" />
+      <div class="about__badge"><strong>{about.badgeTitle}</strong><span>{about.badgeText}</span></div>
     </div>
   </div>
   <div class="feature-strip container">
-    <article><strong>РУБИМ</strong><span>Сосну, кедр, лиственницу</span></article>
-    <article><strong>РАБОТАЕМ</strong><span>С материнским капиталом и госсертификатами</span></article>
-    <article><strong>ТЕХНОЛОГИЯ</strong><span>Русская, канадская и норвежская рубка</span></article>
+    {about.features.map((feature) => <article><strong>{feature.title}</strong><span>{feature.text}</span></article>)}
   </div>
 </section>

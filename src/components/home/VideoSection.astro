@@ -1,5 +1,11 @@
-<section class="video-section section-space container" aria-label="Видео о компании">
+---
+import { homeContent } from '../../data/home';
+
+const { video } = homeContent;
+---
+
+<section class="video-section section-space container" aria-label={video.title}>
   <div class="video-frame">
-    <iframe src="https://kinescope.io/embed/bGpNMQ1t4GR1vRdSoJkAoK" title="Видео о строительной компании ДревМастер" loading="lazy" allow="autoplay; fullscreen; picture-in-picture; encrypted-media" allowfullscreen></iframe>
+    <iframe src={video.src} title={video.title} loading="lazy" allow="autoplay; fullscreen; picture-in-picture; encrypted-media" allowfullscreen></iframe>
   </div>
 </section>

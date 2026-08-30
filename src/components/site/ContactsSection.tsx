@@ -10,7 +10,7 @@ export default function ContactsSection() {
         <iframe title="ДревМастер на карте" loading="lazy" src={siteContent.mapEmbedUrl} />
       </div>
       <div className="contacts__form">
-        <p className="section-heading__eyebrow">СВЯЖИТЕСЬ С НАМИ</p>
+        <p className="section-heading__eyebrow">{siteContent.contactsEyebrow}</p>
         <h2>{form.title.toUpperCase()}</h2>
         <p>{form.description}</p>
         <LeadForm definition={form} />

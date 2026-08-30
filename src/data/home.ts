@@ -31,6 +31,41 @@ export interface HomeContent {
     background: string;
     materials: Array<{ title: string; image: string; href: string }>;
   };
+  about: {
+    eyebrow: string;
+    title: string;
+    lead: string;
+    servicesTitle: string;
+    services: string[];
+    detailsHref: string;
+    mainImage: string;
+    mainImageAlt: string;
+    secondaryImage: string;
+    secondaryImageAlt: string;
+    badgeTitle: string;
+    badgeText: string;
+    features: Array<{ title: string; text: string }>;
+  };
+  promo: {
+    background: string;
+    cards: Array<{ eyebrow: string; title: string; button: string; href: string }>;
+  };
+  video: { src: string; title: string };
+  technology: {
+    eyebrow: string;
+    title: string;
+    image: string;
+    imageAlt: string;
+    items: Array<{ number: string; text: string }>;
+  };
+  director: {
+    image: string;
+    imageAlt: string;
+    quote: string;
+    text: string;
+    name: string;
+    role: string;
+  };
   projects: ProjectCard[];
   portfolio: PortfolioItem[];
   reviews: FeedItem[];

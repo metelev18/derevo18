@@ -1,19 +1,16 @@
 ---
-const technologies = [
-  ['01', 'Обрабатываем каждый дюйм сруба антисептиком Lignofix'],
-  ['02', '«Скользящая» кровля специально для деревянного дома'],
-  ['03', 'Прокладка коммуникаций и отделка с учетом усадки дома'],
-  ['04', 'Первый венец — лиственница. Увеличивает срок службы дома на 30–50 лет'],
-];
+import { homeContent } from '../../data/home';
+
+const { technology } = homeContent;
 ---
 
 <section id="technology" class="technology section-space">
   <div class="technology__inner container">
-    <div class="technology__photo"><img src="/media/about-roofers.webp" alt="Строители ДревМастер за работой" loading="lazy" /></div>
+    <div class="technology__photo"><img src={technology.image} alt={technology.imageAlt} loading="lazy" /></div>
     <div>
-      <p class="section-heading__eyebrow">РАБОТАЕМ НА РЕЗУЛЬТАТ</p>
-      <h2>НАШИ УНИКАЛЬНЫЕ ТЕХНОЛОГИИ</h2>
-      <ol>{technologies.map(([number, text]) => <li><span>{number}</span><p>{text}</p></li>)}</ol>
+      <p class="section-heading__eyebrow">{technology.eyebrow}</p>
+      <h2>{technology.title}</h2>
+      <ol>{technology.items.map((item) => <li><span>{item.number}</span><p>{item.text}</p></li>)}</ol>
     </div>
   </div>
 </section>

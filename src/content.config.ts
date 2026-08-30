@@ -17,8 +17,8 @@ const orderedEntrySchema = z.object({
 const catalog = defineCollection({
   loader: glob({ pattern: '**/*.json', base: './src/content/catalog' }),
   schema: orderedEntrySchema.extend({
-    slug: z.string(),
-    route: z.string(),
+    slug: z.string().optional(),
+    route: z.string().optional(),
     category: z.enum(['house', 'sauna']),
     title: z.string(),
     name: z.string(),
@@ -42,9 +42,9 @@ const materialBlockSchema = z.discriminatedUnion('type', [
 const materials = defineCollection({
   loader: glob({ pattern: '**/*.json', base: './src/content/materials' }),
   schema: orderedEntrySchema.extend({
-    id: z.string(),
-    slug: z.string(),
-    route: z.string(),
+    id: z.string().optional(),
+    slug: z.string().optional(),
+    route: z.string().optional(),
     title: z.string(),
     description: z.string(),
     date: z.string(),
@@ -66,9 +66,9 @@ const newsBlockSchema = z.discriminatedUnion('type', [
 const news = defineCollection({
   loader: glob({ pattern: '**/*.json', base: './src/content/news' }),
   schema: orderedEntrySchema.extend({
-    id: z.string(),
-    slug: z.string(),
-    route: z.string(),
+    id: z.string().optional(),
+    slug: z.string().optional(),
+    route: z.string().optional(),
     title: z.string(),
     description: z.string(),
     date: z.string(),
@@ -80,9 +80,9 @@ const news = defineCollection({
 const portfolio = defineCollection({
   loader: glob({ pattern: '**/*.json', base: './src/content/portfolio' }),
   schema: orderedEntrySchema.extend({
-    id: z.string(),
-    slug: z.string(),
-    route: z.string(),
+    id: z.string().optional(),
+    slug: z.string().optional(),
+    route: z.string().optional(),
     title: z.string(),
     cover: z.string(),
     images: z.array(z.string()),
@@ -92,8 +92,8 @@ const portfolio = defineCollection({
 const reviews = defineCollection({
   loader: glob({ pattern: '**/*.json', base: './src/content/reviews' }),
   schema: orderedEntrySchema.extend({
-    id: z.string(),
-    route: z.string(),
+    id: z.string().optional(),
+    route: z.string().optional(),
     title: z.string(),
     description: z.string(),
     date: z.string(),
@@ -135,6 +135,7 @@ const site = defineCollection({
       application: formSchema,
       project: formSchema,
     }),
+    contactsEyebrow: z.string(),
     mapEmbedUrl: z.string(),
     copyright: z.string(),
   }),
@@ -148,6 +149,41 @@ const home = defineCollection({
       title: z.string(),
       background: z.string(),
       materials: z.array(z.object({ title: z.string(), image: z.string(), href: z.string() })),
+    }),
+    about: z.object({
+      eyebrow: z.string(),
+      title: z.string(),
+      lead: z.string(),
+      servicesTitle: z.string(),
+      services: z.array(z.string()),
+      detailsHref: z.string(),
+      mainImage: z.string(),
+      mainImageAlt: z.string(),
+      secondaryImage: z.string(),
+      secondaryImageAlt: z.string(),
+      badgeTitle: z.string(),
+      badgeText: z.string(),
+      features: z.array(z.object({ title: z.string(), text: z.string() })),
+    }),
+    promo: z.object({
+      background: z.string(),
+      cards: z.array(z.object({ eyebrow: z.string(), title: z.string(), button: z.string(), href: z.string() })),
+    }),
+    video: z.object({ src: z.string(), title: z.string() }),
+    technology: z.object({
+      eyebrow: z.string(),
+      title: z.string(),
+      image: z.string(),
+      imageAlt: z.string(),
+      items: z.array(z.object({ number: z.string(), text: z.string() })),
+    }),
+    director: z.object({
+      image: z.string(),
+      imageAlt: z.string(),
+      quote: z.string(),
+      text: z.string(),
+      name: z.string(),
+      role: z.string(),
     }),
     projects: z.array(z.object({
       title: z.string(),
