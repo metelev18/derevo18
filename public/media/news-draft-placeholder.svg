@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-labelledby="title description">
+  <title id="title">Черновик новости</title>
+  <desc id="description">Служебная обложка, которую нужно заменить перед публикацией</desc>
+  <rect width="1600" height="900" fill="#eee9df"/>
+  <rect x="72" y="72" width="1456" height="756" rx="24" fill="none" stroke="#776b58" stroke-width="4" stroke-dasharray="18 14"/>
+  <text x="800" y="420" text-anchor="middle" fill="#382f25" font-family="Arial, sans-serif" font-size="86" font-weight="700">ЧЕРНОВИК</text>
+  <text x="800" y="510" text-anchor="middle" fill="#776b58" font-family="Arial, sans-serif" font-size="40">Добавьте обложку перед публикацией</text>
+</svg>

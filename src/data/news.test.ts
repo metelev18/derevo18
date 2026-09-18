@@ -1,5 +1,13 @@
 import { describe, expect, it } from 'vitest';
-import { getNewsArticleSeo, getRelatedNewsArticles, newsArticles, newsSeo } from './news';
+import {
+  getNewsArticleSeo,
+  getNewsArticlesForEnvironment,
+  getRelatedNewsArticles,
+  NEWS_DRAFT_COVER,
+  newsArticles,
+  newsSeo,
+  type NewsArticle,
+} from './news';
 
 describe('news content', () => {
   it('contains every source publication and content block', () => {
@@ -24,5 +32,32 @@ describe('news content', () => {
     expect(newsSeo.canonicalPath).toBe('/news/');
     expect(getNewsArticleSeo(newsArticles[0]!).canonicalPath).toBe(newsArticles[0]!.route);
     expect(getRelatedNewsArticles(newsArticles[0]!.id, 3)).toHaveLength(3);
+  });
+
+  it('keeps drafts in preview and excludes them from production', () => {
+    const draft: NewsArticle = {
+      ...newsArticles[0]!,
+      id: 'draft-test',
+      slug: 'draft-test',
+      route: '/news/tpost/draft-test/',
+      status: 'draft',
+    };
+    const articles = [draft, newsArticles[1]!];
+
+    expect(getNewsArticlesForEnvironment(articles, 'preview')).toContain(draft);
+    expect(getNewsArticlesForEnvironment(articles, 'production')).not.toContain(draft);
+    expect(getNewsArticleSeo(draft).noindex).toBe(true);
+  });
+
+  it('blocks production when a published article still has the draft cover', () => {
+    const incompleteArticle: NewsArticle = {
+      ...newsArticles[0]!,
+      status: 'published',
+      cover: NEWS_DRAFT_COVER,
+    };
+
+    expect(() => getNewsArticlesForEnvironment([incompleteArticle], 'production')).toThrow(
+      'published with the draft cover',
+    );
   });
 });

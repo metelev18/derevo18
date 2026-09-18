@@ -1,6 +1,10 @@
 import newsSeoJson from '../content/news-settings/index.json' with { type: 'json' };
+import { isProductionDeploy } from '../lib/deployment';
 import { loadContentDirectory } from './content';
 import type { SeoSettings } from './site';
+
+export type PublicationStatus = 'draft' | 'published';
+export const NEWS_DRAFT_COVER = '/media/news-draft-placeholder.svg';
 
 export type NewsBlock =
   | { type: 'paragraph'; text: string }
@@ -11,6 +15,7 @@ export type NewsBlock =
   | { type: 'video'; src: string };
 
 export interface NewsArticle {
+  status: PublicationStatus;
   id: string;
   slug: string;
   route: string;
@@ -21,7 +26,8 @@ export interface NewsArticle {
   blocks: NewsBlock[];
 }
 
-type StoredNewsArticle = Omit<NewsArticle, 'id' | 'slug' | 'route'> & {
+type StoredNewsArticle = Omit<NewsArticle, 'id' | 'slug' | 'route' | 'status'> & {
+  status?: PublicationStatus;
   id?: string;
   slug?: string;
   route?: string;
@@ -29,12 +35,36 @@ type StoredNewsArticle = Omit<NewsArticle, 'id' | 'slug' | 'route'> & {
 
 const newsEntries = await loadContentDirectory<StoredNewsArticle>('news');
 
-export const newsArticles: NewsArticle[] = newsEntries.map(({ data, slug }) => ({
+const allNewsArticles: NewsArticle[] = newsEntries.map(({ data, slug }) => ({
   ...data,
+  status: data.status ?? 'published',
   id: data.id ?? slug,
   slug,
   route: data.route ?? `/news/tpost/${slug}/`,
 }));
+
+export function getNewsArticlesForEnvironment(
+  articles: NewsArticle[],
+  environment: string | undefined,
+): NewsArticle[] {
+  if (!isProductionDeploy(environment)) return articles;
+
+  const publishedArticles = articles.filter((article) => article.status === 'published');
+  const incompleteArticle = publishedArticles.find((article) => article.cover === NEWS_DRAFT_COVER);
+
+  if (incompleteArticle) {
+    throw new Error(
+      `News article "${incompleteArticle.title}" is published with the draft cover. Add a cover before production deployment.`,
+    );
+  }
+
+  return publishedArticles;
+}
+
+export const newsArticles = getNewsArticlesForEnvironment(
+  allNewsArticles,
+  process.env.PUBLIC_DEPLOY_ENV,
+);
 export const newsSeo = newsSeoJson as SeoSettings;
 
 export function getNewsArticleSeo(article: NewsArticle): SeoSettings {
@@ -43,6 +73,7 @@ export function getNewsArticleSeo(article: NewsArticle): SeoSettings {
     description: article.description || `Публикация компании «ДревМастер»: ${article.title}`,
     canonicalPath: article.route,
     ogImage: article.cover,
+    noindex: article.status === 'draft',
   };
 }
 

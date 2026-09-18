@@ -66,6 +66,7 @@ const newsBlockSchema = z.discriminatedUnion('type', [
 const news = defineCollection({
   loader: glob({ pattern: '**/*.json', base: './src/content/news' }),
   schema: orderedEntrySchema.extend({
+    status: z.enum(['draft', 'published']).default('published'),
     id: z.string().optional(),
     slug: z.string().optional(),
     route: z.string().optional(),

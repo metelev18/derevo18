@@ -16,6 +16,51 @@ settings:
       delete: "content: удалить {name}"
       rename: "content: переименовать {oldFilename} в {newFilename}"
 
+actions:
+  - name: generate-news-draft
+    label: Создать черновик новости с ИИ
+    workflow: generate-news-draft.yml
+    ref: current
+    cancelable: false
+    confirm:
+      title: Создать черновик новости?
+      message: ИИ подготовит статью по указанным фактам и добавит ее в Новости со статусом «Черновик».
+      button: Создать черновик
+    fields:
+      - name: topic
+        label: Тема статьи
+        type: text
+        required: true
+      - name: facts
+        label: Факты и исходные данные
+        type: textarea
+        required: true
+      - name: audience
+        label: Для кого статья
+        type: text
+        default: Для людей, которые выбирают деревянный дом или баню
+      - name: length
+        label: Объем
+        type: select
+        required: true
+        default: medium
+        options:
+          - label: Короткая — 3–5 абзацев
+            value: short
+          - label: Средняя — 6–9 абзацев
+            value: medium
+          - label: Подробная — 10–14 абзацев
+            value: long
+      - name: keywords
+        label: Ключевые слова
+        type: text
+      - name: callToAction
+        label: Желаемое действие читателя
+        type: text
+      - name: notes
+        label: Дополнительные пожелания
+        type: textarea
+
 components:
   seo:
     type: object
@@ -678,7 +723,7 @@ content:
           rename: false
           delete: true
         view:
-          fields: [title, date, order]
+          fields: [title, status, date, order]
           primary: title
           sort: [order, date, title]
           search: [title, description]
@@ -686,6 +731,18 @@ content:
             sort: order
             order: asc
         fields:
+          - name: status
+            label: Статус публикации
+            type: select
+            required: true
+            default: draft
+            description: Черновики видны в тестовой среде Cloudflare, но не попадают на рабочий сайт в Yandex Cloud.
+            options:
+              values:
+                - name: draft
+                  label: Черновик
+                - name: published
+                  label: Опубликовано
           - name: order
             label: Позиция в списке
             type: number
