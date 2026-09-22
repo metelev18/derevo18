@@ -122,10 +122,10 @@ const newsAutomation = defineCollection({
     temperature: z.number().min(0).max(2),
     maxBatchSize: z.number().int().min(1).max(30),
     maxPublicationsPerRun: z.number().int().min(1).max(10),
+    publicationIntervalDays: z.number().int().min(1).max(365),
     defaultCover: z.string()
       .regex(/^\/media\/[a-zA-Z0-9._/-]+$/)
       .refine((value) => !value.includes('..'), 'Media path must not contain parent directory segments.'),
-    editorialPrompt: z.string().min(20),
   }),
 });
 

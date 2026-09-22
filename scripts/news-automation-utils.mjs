@@ -1,4 +1,48 @@
 const ISO_DATE_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
+const PROMPT_TOKEN_PATTERN = /{{([A-Z][A-Z0-9_]*)}}/g;
+const REQUIRED_PROMPT_TOKENS = ['TOPIC', 'FACTS'];
+const SUPPORTED_PROMPT_TOKENS = [
+  ...REQUIRED_PROMPT_TOKENS,
+  'CURRENT_DATE',
+  'ARTICLE_NUMBER',
+  'TOTAL_ARTICLES',
+];
+
+export function validatePromptTemplate(value) {
+  if (typeof value !== 'string') throw new Error('The article prompt must be a text file.');
+
+  const prompt = value.replaceAll('\r\n', '\n').trim();
+  if (prompt.length < 200) throw new Error('The article prompt must contain at least 200 characters.');
+  if (prompt.length > 100_000) throw new Error('The article prompt is longer than 100000 characters.');
+
+  const tokens = [...prompt.matchAll(PROMPT_TOKEN_PATTERN)].map((match) => match[1]);
+  const unsupportedTokens = [...new Set(tokens.filter((token) => !SUPPORTED_PROMPT_TOKENS.includes(token)))];
+  if (unsupportedTokens.length > 0) {
+    throw new Error(`The article prompt contains unsupported placeholders: ${unsupportedTokens.join(', ')}.`);
+  }
+
+  const missingTokens = REQUIRED_PROMPT_TOKENS.filter((token) => !tokens.includes(token));
+  if (missingTokens.length > 0) {
+    throw new Error(`The article prompt must contain placeholders: ${missingTokens.join(', ')}.`);
+  }
+
+  return prompt;
+}
+
+export function renderPromptTemplate(value, variables) {
+  let prompt = validatePromptTemplate(value);
+
+  for (const token of SUPPORTED_PROMPT_TOKENS) {
+    const replacement = variables[token];
+    if (replacement === undefined || replacement === null) {
+      if (prompt.includes(`{{${token}}}`)) throw new Error(`No value was provided for {{${token}}}.`);
+      continue;
+    }
+    prompt = prompt.replaceAll(`{{${token}}}`, String(replacement));
+  }
+
+  return prompt;
+}
 
 export function parseIsoDate(value, name = 'date') {
   if (typeof value !== 'string' || !ISO_DATE_PATTERN.test(value)) {

@@ -24,41 +24,14 @@ actions:
     cancelable: false
     confirm:
       title: Создать статьи через DeepSeek?
-      message: Можно создать до 30 статей. Расписание и редакционный промпт будут применены автоматически.
+      message: Можно создать до 30 статей. Основной промпт и настройки расписания будут применены автоматически.
       button: Запустить генерацию
     fields:
       - name: articleRequests
-        label: Задания — по одному на строку в формате «Тема | проверенные факты»
+        label: Темы — по одной на строку
         type: textarea
         required: true
-      - name: sharedContext
-        label: Общие факты и контекст для всех статей
-        type: textarea
-      - name: audience
-        label: Общая аудитория
-        type: text
-        default: Для людей, которые выбирают деревянный дом или баню
-      - name: length
-        label: Объем
-        type: select
-        required: true
-        default: medium
-        options:
-          - label: Короткая — 3–5 абзацев
-            value: short
-          - label: Средняя — 6–9 абзацев
-            value: medium
-          - label: Подробная — 10–14 абзацев
-            value: long
-      - name: keywords
-        label: Ключевые слова
-        type: text
-      - name: callToAction
-        label: Общее желаемое действие читателя
-        type: text
-      - name: notes
-        label: Общие дополнительные пожелания
-        type: textarea
+        description: Формат строки — «Тема | проверенные факты». Часть после вертикальной черты необязательна. Все остальные требования задаются в файле «Основной промпт».
       - name: scheduleMode
         label: Что сделать после генерации
         type: select
@@ -72,16 +45,7 @@ actions:
       - name: startDate
         label: Дата первой публикации в формате ГГГГ-ММ-ДД; пусто — завтра
         type: text
-      - name: intervalDays
-        label: Интервал между днями публикации
-        type: number
-        required: true
-        default: 1
-      - name: articlesPerDay
-        label: Статей в один день
-        type: number
-        required: true
-        default: 1
+        description: Используется только для расписания. Интервал и число публикаций за запуск настраиваются в разделе «ИИ и расписание новостей».
 
 components:
   seo:
@@ -992,16 +956,28 @@ content:
             type: number
             required: true
             default: 1
+            description: Это же число статей получит одну дату при пакетной генерации. Для последовательности «одна статья в день» оставьте 1.
+          - name: publicationIntervalDays
+            label: Интервал между датами публикации
+            type: number
+            required: true
+            default: 1
+            description: 1 — каждый день, 2 — через день и так далее.
           - name: defaultCover
             label: Обложка для новых статей
             type: image
             required: true
             description: Можно выбрать общую готовую обложку. Со служебной обложкой автопубликация будет остановлена до ее замены.
-          - name: editorialPrompt
-            label: Редакционный промпт
-            type: text
-            required: true
-            description: Управляет стилем, тоном и редакционными требованиями. Технический формат JSON добавляется автоматически.
+
+      - name: news_generation_prompt
+        label: Основной промпт для статей
+        type: file
+        path: prompts/news-article-prompt.md
+        format: code
+        operations:
+          create: false
+          rename: false
+          delete: false
 
       - name: materials
         label: Материалы

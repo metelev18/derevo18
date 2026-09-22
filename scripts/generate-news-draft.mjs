@@ -6,16 +6,14 @@ import {
   dateInTimeZone,
   formatDisplayDate,
   parseArticleRequests,
+  renderPromptTemplate,
+  validatePromptTemplate,
 } from './news-automation-utils.mjs';
 
 const API_URL = 'https://api.deepseek.com/chat/completions';
 const NEWS_DIRECTORY = resolve(process.cwd(), 'src', 'content', 'news');
 const SETTINGS_PATH = resolve(process.cwd(), 'src', 'content', 'news-automation', 'settings.json');
-const LENGTH_GUIDANCE = {
-  short: '2–3 смысловых раздела и примерно 3–5 абзацев',
-  medium: '3–5 смысловых разделов и примерно 6–9 абзацев',
-  long: '5–8 смысловых разделов и примерно 10–14 абзацев',
-};
+const PROMPT_PATH = resolve(process.cwd(), 'prompts', 'news-article-prompt.md');
 
 function requiredEnvironment(name) {
   const value = process.env[name]?.trim();
@@ -50,14 +48,6 @@ function cleanInput(value, name, { required = false, maxLength }) {
   return result;
 }
 
-function integerInput(value, name, fallback, minimum, maximum) {
-  const result = value === undefined || value === null || value === '' ? fallback : Number(value);
-  if (!Number.isInteger(result) || result < minimum || result > maximum) {
-    throw new Error(`${name} must be an integer from ${minimum} to ${maximum}.`);
-  }
-  return result;
-}
-
 async function loadSettings() {
   const settings = JSON.parse(await readFile(SETTINGS_PATH, 'utf8'));
   if (!['deepseek-flash', 'deepseek-v4-pro'].includes(settings.model)) {
@@ -74,64 +64,52 @@ async function loadSettings() {
     || settings.maxPublicationsPerRun > 10) {
     throw new Error('maxPublicationsPerRun must be an integer from 1 to 10.');
   }
+  if (!Number.isInteger(settings.publicationIntervalDays)
+    || settings.publicationIntervalDays < 1
+    || settings.publicationIntervalDays > 365) {
+    throw new Error('publicationIntervalDays must be an integer from 1 to 365.');
+  }
   if (typeof settings.defaultCover !== 'string'
     || !/^\/media\/[a-zA-Z0-9._/-]+$/.test(settings.defaultCover)
     || settings.defaultCover.includes('..')) {
     throw new Error('defaultCover must be a local /media/ path.');
   }
-  if (typeof settings.editorialPrompt !== 'string' || settings.editorialPrompt.trim().length < 20) {
-    throw new Error('editorialPrompt must contain at least 20 characters.');
-  }
   return settings;
 }
 
-function validateInputs(rawInputs, settings) {
-  const length = cleanInput(rawInputs.length, 'length', { maxLength: 20 }) || 'medium';
-  if (!(length in LENGTH_GUIDANCE)) throw new Error('length must be short, medium, or long.');
+async function loadPromptTemplate() {
+  return validatePromptTemplate(await readFile(PROMPT_PATH, 'utf8'));
+}
 
+function validateInputs(rawInputs, settings, today) {
   const scheduleMode = cleanInput(rawInputs.scheduleMode, 'scheduleMode', { maxLength: 20 }) || 'draft';
   const inputs = {
     requests: parseArticleRequests(rawInputs.articleRequests, settings.maxBatchSize),
-    sharedContext: cleanInput(rawInputs.sharedContext, 'sharedContext', { maxLength: 8_000 }),
-    audience: cleanInput(rawInputs.audience, 'audience', { maxLength: 300 })
-      || 'Для людей, которые выбирают деревянный дом или баню',
-    length,
-    keywords: cleanInput(rawInputs.keywords, 'keywords', { maxLength: 500 }),
-    callToAction: cleanInput(rawInputs.callToAction, 'callToAction', { maxLength: 500 }),
-    notes: cleanInput(rawInputs.notes, 'notes', { maxLength: 2_000 }),
     scheduleMode,
     startDate: cleanInput(rawInputs.startDate, 'startDate', { maxLength: 10 }),
-    intervalDays: integerInput(rawInputs.intervalDays, 'intervalDays', 1, 1, 365),
-    articlesPerDay: integerInput(rawInputs.articlesPerDay, 'articlesPerDay', 1, 1, 10),
+    intervalDays: settings.publicationIntervalDays,
+    articlesPerDay: settings.maxPublicationsPerRun,
   };
 
-  inputs.publishDates = buildScheduleDates(inputs.requests.length, inputs, dateInTimeZone());
+  inputs.publishDates = buildScheduleDates(inputs.requests.length, inputs, today);
   return inputs;
 }
 
-function buildMessages(settings, inputs, request) {
-  const technicalContract = [
-    'Верни только один валидный JSON-объект без Markdown и пояснений.',
-    'Формат JSON: {"title":"...","description":"...","lead":"...","sections":[{"heading":"...","paragraphs":["..."],"bullets":["..."]}],"conclusion":"..."}.',
-    'description должна быть кратким анонсом; sections должно содержать от 2 до 8 разделов.',
-    'В каждом разделе должен быть заголовок, от 1 до 4 абзацев и массив bullets. Если список не нужен, bullets должен быть пустым массивом.',
-    'Не используй HTML или Markdown. Не добавляй поля, которых нет в примере JSON.',
-  ].join(' ');
-
-  const task = {
-    topic: request.topic,
-    articleFacts: request.facts || 'отдельные факты не указаны',
-    sharedVerifiedContext: inputs.sharedContext || 'общий контекст не указан',
-    audience: inputs.audience,
-    desiredLength: LENGTH_GUIDANCE[inputs.length],
-    keywords: inputs.keywords || 'не заданы',
-    callToAction: inputs.callToAction || 'мягкое приглашение обратиться за консультацией',
-    additionalNotes: inputs.notes || 'нет',
-  };
+function buildMessages(promptTemplate, request, index, total, currentDate) {
+  const prompt = renderPromptTemplate(promptTemplate, {
+    TOPIC: request.topic,
+    FACTS: request.facts || 'Отдельные проверенные факты не указаны.',
+    CURRENT_DATE: currentDate,
+    ARTICLE_NUMBER: index + 1,
+    TOTAL_ARTICLES: total,
+  });
 
   return [
-    { role: 'system', content: `${settings.editorialPrompt.trim()}\n\n${technicalContract}` },
-    { role: 'user', content: `Редакционное задание в JSON:\n${JSON.stringify(task, null, 2)}` },
+    {
+      role: 'system',
+      content: 'Точно следуй редакционному заданию пользователя и верни только один валидный JSON-объект.',
+    },
+    { role: 'user', content: prompt },
   ];
 }
 
@@ -302,19 +280,20 @@ async function writeOutputs(values) {
 async function main() {
   const apiKey = requiredEnvironment('DEEPSEEK_API_KEY');
   const settings = await loadSettings();
-  const inputs = validateInputs(parsePayload(requiredEnvironment('PAGES_CMS_PAYLOAD')), settings);
+  const promptTemplate = await loadPromptTemplate();
+  const today = dateInTimeZone();
+  const inputs = validateInputs(parsePayload(requiredEnvironment('PAGES_CMS_PAYLOAD')), settings, today);
   const generatedDrafts = await mapWithConcurrency(inputs.requests, 3, async (request, index) => {
     console.log(`Generating article ${index + 1}/${inputs.requests.length}: ${request.topic}`);
     const rawDraft = await requestDraft({
       apiKey,
       settings,
-      messages: buildMessages(settings, inputs, request),
+      messages: buildMessages(promptTemplate, request, index, inputs.requests.length, today),
     });
     return validateDraft(rawDraft);
   });
 
   const firstOrder = await nextOrder();
-  const today = dateInTimeZone();
   const createdPaths = [];
 
   for (const [index, draft] of generatedDrafts.entries()) {
