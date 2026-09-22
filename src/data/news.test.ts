@@ -34,7 +34,7 @@ describe('news content', () => {
     expect(getRelatedNewsArticles(newsArticles[0]!.id, 3)).toHaveLength(3);
   });
 
-  it('keeps drafts in preview and excludes them from production', () => {
+  it('keeps unpublished articles in preview and excludes them from production', () => {
     const draft: NewsArticle = {
       ...newsArticles[0]!,
       id: 'draft-test',
@@ -42,11 +42,22 @@ describe('news content', () => {
       route: '/news/tpost/draft-test/',
       status: 'draft',
     };
-    const articles = [draft, newsArticles[1]!];
+    const scheduled: NewsArticle = {
+      ...newsArticles[0]!,
+      id: 'scheduled-test',
+      slug: 'scheduled-test',
+      route: '/news/tpost/scheduled-test/',
+      status: 'scheduled',
+      publishAt: '2026-09-22',
+    };
+    const articles = [draft, scheduled, newsArticles[1]!];
 
     expect(getNewsArticlesForEnvironment(articles, 'preview')).toContain(draft);
+    expect(getNewsArticlesForEnvironment(articles, 'preview')).toContain(scheduled);
     expect(getNewsArticlesForEnvironment(articles, 'production')).not.toContain(draft);
+    expect(getNewsArticlesForEnvironment(articles, 'production')).not.toContain(scheduled);
     expect(getNewsArticleSeo(draft).noindex).toBe(true);
+    expect(getNewsArticleSeo(scheduled).noindex).toBe(true);
   });
 
   it('blocks production when a published article still has the draft cover', () => {

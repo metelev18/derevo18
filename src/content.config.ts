@@ -66,7 +66,8 @@ const newsBlockSchema = z.discriminatedUnion('type', [
 const news = defineCollection({
   loader: glob({ pattern: '**/*.json', base: './src/content/news' }),
   schema: orderedEntrySchema.extend({
-    status: z.enum(['draft', 'published']).default('published'),
+    status: z.enum(['draft', 'scheduled', 'published']).default('published'),
+    publishAt: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional(),
     id: z.string().optional(),
     slug: z.string().optional(),
     route: z.string().optional(),
@@ -75,6 +76,14 @@ const news = defineCollection({
     date: z.string(),
     cover: z.string(),
     blocks: z.array(newsBlockSchema),
+  }).superRefine((article, context) => {
+    if (article.status === 'scheduled' && !article.publishAt) {
+      context.addIssue({
+        code: 'custom',
+        path: ['publishAt'],
+        message: 'Scheduled news must have a publication date.',
+      });
+    }
   }),
 });
 
@@ -102,6 +111,36 @@ const reviews = defineCollection({
     text: z.string(),
     images: z.array(z.string()),
     videos: z.array(z.string()),
+  }),
+});
+
+const newsAutomation = defineCollection({
+  loader: glob({ pattern: '**/*.json', base: './src/content/news-automation' }),
+  schema: z.object({
+    scheduleEnabled: z.boolean(),
+    model: z.enum(['deepseek-flash', 'deepseek-v4-pro']),
+    temperature: z.number().min(0).max(2),
+    maxBatchSize: z.number().int().min(1).max(30),
+    maxPublicationsPerRun: z.number().int().min(1).max(10),
+    defaultCover: z.string()
+      .regex(/^\/media\/[a-zA-Z0-9._/-]+$/)
+      .refine((value) => !value.includes('..'), 'Media path must not contain parent directory segments.'),
+    editorialPrompt: z.string().min(20),
+  }),
+});
+
+const colorSchema = z.string().regex(/^#[0-9a-fA-F]{6}$/);
+const appearance = defineCollection({
+  loader: glob({ pattern: '**/*.json', base: './src/content/appearance' }),
+  schema: z.object({
+    accent: colorSchema,
+    accentHover: colorSchema,
+    accentDark: colorSchema,
+    brown: colorSchema,
+    ink: colorSchema,
+    muted: colorSchema,
+    paper: colorSchema,
+    cream: colorSchema,
   }),
 });
 
@@ -252,6 +291,8 @@ export const collections = {
   catalog,
   materials,
   news,
+  newsAutomation,
+  appearance,
   portfolio,
   reviews,
   site,

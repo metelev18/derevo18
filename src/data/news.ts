@@ -3,7 +3,7 @@ import { isProductionDeploy } from '../lib/deployment';
 import { loadContentDirectory } from './content';
 import type { SeoSettings } from './site';
 
-export type PublicationStatus = 'draft' | 'published';
+export type PublicationStatus = 'draft' | 'scheduled' | 'published';
 export const NEWS_DRAFT_COVER = '/media/news-draft-placeholder.svg';
 
 export type NewsBlock =
@@ -16,6 +16,7 @@ export type NewsBlock =
 
 export interface NewsArticle {
   status: PublicationStatus;
+  publishAt?: string;
   id: string;
   slug: string;
   route: string;
@@ -73,7 +74,7 @@ export function getNewsArticleSeo(article: NewsArticle): SeoSettings {
     description: article.description || `Публикация компании «ДревМастер»: ${article.title}`,
     canonicalPath: article.route,
     ogImage: article.cover,
-    noindex: article.status === 'draft',
+    noindex: article.status !== 'published',
   };
 }
 

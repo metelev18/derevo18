@@ -1,4 +1,4 @@
-name: Generate news draft with AI
+name: Generate news with DeepSeek
 
 on:
   workflow_dispatch:
@@ -18,14 +18,12 @@ concurrency:
 
 jobs:
   generate:
-    name: Generate, validate and save draft
+    name: Generate, validate and save articles
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 60
     env:
       PAGES_CMS_PAYLOAD: ${{ inputs.payload }}
-      YANDEX_AI_API_KEY: ${{ secrets.YANDEX_AI_API_KEY }}
-      YANDEX_FOLDER_ID: ${{ vars.YANDEX_FOLDER_ID }}
-      YANDEX_AI_MODEL: ${{ vars.YANDEX_AI_MODEL || 'yandexgpt/latest' }}
+      DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
 
     steps:
       - name: Checkout repository
@@ -43,20 +41,15 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Validate AI configuration
+      - name: Validate DeepSeek configuration
         shell: bash
         run: |
-          if [ -z "${YANDEX_AI_API_KEY}" ]; then
-            echo "YANDEX_AI_API_KEY is not configured."
+          if [ -z "${DEEPSEEK_API_KEY}" ]; then
+            echo "DEEPSEEK_API_KEY is not configured."
             exit 1
           fi
 
-          if [ -z "${YANDEX_FOLDER_ID}" ]; then
-            echo "YANDEX_FOLDER_ID is not configured."
-            exit 1
-          fi
-
-      - name: Generate draft
+      - name: Generate articles
         id: generate
         run: node scripts/generate-news-draft.mjs
 
@@ -69,13 +62,13 @@ jobs:
       - name: Build preview
         run: pnpm build:preview
 
-      - name: Commit draft
+      - name: Commit generated articles
         shell: bash
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -- "${{ steps.generate.outputs.draft_path }}"
-          git commit -m "content: добавить черновик новости с ИИ"
+          git add -- src/content/news
+          git commit -m "content: добавить статьи с помощью DeepSeek"
           git push
 
       - name: Start Cloudflare preview deployment
@@ -87,11 +80,14 @@ jobs:
         shell: bash
         run: |
           {
-            echo "## Черновик создан"
+            echo "## Статьи созданы"
             echo
-            echo "**${{ steps.generate.outputs.draft_title }}**"
+            echo "Количество: **${{ steps.generate.outputs.article_count }}**"
             echo
-            echo "Файл: \`${{ steps.generate.outputs.draft_path }}\`"
-            echo
-            echo "После завершения Cloudflare workflow откройте черновик в Pages CMS и проверьте факты, текст и обложку."
+            if [ "${{ steps.generate.outputs.scheduled_count }}" -gt 0 ]; then
+              echo "Запланировано: **${{ steps.generate.outputs.scheduled_count }}**"
+              echo "Период: **${{ steps.generate.outputs.first_publish_at }} — ${{ steps.generate.outputs.last_publish_at }}**"
+              echo
+            fi
+            echo "После завершения Cloudflare workflow проверьте тексты, факты и обложки в Pages CMS."
           } >> "${GITHUB_STEP_SUMMARY}"

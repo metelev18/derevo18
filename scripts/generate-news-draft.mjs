@@ -1,53 +1,20 @@
 import { appendFile, readdir, readFile, writeFile } from 'node:fs/promises';
 import { randomBytes } from 'node:crypto';
 import { resolve } from 'node:path';
+import {
+  buildScheduleDates,
+  dateInTimeZone,
+  formatDisplayDate,
+  parseArticleRequests,
+} from './news-automation-utils.mjs';
 
-const API_URL = 'https://ai.api.cloud.yandex.net/v1/chat/completions';
+const API_URL = 'https://api.deepseek.com/chat/completions';
 const NEWS_DIRECTORY = resolve(process.cwd(), 'src', 'content', 'news');
-const DRAFT_COVER = '/media/news-draft-placeholder.svg';
+const SETTINGS_PATH = resolve(process.cwd(), 'src', 'content', 'news-automation', 'settings.json');
 const LENGTH_GUIDANCE = {
   short: '2–3 смысловых раздела и примерно 3–5 абзацев',
   medium: '3–5 смысловых разделов и примерно 6–9 абзацев',
   long: '5–8 смысловых разделов и примерно 10–14 абзацев',
-};
-
-const responseSchema = {
-  name: 'derevo18_news_draft',
-  schema: {
-    type: 'object',
-    additionalProperties: false,
-    properties: {
-      title: { type: 'string' },
-      description: { type: 'string' },
-      lead: { type: 'string' },
-      sections: {
-        type: 'array',
-        minItems: 2,
-        maxItems: 8,
-        items: {
-          type: 'object',
-          additionalProperties: false,
-          properties: {
-            heading: { type: 'string' },
-            paragraphs: {
-              type: 'array',
-              minItems: 1,
-              maxItems: 4,
-              items: { type: 'string' },
-            },
-            bullets: {
-              type: 'array',
-              maxItems: 10,
-              items: { type: 'string' },
-            },
-          },
-          required: ['heading', 'paragraphs', 'bullets'],
-        },
-      },
-      conclusion: { type: 'string' },
-    },
-    required: ['title', 'description', 'lead', 'sections', 'conclusion'],
-  },
 };
 
 function requiredEnvironment(name) {
@@ -83,50 +50,92 @@ function cleanInput(value, name, { required = false, maxLength }) {
   return result;
 }
 
-function validateInputs(rawInputs) {
+function integerInput(value, name, fallback, minimum, maximum) {
+  const result = value === undefined || value === null || value === '' ? fallback : Number(value);
+  if (!Number.isInteger(result) || result < minimum || result > maximum) {
+    throw new Error(`${name} must be an integer from ${minimum} to ${maximum}.`);
+  }
+  return result;
+}
+
+async function loadSettings() {
+  const settings = JSON.parse(await readFile(SETTINGS_PATH, 'utf8'));
+  if (!['deepseek-flash', 'deepseek-v4-pro'].includes(settings.model)) {
+    throw new Error('The configured DeepSeek model is not supported.');
+  }
+  if (typeof settings.temperature !== 'number' || settings.temperature < 0 || settings.temperature > 2) {
+    throw new Error('temperature must be a number from 0 to 2.');
+  }
+  if (!Number.isInteger(settings.maxBatchSize) || settings.maxBatchSize < 1 || settings.maxBatchSize > 30) {
+    throw new Error('maxBatchSize must be an integer from 1 to 30.');
+  }
+  if (!Number.isInteger(settings.maxPublicationsPerRun)
+    || settings.maxPublicationsPerRun < 1
+    || settings.maxPublicationsPerRun > 10) {
+    throw new Error('maxPublicationsPerRun must be an integer from 1 to 10.');
+  }
+  if (typeof settings.defaultCover !== 'string'
+    || !/^\/media\/[a-zA-Z0-9._/-]+$/.test(settings.defaultCover)
+    || settings.defaultCover.includes('..')) {
+    throw new Error('defaultCover must be a local /media/ path.');
+  }
+  if (typeof settings.editorialPrompt !== 'string' || settings.editorialPrompt.trim().length < 20) {
+    throw new Error('editorialPrompt must contain at least 20 characters.');
+  }
+  return settings;
+}
+
+function validateInputs(rawInputs, settings) {
   const length = cleanInput(rawInputs.length, 'length', { maxLength: 20 }) || 'medium';
   if (!(length in LENGTH_GUIDANCE)) throw new Error('length must be short, medium, or long.');
 
-  return {
-    topic: cleanInput(rawInputs.topic, 'topic', { required: true, maxLength: 200 }),
-    facts: cleanInput(rawInputs.facts, 'facts', { required: true, maxLength: 8_000 }),
+  const scheduleMode = cleanInput(rawInputs.scheduleMode, 'scheduleMode', { maxLength: 20 }) || 'draft';
+  const inputs = {
+    requests: parseArticleRequests(rawInputs.articleRequests, settings.maxBatchSize),
+    sharedContext: cleanInput(rawInputs.sharedContext, 'sharedContext', { maxLength: 8_000 }),
     audience: cleanInput(rawInputs.audience, 'audience', { maxLength: 300 })
       || 'Для людей, которые выбирают деревянный дом или баню',
     length,
     keywords: cleanInput(rawInputs.keywords, 'keywords', { maxLength: 500 }),
     callToAction: cleanInput(rawInputs.callToAction, 'callToAction', { maxLength: 500 }),
     notes: cleanInput(rawInputs.notes, 'notes', { maxLength: 2_000 }),
+    scheduleMode,
+    startDate: cleanInput(rawInputs.startDate, 'startDate', { maxLength: 10 }),
+    intervalDays: integerInput(rawInputs.intervalDays, 'intervalDays', 1, 1, 365),
+    articlesPerDay: integerInput(rawInputs.articlesPerDay, 'articlesPerDay', 1, 1, 10),
   };
+
+  inputs.publishDates = buildScheduleDates(inputs.requests.length, inputs, dateInTimeZone());
+  return inputs;
 }
 
-function buildMessages(inputs) {
-  const system = [
-    'Ты редактор русскоязычного сайта строительной компании «ДревМастер».',
-    'Подготовь полезный черновик новости или экспертной статьи о деревянных домах и банях.',
-    'Используй только факты из задания. Не выдумывай цены, сроки, характеристики, нормы, гарантии, адреса, имена и опыт компании.',
-    'Если данных недостаточно, пиши нейтрально и добавляй маркер [НУЖНО УТОЧНИТЬ] вместо догадки.',
-    'Не используй HTML, Markdown, эмодзи, капслок, кликбейт и чрезмерно рекламные формулировки.',
-    'Текст должен быть понятным, профессиональным и конкретным. Не повторяй ключевые слова искусственно.',
-    'Верни только JSON, соответствующий переданной схеме. В bullets передавай пустой массив, если список не нужен.',
+function buildMessages(settings, inputs, request) {
+  const technicalContract = [
+    'Верни только один валидный JSON-объект без Markdown и пояснений.',
+    'Формат JSON: {"title":"...","description":"...","lead":"...","sections":[{"heading":"...","paragraphs":["..."],"bullets":["..."]}],"conclusion":"..."}.',
+    'description должна быть кратким анонсом; sections должно содержать от 2 до 8 разделов.',
+    'В каждом разделе должен быть заголовок, от 1 до 4 абзацев и массив bullets. Если список не нужен, bullets должен быть пустым массивом.',
+    'Не используй HTML или Markdown. Не добавляй поля, которых нет в примере JSON.',
   ].join(' ');
 
   const task = {
-    topic: inputs.topic,
-    verifiedFacts: inputs.facts,
+    topic: request.topic,
+    articleFacts: request.facts || 'отдельные факты не указаны',
+    sharedVerifiedContext: inputs.sharedContext || 'общий контекст не указан',
     audience: inputs.audience,
     desiredLength: LENGTH_GUIDANCE[inputs.length],
     keywords: inputs.keywords || 'не заданы',
     callToAction: inputs.callToAction || 'мягкое приглашение обратиться за консультацией',
-    editorialNotes: inputs.notes || 'нет',
+    additionalNotes: inputs.notes || 'нет',
   };
 
   return [
-    { role: 'system', content: system },
-    { role: 'user', content: `Редакционное задание:\n${JSON.stringify(task, null, 2)}` },
+    { role: 'system', content: `${settings.editorialPrompt.trim()}\n\n${technicalContract}` },
+    { role: 'user', content: `Редакционное задание в JSON:\n${JSON.stringify(task, null, 2)}` },
   ];
 }
 
-async function requestDraft({ apiKey, folderId, model, messages }) {
+async function requestDraft({ apiKey, settings, messages }) {
   let lastError;
 
   for (let attempt = 1; attempt <= 3; attempt += 1) {
@@ -134,43 +143,50 @@ async function requestDraft({ apiKey, folderId, model, messages }) {
       const response = await fetch(API_URL, {
         method: 'POST',
         headers: {
-          Authorization: `Api-Key ${apiKey}`,
+          Authorization: `Bearer ${apiKey}`,
           'Content-Type': 'application/json',
-          'OpenAI-Project': folderId,
         },
         body: JSON.stringify({
-          model: `gpt://${folderId}/${model}`,
+          model: settings.model,
           messages,
+          thinking: { type: 'disabled' },
           max_tokens: 6_000,
-          temperature: 0.3,
+          temperature: settings.temperature,
           stream: false,
-          response_format: { type: 'json_schema', json_schema: responseSchema },
+          response_format: { type: 'json_object' },
         }),
-        signal: AbortSignal.timeout(120_000),
+        signal: AbortSignal.timeout(180_000),
       });
 
       if (!response.ok) {
         const responseText = (await response.text()).slice(0, 1_000);
-        const error = new Error(`Yandex AI Studio returned HTTP ${response.status}: ${responseText}`);
-        if (response.status !== 429 && response.status < 500) throw error;
-        lastError = error;
-      } else {
-        const body = await response.json();
-        const content = body?.choices?.[0]?.message?.content;
-        if (typeof content !== 'string' || !content.trim()) {
-          throw new Error('Yandex AI Studio returned an empty completion.');
-        }
-        return JSON.parse(content);
+        const error = new Error(`DeepSeek returned HTTP ${response.status}: ${responseText}`);
+        error.retryable = response.status === 429 || response.status >= 500;
+        throw error;
       }
+
+      const body = await response.json();
+      const choice = body?.choices?.[0];
+      const content = choice?.message?.content;
+      if (choice?.finish_reason !== 'stop') {
+        throw new Error(`DeepSeek stopped generation with reason: ${choice?.finish_reason ?? 'unknown'}.`);
+      }
+      if (typeof content !== 'string' || !content.trim()) {
+        const error = new Error('DeepSeek returned an empty completion.');
+        error.retryable = true;
+        throw error;
+      }
+
+      return JSON.parse(content);
     } catch (error) {
       lastError = error;
-      if (attempt === 3) break;
+      if (attempt === 3 || error?.retryable === false) break;
     }
 
     await new Promise((resolvePromise) => setTimeout(resolvePromise, attempt * 2_000));
   }
 
-  throw lastError ?? new Error('Yandex AI Studio request failed.');
+  throw lastError ?? new Error('DeepSeek request failed.');
 }
 
 function validateGeneratedText(value, name, maxLength) {
@@ -251,17 +267,6 @@ function slugify(value) {
     .replace(/-$/g, '') || 'news';
 }
 
-function samaraDate() {
-  const parts = new Intl.DateTimeFormat('ru-RU', {
-    timeZone: 'Europe/Samara',
-    day: '2-digit',
-    month: '2-digit',
-    year: 'numeric',
-  }).formatToParts(new Date());
-  const values = Object.fromEntries(parts.map((part) => [part.type, part.value]));
-  return `${values.day}.${values.month}.${values.year}`;
-}
-
 async function nextOrder() {
   const fileNames = (await readdir(NEWS_DIRECTORY)).filter((fileName) => fileName.endsWith('.json'));
   const entries = await Promise.all(fileNames.map(async (fileName) => (
@@ -272,6 +277,22 @@ async function nextOrder() {
   ), -1) + 1;
 }
 
+async function mapWithConcurrency(items, concurrency, mapper) {
+  const results = new Array(items.length);
+  let nextIndex = 0;
+
+  async function worker() {
+    while (nextIndex < items.length) {
+      const currentIndex = nextIndex;
+      nextIndex += 1;
+      results[currentIndex] = await mapper(items[currentIndex], currentIndex);
+    }
+  }
+
+  await Promise.all(Array.from({ length: Math.min(concurrency, items.length) }, () => worker()));
+  return results;
+}
+
 async function writeOutputs(values) {
   if (!process.env.GITHUB_OUTPUT) return;
   const output = Object.entries(values).map(([name, value]) => `${name}=${value}`).join('\n');
@@ -279,35 +300,58 @@ async function writeOutputs(values) {
 }
 
 async function main() {
-  const apiKey = requiredEnvironment('YANDEX_AI_API_KEY');
-  const folderId = requiredEnvironment('YANDEX_FOLDER_ID');
-  const model = process.env.YANDEX_AI_MODEL?.trim() || 'yandexgpt/latest';
-  const inputs = validateInputs(parsePayload(requiredEnvironment('PAGES_CMS_PAYLOAD')));
-  const generatedDraft = await requestDraft({ apiKey, folderId, model, messages: buildMessages(inputs) });
-  const draft = validateDraft(generatedDraft);
-  const identifier = randomBytes(5).toString('hex');
-  const slug = `${identifier}-${slugify(draft.title)}`;
-  const fileName = `${slug}.json`;
-  const relativePath = `src/content/news/${fileName}`;
-  const article = {
-    order: await nextOrder(),
-    status: 'draft',
-    id: identifier,
-    slug,
-    route: `/news/tpost/${slug}/`,
-    title: draft.title,
-    description: draft.description,
-    date: samaraDate(),
-    cover: DRAFT_COVER,
-    blocks: toBlocks(draft),
-  };
-
-  await writeFile(resolve(NEWS_DIRECTORY, fileName), `${JSON.stringify(article, null, 2)}\n`, {
-    encoding: 'utf8',
-    flag: 'wx',
+  const apiKey = requiredEnvironment('DEEPSEEK_API_KEY');
+  const settings = await loadSettings();
+  const inputs = validateInputs(parsePayload(requiredEnvironment('PAGES_CMS_PAYLOAD')), settings);
+  const generatedDrafts = await mapWithConcurrency(inputs.requests, 3, async (request, index) => {
+    console.log(`Generating article ${index + 1}/${inputs.requests.length}: ${request.topic}`);
+    const rawDraft = await requestDraft({
+      apiKey,
+      settings,
+      messages: buildMessages(settings, inputs, request),
+    });
+    return validateDraft(rawDraft);
   });
-  await writeOutputs({ draft_path: relativePath, draft_title: draft.title, draft_slug: slug });
-  console.log(`Created draft: ${relativePath}`);
+
+  const firstOrder = await nextOrder();
+  const today = dateInTimeZone();
+  const createdPaths = [];
+
+  for (const [index, draft] of generatedDrafts.entries()) {
+    const identifier = randomBytes(5).toString('hex');
+    const slug = `${identifier}-${slugify(draft.title)}`;
+    const fileName = `${slug}.json`;
+    const relativePath = `src/content/news/${fileName}`;
+    const publishAt = inputs.publishDates[index];
+    const article = {
+      order: firstOrder + index,
+      status: publishAt ? 'scheduled' : 'draft',
+      ...(publishAt ? { publishAt } : {}),
+      id: identifier,
+      slug,
+      route: `/news/tpost/${slug}/`,
+      title: draft.title,
+      description: draft.description,
+      date: publishAt ? formatDisplayDate(publishAt) : formatDisplayDate(today),
+      cover: settings.defaultCover,
+      blocks: toBlocks(draft),
+    };
+
+    await writeFile(resolve(NEWS_DIRECTORY, fileName), `${JSON.stringify(article, null, 2)}\n`, {
+      encoding: 'utf8',
+      flag: 'wx',
+    });
+    createdPaths.push(relativePath);
+    console.log(`Created ${article.status} article: ${relativePath}`);
+  }
+
+  const scheduledDates = inputs.publishDates.filter(Boolean);
+  await writeOutputs({
+    article_count: createdPaths.length,
+    scheduled_count: scheduledDates.length,
+    first_publish_at: scheduledDates[0] ?? '',
+    last_publish_at: scheduledDates.at(-1) ?? '',
+  });
 }
 
 await main();
