@@ -19,7 +19,7 @@ export interface SocialLink {
   kind: 'vk' | 'telegram' | 'whatsapp';
 }
 
-export const formIds = ['callback', 'catalog', 'application', 'project'] as const;
+export const formIds = ['callback', 'catalog', 'application', 'project', 'estimate'] as const;
 
 export type FormId = (typeof formIds)[number];
 

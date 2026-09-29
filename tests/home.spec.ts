@@ -32,10 +32,11 @@ test('loads only local image assets', async ({ page }) => {
   expect(sources.every((source) => !source.includes('tildacdn.com'))).toBe(true);
 });
 
-test('form validates locally and never sends a request', async ({ page }) => {
-  const writeRequests: string[] = [];
-  page.on('request', (request) => {
-    if (!['GET', 'HEAD', 'OPTIONS'].includes(request.method())) writeRequests.push(`${request.method()} ${request.url()}`);
+test('submits the catalog form to the configured endpoint', async ({ page }) => {
+  let payload: Record<string, unknown> | undefined;
+  await page.route('**/api/forms', async (route) => {
+    payload = route.request().postDataJSON();
+    await route.fulfill({ status: 200, contentType: 'application/json', body: '{"ok":true}' });
   });
 
   await page.getByRole('button', { name: 'Скачать каталог' }).click();
@@ -44,8 +45,19 @@ test('form validates locally and never sends a request', async ({ page }) => {
   await dialog.getByPlaceholder('Имя').fill('Тестовый посетитель');
   await dialog.getByPlaceholder('+7 (___) ___-__-__').fill('8 919 916 80 22');
   await dialog.getByRole('button', { name: 'Заказать каталог' }).click();
-  await expect(dialog.getByRole('status')).toHaveText('Демо-режим: данные не отправлены');
-  expect(writeRequests).toEqual([]);
+  await expect(dialog.getByRole('status')).toContainText('Заявка отправлена');
+  expect(payload).toEqual(expect.objectContaining({
+    formId: 'catalog',
+    name: 'Тестовый посетитель',
+    phone: '+7 (919) 916-80-22',
+    consent: true,
+    website: '',
+  }));
+});
+
+test('opens the estimate form instead of the old placeholder page', async ({ page }) => {
+  await page.getByRole('button', { name: 'Рассчитать стоимость' }).click();
+  await expect(page.getByRole('dialog', { name: 'Рассчитать стоимость' })).toBeVisible();
 });
 
 test('catalog expands and links to implemented project pages', async ({ page }) => {

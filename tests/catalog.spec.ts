@@ -43,10 +43,11 @@ test('renders a complete project card with preview SEO', async ({ page }) => {
   expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(1);
 });
 
-test('keeps the project presentation form in local demo mode', async ({ page }) => {
-  const writeRequests: string[] = [];
-  page.on('request', (request) => {
-    if (!['GET', 'HEAD', 'OPTIONS'].includes(request.method())) writeRequests.push(`${request.method()} ${request.url()}`);
+test('submits the project presentation form with email', async ({ page }) => {
+  let payload: Record<string, unknown> | undefined;
+  await page.route('**/api/forms', async (route) => {
+    payload = route.request().postDataJSON();
+    await route.fulfill({ status: 200, contentType: 'application/json', body: '{"ok":true}' });
   });
   await openReady(page, '/catalog-sauna/klassika/');
   await page.getByRole('button', { name: 'Скачать презентацию проекта' }).click();
@@ -55,8 +56,11 @@ test('keeps the project presentation form in local demo mode', async ({ page }) 
   await dialog.getByPlaceholder('+7 (___) ___-__-__').fill('8 919 916 80 22');
   await dialog.getByPlaceholder('Ваш e-mail').fill('visitor@example.test');
   await dialog.getByRole('button', { name: 'Отправить' }).click();
-  await expect(dialog.getByRole('status')).toHaveText('Демо-режим: данные не отправлены');
-  expect(writeRequests).toEqual([]);
+  await expect(dialog.getByRole('status')).toContainText('Заявка отправлена');
+  expect(payload).toEqual(expect.objectContaining({
+    formId: 'project',
+    email: 'visitor@example.test',
+  }));
 });
 
 test('generates every project route', async ({ page }, testInfo) => {

@@ -13,7 +13,7 @@ describe('site content', () => {
     expect(siteContent.navigation[5]?.href).toBe('/news/');
   });
 
-  it('defines every demo form exactly once', () => {
+  it('defines every lead form exactly once', () => {
     expect(Object.keys(siteContent.forms)).toEqual(formIds);
     expect(Object.values(siteContent.forms).map((form) => form.id)).toEqual(formIds);
     expect(isFormId('catalog')).toBe(true);

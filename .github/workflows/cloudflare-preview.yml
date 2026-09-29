@@ -24,6 +24,7 @@ jobs:
     env:
       PUBLIC_DEPLOY_ENV: preview
       PUBLIC_SITE_URL: ${{ vars.CLOUDFLARE_PREVIEW_URL || 'https://derevo18-astro.workers.dev' }}
+      PUBLIC_FORMS_ENDPOINT: ${{ vars.PUBLIC_FORMS_ENDPOINT }}
 
     steps:
       - name: Checkout repository

@@ -144,7 +144,7 @@ const appearance = defineCollection({
   }),
 });
 
-const formIdSchema = z.enum(['callback', 'catalog', 'application', 'project']);
+const formIdSchema = z.enum(['callback', 'catalog', 'application', 'project', 'estimate']);
 const formSchema = z.object({
   id: formIdSchema,
   title: z.string(),
@@ -174,6 +174,7 @@ const site = defineCollection({
       catalog: formSchema,
       application: formSchema,
       project: formSchema,
+      estimate: formSchema,
     }),
     contactsEyebrow: z.string(),
     mapEmbedUrl: z.string(),

@@ -1389,6 +1389,28 @@ content:
                     label: Показывать поле электронной почты
                     type: boolean
                     default: true
+              - name: estimate
+                label: Расчет стоимости
+                type: object
+                required: true
+                fields:
+                  - name: id
+                    label: Идентификатор
+                    type: string
+                    required: true
+                    hidden: true
+                  - name: title
+                    label: Заголовок
+                    type: string
+                    required: true
+                  - name: description
+                    label: Описание
+                    type: text
+                    required: true
+                  - name: button
+                    label: Текст кнопки
+                    type: string
+                    required: true
           - name: contactsEyebrow
             label: Надзаголовок блока контактов
             type: string

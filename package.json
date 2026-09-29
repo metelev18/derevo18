@@ -15,7 +15,7 @@
     "check": "cross-env ASTRO_TELEMETRY_DISABLED=1 astro check",
     "lint": "eslint .",
     "test": "vitest run",
-    "test:e2e": "pnpm build:preview && node scripts/run-e2e.mjs",
+    "test:e2e": "cross-env PUBLIC_FORMS_ENDPOINT=http://127.0.0.1:4321/api/forms pnpm build:preview && node scripts/run-e2e.mjs",
     "test:all": "pnpm lint && pnpm test && pnpm test:e2e",
     "deploy": "pnpm build:preview && wrangler deploy"
   },

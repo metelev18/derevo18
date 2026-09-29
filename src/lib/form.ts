@@ -1,5 +1,3 @@
-export const DEMO_MESSAGE = 'Демо-режим: данные не отправлены';
-
 export function formatPhone(value: string): string {
   const digits = value.replace(/\D/g, '').replace(/^[78]/, '').slice(0, 10);
   const parts = [

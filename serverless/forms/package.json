@@ -1,0 +1,9 @@
+{
+  "name": "derevo18-forms-function",
+  "version": "1.0.0",
+  "private": true,
+  "type": "commonjs",
+  "engines": {
+    "node": ">=18"
+  }
+}

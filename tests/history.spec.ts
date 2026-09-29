@@ -39,10 +39,11 @@ test('uses the shared navigation, contacts and preview SEO policy', async ({ pag
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://derevo18-astro.workers.dev/history/');
 });
 
-test('keeps the callback form in local demo mode', async ({ page }, testInfo) => {
-  const writeRequests: string[] = [];
-  page.on('request', (request) => {
-    if (!['GET', 'HEAD', 'OPTIONS'].includes(request.method())) writeRequests.push(`${request.method()} ${request.url()}`);
+test('submits the callback form', async ({ page }, testInfo) => {
+  let payload: Record<string, unknown> | undefined;
+  await page.route('**/api/forms', async (route) => {
+    payload = route.request().postDataJSON();
+    await route.fulfill({ status: 200, contentType: 'application/json', body: '{"ok":true}' });
   });
   if (['mobile-390', 'tablet-768'].includes(testInfo.project.name)) {
     await page.getByRole('button', { name: 'Открыть меню' }).click();
@@ -54,6 +55,6 @@ test('keeps the callback form in local demo mode', async ({ page }, testInfo) =>
   await dialog.getByPlaceholder('Имя').fill('Тестовый посетитель');
   await dialog.getByPlaceholder('+7 (___) ___-__-__').fill('8 919 916 80 22');
   await dialog.getByRole('button', { name: 'Заказать звонок' }).click();
-  await expect(dialog.getByRole('status')).toHaveText('Демо-режим: данные не отправлены');
-  expect(writeRequests).toEqual([]);
+  await expect(dialog.getByRole('status')).toContainText('Заявка отправлена');
+  expect(payload).toEqual(expect.objectContaining({ formId: 'callback' }));
 });
