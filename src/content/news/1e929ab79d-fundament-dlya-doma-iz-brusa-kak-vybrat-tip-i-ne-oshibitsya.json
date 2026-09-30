@@ -1,6 +1,6 @@
 {
   "order": 20,
-  "status": "draft",
+  "status": "published",
   "id": "1e929ab79d",
   "slug": "1e929ab79d-fundament-dlya-doma-iz-brusa-kak-vybrat-tip-i-ne-oshibitsya",
   "route": "/news/tpost/1e929ab79d-fundament-dlya-doma-iz-brusa-kak-vybrat-tip-i-ne-oshibitsya/",
@@ -144,5 +144,6 @@
       "type": "paragraph",
       "text": "Выбор фундамента для дома из бруса — это не поиск самого дешёвого варианта, а баланс между особенностями участка, весом дома и бюджетом. Если нет уверенности в грунтовых условиях, лучше заказать изыскания и проект у специалистов. Это поможет избежать дорогостоящих переделок и сохранить геометрию деревянного дома на долгие годы."
     }
-  ]
+  ],
+  "publishAt": "2026-09-30"
 }
