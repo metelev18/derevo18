@@ -80,14 +80,9 @@ jobs:
         shell: bash
         run: |
           {
-            echo "## Статьи созданы"
+            echo "## Черновики статей созданы"
             echo
             echo "Количество: **${{ steps.generate.outputs.article_count }}**"
             echo
-            if [ "${{ steps.generate.outputs.scheduled_count }}" -gt 0 ]; then
-              echo "Запланировано: **${{ steps.generate.outputs.scheduled_count }}**"
-              echo "Период: **${{ steps.generate.outputs.first_publish_at }} — ${{ steps.generate.outputs.last_publish_at }}**"
-              echo
-            fi
-            echo "После завершения Cloudflare workflow проверьте тексты, факты и обложки в Pages CMS."
+            echo "Все статьи сохранены как черновики. После завершения Cloudflare workflow проверьте тексты, факты, обложки, порядок и параметры публикации в Pages CMS."
           } >> "${GITHUB_STEP_SUMMARY}"

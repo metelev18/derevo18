@@ -24,7 +24,7 @@ actions:
     cancelable: false
     confirm:
       title: Создать статьи через DeepSeek?
-      message: Можно создать до 30 статей. Основной промпт и настройки расписания будут применены автоматически.
+      message: Можно создать до 30 статей. Все материалы будут сохранены как черновики для ручной проверки и настройки.
       button: Запустить генерацию
     fields:
       - name: articleRequests
@@ -32,20 +32,6 @@ actions:
         type: textarea
         required: true
         description: Формат строки — «Тема | проверенные факты». Часть после вертикальной черты необязательна. Все остальные требования задаются в файле «Основной промпт».
-      - name: scheduleMode
-        label: Что сделать после генерации
-        type: select
-        required: true
-        default: draft
-        options:
-          - label: Сохранить как черновики
-            value: draft
-          - label: Поставить в ежедневное расписание
-            value: daily
-      - name: startDate
-        label: Дата первой публикации в формате ГГГГ-ММ-ДД; пусто — завтра
-        type: text
-        description: Используется только для расписания. Интервал и число публикаций за запуск настраиваются в разделе «ИИ и расписание новостей».
 
 components:
   seo:
@@ -772,7 +758,7 @@ content:
           search: [title, description]
           default:
             sort: order
-            order: asc
+            order: desc
         fields:
           - name: status
             label: Статус публикации
@@ -798,8 +784,7 @@ content:
             label: Позиция в списке
             type: number
             required: true
-            default: 0
-            description: Чем меньше число, тем выше публикация в списке.
+            description: Порядковый номер публикации. Для новой статьи укажите следующий номер после текущего максимального; свежие статьи с большими номерами отображаются выше.
           - name: title
             label: Заголовок
             type: string
@@ -952,17 +937,11 @@ content:
             required: true
             default: 30
           - name: maxPublicationsPerRun
-            label: Максимум публикаций за один день
+            label: Максимум публикаций за запуск планировщика
             type: number
             required: true
             default: 1
-            description: Это же число статей получит одну дату при пакетной генерации. Для последовательности «одна статья в день» оставьте 1.
-          - name: publicationIntervalDays
-            label: Интервал между датами публикации
-            type: number
-            required: true
-            default: 1
-            description: 1 — каждый день, 2 — через день и так далее.
+            description: Сколько готовых запланированных статей можно опубликовать за один ежедневный запуск. Для режима «одна статья в день» оставьте 1.
           - name: defaultCover
             label: Обложка для новых статей
             type: image

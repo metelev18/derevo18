@@ -34,7 +34,7 @@ type StoredNewsArticle = Omit<NewsArticle, 'id' | 'slug' | 'route' | 'status'> &
   route?: string;
 };
 
-const newsEntries = await loadContentDirectory<StoredNewsArticle>('news');
+const newsEntries = await loadContentDirectory<StoredNewsArticle>('news', 'desc');
 
 const allNewsArticles: NewsArticle[] = newsEntries.map(({ data, slug }) => ({
   ...data,

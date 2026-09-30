@@ -11,7 +11,10 @@ export interface ContentFileEntry<T> {
   slug: string;
 }
 
-export async function loadContentDirectory<T>(directory: string): Promise<Array<ContentFileEntry<T>>> {
+export async function loadContentDirectory<T>(
+  directory: string,
+  orderDirection: 'asc' | 'desc' = 'asc',
+): Promise<Array<ContentFileEntry<T>>> {
   const contentDirectory = resolve(process.cwd(), 'src', 'content', directory);
   const fileNames = (await readdir(contentDirectory))
     .filter((fileName) => fileName.endsWith('.json'))
@@ -23,8 +26,13 @@ export async function loadContentDirectory<T>(directory: string): Promise<Array<
     }
   )));
 
+  const orderMultiplier = orderDirection === 'asc' ? 1 : -1;
+
   return entries
-    .sort((left, right) => left.stored.order - right.stored.order || left.fileName.localeCompare(right.fileName))
+    .sort((left, right) => (
+      (left.stored.order - right.stored.order) * orderMultiplier
+      || left.fileName.localeCompare(right.fileName)
+    ))
     .map(({ fileName, stored }) => {
       const data = { ...stored } as T & Partial<OrderedContent>;
       delete data.order;

@@ -3,7 +3,6 @@ import { randomBytes } from 'node:crypto';
 import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import {
-  buildScheduleDates,
   dateInTimeZone,
   formatDisplayDate,
   parseArticleRequests,
@@ -38,17 +37,6 @@ function parsePayload(value) {
   return payload.inputs;
 }
 
-function cleanInput(value, name, { required = false, maxLength }) {
-  if (value !== undefined && value !== null && typeof value !== 'string') {
-    throw new Error(`${name} must be a string.`);
-  }
-
-  const result = (value ?? '').replaceAll('\r\n', '\n').trim();
-  if (required && !result) throw new Error(`${name} is required.`);
-  if (result.length > maxLength) throw new Error(`${name} is longer than ${maxLength} characters.`);
-  return result;
-}
-
 async function loadSettings() {
   const settings = JSON.parse(await readFile(SETTINGS_PATH, 'utf8'));
   if (!['deepseek-flash', 'deepseek-v4-pro'].includes(settings.model)) {
@@ -59,16 +47,6 @@ async function loadSettings() {
   }
   if (!Number.isInteger(settings.maxBatchSize) || settings.maxBatchSize < 1 || settings.maxBatchSize > 30) {
     throw new Error('maxBatchSize must be an integer from 1 to 30.');
-  }
-  if (!Number.isInteger(settings.maxPublicationsPerRun)
-    || settings.maxPublicationsPerRun < 1
-    || settings.maxPublicationsPerRun > 10) {
-    throw new Error('maxPublicationsPerRun must be an integer from 1 to 10.');
-  }
-  if (!Number.isInteger(settings.publicationIntervalDays)
-    || settings.publicationIntervalDays < 1
-    || settings.publicationIntervalDays > 365) {
-    throw new Error('publicationIntervalDays must be an integer from 1 to 365.');
   }
   if (typeof settings.defaultCover !== 'string'
     || !/^\/media\/[a-zA-Z0-9._/-]+$/.test(settings.defaultCover)
@@ -82,18 +60,10 @@ async function loadPromptTemplate() {
   return validatePromptTemplate(await readFile(PROMPT_PATH, 'utf8'));
 }
 
-function validateInputs(rawInputs, settings, today) {
-  const scheduleMode = cleanInput(rawInputs.scheduleMode, 'scheduleMode', { maxLength: 20 }) || 'draft';
-  const inputs = {
+function validateInputs(rawInputs, settings) {
+  return {
     requests: parseArticleRequests(rawInputs.articleRequests, settings.maxBatchSize),
-    scheduleMode,
-    startDate: cleanInput(rawInputs.startDate, 'startDate', { maxLength: 10 }),
-    intervalDays: settings.publicationIntervalDays,
-    articlesPerDay: settings.maxPublicationsPerRun,
   };
-
-  inputs.publishDates = buildScheduleDates(inputs.requests.length, inputs, today);
-  return inputs;
 }
 
 function buildMessages(promptTemplate, request, index, total, currentDate) {
@@ -284,14 +254,20 @@ function slugify(value) {
     .replace(/-$/g, '') || 'news';
 }
 
+export function nextArticleOrder(existingOrders) {
+  if (!existingOrders.every(Number.isInteger)) {
+    throw new Error('Every existing news article must have an integer order.');
+  }
+  if (existingOrders.length === 0) return 0;
+  return Math.max(...existingOrders) + 1;
+}
+
 async function nextOrder() {
   const fileNames = (await readdir(NEWS_DIRECTORY)).filter((fileName) => fileName.endsWith('.json'));
   const entries = await Promise.all(fileNames.map(async (fileName) => (
     JSON.parse(await readFile(resolve(NEWS_DIRECTORY, fileName), 'utf8'))
   )));
-  return entries.reduce((maximum, entry) => (
-    Number.isInteger(entry.order) ? Math.max(maximum, entry.order) : maximum
-  ), -1) + 1;
+  return nextArticleOrder(entries.map((entry) => entry.order));
 }
 
 async function mapWithConcurrency(items, concurrency, mapper) {
@@ -321,7 +297,7 @@ async function main() {
   const settings = await loadSettings();
   const promptTemplate = await loadPromptTemplate();
   const today = dateInTimeZone();
-  const inputs = validateInputs(parsePayload(requiredEnvironment('PAGES_CMS_PAYLOAD')), settings, today);
+  const inputs = validateInputs(parsePayload(requiredEnvironment('PAGES_CMS_PAYLOAD')), settings);
   const generatedDrafts = await mapWithConcurrency(inputs.requests, 3, async (request, index) => {
     console.log(`Generating article ${index + 1}/${inputs.requests.length}: ${request.topic}`);
     return requestValidatedDraft({
@@ -339,17 +315,15 @@ async function main() {
     const slug = `${identifier}-${slugify(draft.title)}`;
     const fileName = `${slug}.json`;
     const relativePath = `src/content/news/${fileName}`;
-    const publishAt = inputs.publishDates[index];
     const article = {
       order: firstOrder + index,
-      status: publishAt ? 'scheduled' : 'draft',
-      ...(publishAt ? { publishAt } : {}),
+      status: 'draft',
       id: identifier,
       slug,
       route: `/news/tpost/${slug}/`,
       title: draft.title,
       description: draft.description,
-      date: publishAt ? formatDisplayDate(publishAt) : formatDisplayDate(today),
+      date: formatDisplayDate(today),
       cover: settings.defaultCover,
       blocks: toBlocks(draft),
     };
@@ -362,12 +336,8 @@ async function main() {
     console.log(`Created ${article.status} article: ${relativePath}`);
   }
 
-  const scheduledDates = inputs.publishDates.filter(Boolean);
   await writeOutputs({
     article_count: createdPaths.length,
-    scheduled_count: scheduledDates.length,
-    first_publish_at: scheduledDates[0] ?? '',
-    last_publish_at: scheduledDates.at(-1) ?? '',
   });
 }
 

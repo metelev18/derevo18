@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { requestValidatedDraft } from './generate-news-draft.mjs';
+import { nextArticleOrder, requestValidatedDraft } from './generate-news-draft.mjs';
 
 const validDraft = {
   title: 'Фундамент деревянного дома',
@@ -54,5 +54,11 @@ describe('DeepSeek draft generation', () => {
     expect(fetchMock).toHaveBeenCalledTimes(2);
     const retryBody = JSON.parse(fetchMock.mock.calls[1][1].body);
     expect(retryBody.messages.at(-1).content).toContain('received 0 paragraphs');
+  });
+
+  it('assigns the next ascending order to a generated batch', () => {
+    expect(nextArticleOrder([])).toBe(0);
+    expect(nextArticleOrder([0, 1, 2])).toBe(3);
+    expect(nextArticleOrder([4, 1, 7, 2])).toBe(8);
   });
 });
