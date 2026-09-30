@@ -1,6 +1,7 @@
 import { appendFile, readdir, readFile, writeFile } from 'node:fs/promises';
 import { randomBytes } from 'node:crypto';
 import { resolve } from 'node:path';
+import { pathToFileURL } from 'node:url';
 import {
   buildScheduleDates,
   dateInTimeZone,
@@ -189,7 +190,10 @@ function validateDraft(rawDraft) {
       throw new Error(`Generated section ${sectionIndex + 1} has an invalid structure.`);
     }
     if (section.paragraphs.length < 1 || section.paragraphs.length > 4 || section.bullets.length > 10) {
-      throw new Error(`Generated section ${sectionIndex + 1} has an invalid number of content items.`);
+      throw new Error(
+        `Generated section ${sectionIndex + 1} must contain 1-4 paragraphs and no more than 10 list items; `
+        + `received ${section.paragraphs.length} paragraphs and ${section.bullets.length} list items.`,
+      );
     }
 
     return {
@@ -210,6 +214,41 @@ function validateDraft(rawDraft) {
     sections,
     conclusion: validateGeneratedText(rawDraft.conclusion, 'conclusion', 2_000),
   };
+}
+
+export async function requestValidatedDraft({ apiKey, settings, messages, maximumAttempts = 3 }) {
+  let validationError;
+
+  for (let attempt = 1; attempt <= maximumAttempts; attempt += 1) {
+    const retryInstruction = validationError
+      ? [{
+        role: 'user',
+        content: [
+          `Предыдущий ответ не прошел автоматическую проверку: ${validationError.message}`,
+          'Сгенерируй статью заново и строго соблюдай структуру JSON и все количественные ограничения.',
+          'Верни только исправленный JSON-объект без пояснений и Markdown.',
+        ].join('\n'),
+      }]
+      : [];
+    const rawDraft = await requestDraft({
+      apiKey,
+      settings,
+      messages: [...messages, ...retryInstruction],
+    });
+
+    try {
+      return validateDraft(rawDraft);
+    } catch (error) {
+      validationError = error instanceof Error ? error : new Error('Generated draft is invalid.');
+      console.warn(
+        `Generated draft failed validation on attempt ${attempt}/${maximumAttempts}: ${validationError.message}`,
+      );
+    }
+  }
+
+  throw new Error(
+    `DeepSeek returned an invalid article structure after ${maximumAttempts} attempts: ${validationError?.message}`,
+  );
 }
 
 function toBlocks(draft) {
@@ -285,12 +324,11 @@ async function main() {
   const inputs = validateInputs(parsePayload(requiredEnvironment('PAGES_CMS_PAYLOAD')), settings, today);
   const generatedDrafts = await mapWithConcurrency(inputs.requests, 3, async (request, index) => {
     console.log(`Generating article ${index + 1}/${inputs.requests.length}: ${request.topic}`);
-    const rawDraft = await requestDraft({
+    return requestValidatedDraft({
       apiKey,
       settings,
       messages: buildMessages(promptTemplate, request, index, inputs.requests.length, today),
     });
-    return validateDraft(rawDraft);
   });
 
   const firstOrder = await nextOrder();
@@ -333,4 +371,6 @@ async function main() {
   });
 }
 
-await main();
+if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
+  await main();
+}
