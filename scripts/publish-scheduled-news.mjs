@@ -1,9 +1,11 @@
 import { appendFile, readdir, readFile, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
+import { pathToFileURL } from 'node:url';
 import {
   dateInTimeZone,
   formatDisplayDate,
-  selectDueArticles,
+  getDueScheduledArticles,
+  parseIsoDate,
 } from './news-automation-utils.mjs';
 
 const NEWS_DIRECTORY = resolve(process.cwd(), 'src', 'content', 'news');
@@ -28,6 +30,54 @@ async function loadEntries() {
   })));
 }
 
+export function getPublicationBlockReason(data) {
+  if (data.cover === DRAFT_COVER) {
+    return 'служебная обложка черновика не заменена';
+  }
+  if (typeof data.cover !== 'string'
+    || !/^\/media\/[a-zA-Z0-9._/-]+$/.test(data.cover)
+    || data.cover.includes('..')) {
+    return 'указан некорректный путь к обложке';
+  }
+  if (JSON.stringify(data).includes(UNRESOLVED_MARKER)) {
+    return `в тексте остался маркер ${UNRESOLVED_MARKER}`;
+  }
+  return undefined;
+}
+
+export function planPublications(entries, today, maximum) {
+  if (!Number.isInteger(maximum) || maximum < 1 || maximum > 10) {
+    throw new Error('maximum must be an integer from 1 to 10.');
+  }
+
+  const readyEntries = [];
+  const blockedEntries = [];
+  const validScheduledEntries = [];
+
+  for (const entry of entries.filter(({ data }) => data.status === 'scheduled')) {
+    try {
+      parseIsoDate(entry.data.publishAt, `publishAt in ${entry.fileName}`);
+      validScheduledEntries.push(entry);
+    } catch {
+      blockedEntries.push({ ...entry, reason: 'не указана корректная дата публикации' });
+    }
+  }
+
+  for (const entry of getDueScheduledArticles(validScheduledEntries, today)) {
+    const reason = getPublicationBlockReason(entry.data);
+    if (reason) {
+      blockedEntries.push({ ...entry, reason });
+    } else {
+      readyEntries.push(entry);
+    }
+  }
+
+  return {
+    selectedEntries: readyEntries.slice(0, maximum),
+    blockedEntries,
+  };
+}
+
 async function main() {
   const settings = JSON.parse(await readFile(SETTINGS_PATH, 'utf8'));
   if (typeof settings.scheduleEnabled !== 'boolean') {
@@ -42,30 +92,41 @@ async function main() {
   const today = dateInTimeZone();
   if (!settings.scheduleEnabled) {
     console.log('Scheduled publication is paused in Pages CMS.');
-    await writeOutputs({ published_count: 0, publication_date: today, schedule_paused: true });
+    await writeOutputs({
+      published_count: 0,
+      blocked_count: 0,
+      publication_date: today,
+      schedule_paused: true,
+    });
     return;
   }
 
-  const dueEntries = selectDueArticles(
+  const { selectedEntries, blockedEntries } = planPublications(
     await loadEntries(),
     today,
     settings.maxPublicationsPerRun,
   );
 
-  if (dueEntries.length === 0) {
-    console.log(`No scheduled articles are due on ${today}.`);
-    await writeOutputs({ published_count: 0, publication_date: today, schedule_paused: false });
+  for (const { data, fileName, reason } of blockedEntries) {
+    console.warn(`Skipped scheduled article "${data.title}" (${fileName}): ${reason}.`);
+  }
+
+  if (selectedEntries.length === 0) {
+    if (blockedEntries.length === 0) {
+      console.log(`No scheduled articles are due on ${today}.`);
+    } else {
+      console.log('No ready scheduled articles can be published today.');
+    }
+    await writeOutputs({
+      published_count: 0,
+      blocked_count: blockedEntries.length,
+      publication_date: today,
+      schedule_paused: false,
+    });
     return;
   }
 
-  for (const { fileName, data } of dueEntries) {
-    if (data.cover === DRAFT_COVER) {
-      throw new Error(`Scheduled article "${data.title}" still has the draft cover.`);
-    }
-    if (JSON.stringify(data).includes(UNRESOLVED_MARKER)) {
-      throw new Error(`Scheduled article "${data.title}" contains ${UNRESOLVED_MARKER}.`);
-    }
-
+  for (const { fileName, data } of selectedEntries) {
     data.status = 'published';
     data.date = formatDisplayDate(data.publishAt);
     await writeFile(
@@ -77,10 +138,13 @@ async function main() {
   }
 
   await writeOutputs({
-    published_count: dueEntries.length,
+    published_count: selectedEntries.length,
+    blocked_count: blockedEntries.length,
     publication_date: today,
     schedule_paused: false,
   });
 }
 
-await main();
+if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
+  await main();
+}

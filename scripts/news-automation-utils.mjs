@@ -141,11 +141,8 @@ export function buildScheduleDates(
   ));
 }
 
-export function selectDueArticles(entries, today, maximum) {
+export function getDueScheduledArticles(entries, today) {
   parseIsoDate(today, 'today');
-  if (!Number.isInteger(maximum) || maximum < 1 || maximum > 10) {
-    throw new Error('maximum must be an integer from 1 to 10.');
-  }
 
   const scheduledEntries = entries.filter(({ data }) => data.status === 'scheduled');
   for (const { data, fileName } of scheduledEntries) {
@@ -160,6 +157,13 @@ export function selectDueArticles(entries, today, maximum) {
       || (Number.isInteger(left.data.order) ? left.data.order : Number.MAX_SAFE_INTEGER)
         - (Number.isInteger(right.data.order) ? right.data.order : Number.MAX_SAFE_INTEGER)
       || left.fileName.localeCompare(right.fileName)
-    ))
-    .slice(0, maximum);
+    ));
+}
+
+export function selectDueArticles(entries, today, maximum) {
+  if (!Number.isInteger(maximum) || maximum < 1 || maximum > 10) {
+    throw new Error('maximum must be an integer from 1 to 10.');
+  }
+
+  return getDueScheduledArticles(entries, today).slice(0, maximum);
 }
