@@ -2,7 +2,6 @@ node_modules/
 .pnpm-store/
 dist/
 .astro/
-.wrangler/
 playwright-report/
 test-results/
 coverage/

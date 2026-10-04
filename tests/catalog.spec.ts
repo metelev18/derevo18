@@ -39,7 +39,7 @@ test('renders a complete project card with preview SEO', async ({ page }) => {
   await expect(page.locator('.project-package__grid article')).toHaveCount(6);
   await expect(page.locator('.related-projects .catalog-card')).toHaveCount(3);
   await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex, nofollow');
-  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://derevo18-astro.workers.dev/catalog-house/dom-podshivalovo/');
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://derevo18.com/catalog-house/dom-podshivalovo/');
   expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(1);
 });
 

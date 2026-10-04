@@ -14,7 +14,7 @@ async function openSitePage(page: Page, route: string) {
 test('renders every news card with local covers and direct links', async ({ page }) => {
   await openSitePage(page, '/news/');
   await expect(page.getByRole('heading', { level: 1, name: 'БЛОГ' })).toBeVisible();
-  await expect(page.locator('.news-card')).toHaveCount(20);
+  await expect(page.locator('.news-card')).toHaveCount(newsArticles.length);
   await expect(page.locator('.news-card').first().getByRole('link')).toHaveAttribute('href', newsArticles[0]!.route);
   const sources = await page.locator('.news-card img').evaluateAll((images) => images.map((image) => image.getAttribute('src')));
   expect(sources.every((source) => source?.startsWith('/media/') && !source.includes('tildacdn.com'))).toBe(true);
@@ -22,11 +22,14 @@ test('renders every news card with local covers and direct links', async ({ page
 });
 
 test('renders a video publication in the source-compatible reader', async ({ page }) => {
-  const article = newsArticles[0]!;
+  const videoSrc = 'https://kinescope.io/embed/uJGd7MEsyiyderJtbHBcoM';
+  const article = newsArticles.find((item) => (
+    item.blocks.some((block) => block.type === 'video' && block.src === videoSrc)
+  ))!;
   await page.goto(article.route, { waitUntil: 'domcontentloaded' });
   await expect(page.getByRole('heading', { level: 1, name: article.title })).toBeVisible();
   await expect(page.locator('.news-article__cover')).toHaveCount(0);
-  await expect(page.locator('.news-article__video iframe')).toHaveAttribute('src', 'https://kinescope.io/embed/uJGd7MEsyiyderJtbHBcoM');
+  await expect(page.locator('.news-article__video iframe')).toHaveAttribute('src', videoSrc);
   await expect(page.getByRole('link', { name: 'Вернуться к новостям' })).toHaveAttribute('href', '/news/');
   expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(1);
 });
@@ -44,12 +47,12 @@ test('renders a complete illustrated construction article', async ({ page }) => 
 test('uses preview SEO policy on the list and article pages', async ({ page }) => {
   await openSitePage(page, '/news/');
   await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex, nofollow');
-  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://derevo18-astro.workers.dev/news/');
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://derevo18.com/news/');
 
   const article = newsArticles[1]!;
   await page.goto(article.route, { waitUntil: 'domcontentloaded' });
   await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex, nofollow');
-  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', `https://derevo18-astro.workers.dev${article.route}`);
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', `https://derevo18.com${article.route}`);
 });
 
 test('generates every publication route', async ({ page }, testInfo) => {

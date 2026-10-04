@@ -1,9 +1,6 @@
-name: CI and Cloudflare preview
+name: Validate pull requests
 
 on:
-  push:
-    branches:
-      - master
   pull_request:
     branches:
       - master
@@ -13,17 +10,17 @@ permissions:
   contents: read
 
 concurrency:
-  group: cloudflare-preview
+  group: ci-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  check-build-deploy:
-    name: Check, build and deploy preview
+  check-build:
+    name: Check and build
     runs-on: ubuntu-latest
     timeout-minutes: 30
     env:
-      PUBLIC_DEPLOY_ENV: preview
-      PUBLIC_SITE_URL: ${{ vars.CLOUDFLARE_PREVIEW_URL || 'https://derevo18-astro.workers.dev' }}
+      PUBLIC_DEPLOY_ENV: production
+      PUBLIC_SITE_URL: https://derevo18.com
       PUBLIC_FORMS_ENDPOINT: ${{ vars.PUBLIC_FORMS_ENDPOINT }}
 
     steps:
@@ -48,13 +45,5 @@ jobs:
       - name: Run unit tests
         run: pnpm test
 
-      - name: Build preview
+      - name: Build production
         run: pnpm build
-
-      - name: Deploy to Cloudflare
-        if: github.event_name != 'pull_request'
-        uses: cloudflare/wrangler-action@v3
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: deploy

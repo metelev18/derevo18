@@ -102,7 +102,7 @@ test('hero material links open implemented articles', async ({ page }) => {
 
 test('uses preview SEO policy and keeps static sections outside React islands', async ({ page }) => {
   await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex, nofollow');
-  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://derevo18-astro.workers.dev/');
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://derevo18.com/');
   await expect(page.locator('.hero').locator('xpath=ancestor::astro-island')).toHaveCount(0);
 
   const response = await page.request.get('/robots.txt');

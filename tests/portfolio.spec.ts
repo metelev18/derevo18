@@ -46,12 +46,12 @@ test('opens an accessible local gallery and changes photographs', async ({ page 
 test('uses preview SEO policy on the portfolio and work pages', async ({ page }) => {
   await openSitePage(page, '/portfolio/');
   await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex, nofollow');
-  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://derevo18-astro.workers.dev/portfolio/');
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://derevo18.com/portfolio/');
 
   const project = portfolioProjects[1]!;
   await openGallery(page, project.route);
   await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex, nofollow');
-  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', `https://derevo18-astro.workers.dev${project.route}`);
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', `https://derevo18.com${project.route}`);
 });
 
 test('generates every portfolio work route', async ({ page }, testInfo) => {

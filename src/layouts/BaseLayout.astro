@@ -12,7 +12,7 @@ interface Props {
 const { seo, bodyClass } = Astro.props;
 const productionDeploy = isProductionDeploy(import.meta.env.PUBLIC_DEPLOY_ENV);
 const allowIndexing = productionDeploy && !seo.noindex;
-const siteUrl = Astro.site ?? new URL('https://derevo18-astro.workers.dev');
+const siteUrl = Astro.site ?? new URL('https://derevo18.com');
 const canonicalUrl = new URL(seo.canonicalPath, siteUrl).toString();
 const ogImage = new URL(seo.ogImage, siteUrl).toString();
 const analyticsEnabled = productionDeploy && import.meta.env.PROD;

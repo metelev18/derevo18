@@ -36,7 +36,7 @@ test('uses the shared navigation, contacts and preview SEO policy', async ({ pag
   await expect(page.locator('.site-header__nav a[href="/history/"]')).toHaveAttribute('href', '/history/');
   await expect(page.getByRole('heading', { name: 'Контакты', exact: true })).toBeVisible();
   await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex, nofollow');
-  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://derevo18-astro.workers.dev/history/');
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://derevo18.com/history/');
 });
 
 test('submits the callback form', async ({ page }, testInfo) => {

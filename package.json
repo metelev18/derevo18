@@ -8,16 +8,14 @@
     "dev": "cross-env ASTRO_TELEMETRY_DISABLED=1 astro dev",
     "assets:sync": "node scripts/download-assets.mjs",
     "build": "cross-env ASTRO_TELEMETRY_DISABLED=1 astro check && cross-env ASTRO_TELEMETRY_DISABLED=1 astro build",
-    "build:preview": "cross-env PUBLIC_DEPLOY_ENV=preview PUBLIC_SITE_URL=https://derevo18-astro.workers.dev pnpm build",
+    "build:preview": "cross-env PUBLIC_DEPLOY_ENV=preview PUBLIC_SITE_URL=https://derevo18.com pnpm build",
     "build:production": "cross-env PUBLIC_DEPLOY_ENV=production PUBLIC_SITE_URL=https://derevo18.com pnpm build",
     "preview": "cross-env ASTRO_TELEMETRY_DISABLED=1 astro preview",
-    "preview:cloudflare": "wrangler dev",
     "check": "cross-env ASTRO_TELEMETRY_DISABLED=1 astro check",
     "lint": "eslint .",
     "test": "vitest run",
     "test:e2e": "cross-env PUBLIC_FORMS_ENDPOINT=http://127.0.0.1:4321/api/forms pnpm build:preview && node scripts/run-e2e.mjs",
-    "test:all": "pnpm lint && pnpm test && pnpm test:e2e",
-    "deploy": "pnpm build:preview && wrangler deploy"
+    "test:all": "pnpm lint && pnpm test && pnpm test:e2e"
   },
   "dependencies": {
     "@astrojs/react": "latest",
@@ -40,7 +38,6 @@
     "sharp": "latest",
     "typescript": "^6.0.2",
     "typescript-eslint": "latest",
-    "vitest": "latest",
-    "wrangler": "latest"
+    "vitest": "latest"
   }
 }

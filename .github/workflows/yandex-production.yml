@@ -1,6 +1,9 @@
 name: Deploy production to Yandex Cloud
 
 on:
+  push:
+    branches:
+      - master
   workflow_dispatch:
     inputs:
       confirm:
@@ -19,7 +22,7 @@ concurrency:
 jobs:
   deploy:
     name: Check, build and deploy production
-    if: inputs.confirm
+    if: github.event_name == 'push' || inputs.confirm
     runs-on: ubuntu-latest
     timeout-minutes: 30
     environment:

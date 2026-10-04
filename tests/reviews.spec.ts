@@ -53,12 +53,12 @@ test('keeps the two legacy root-level review routes working', async ({ page }) =
 test('uses preview SEO policy on the list and review pages', async ({ page }) => {
   await openSitePage(page, '/rewies/');
   await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex, nofollow');
-  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://derevo18-astro.workers.dev/rewies/');
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://derevo18.com/rewies/');
 
   const review = customerReviews[1]!;
   await page.goto(review.route, { waitUntil: 'domcontentloaded' });
   await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex, nofollow');
-  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', `https://derevo18-astro.workers.dev${review.route}`);
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', `https://derevo18.com${review.route}`);
 });
 
 test('generates every review route', async ({ page }, testInfo) => {

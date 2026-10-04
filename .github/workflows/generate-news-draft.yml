@@ -9,7 +9,6 @@ on:
         type: string
 
 permissions:
-  actions: write
   contents: write
 
 concurrency:
@@ -71,11 +70,6 @@ jobs:
           git commit -m "content: добавить статьи с помощью DeepSeek"
           git push
 
-      - name: Start Cloudflare preview deployment
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: gh workflow run cloudflare-preview.yml --ref "${GITHUB_REF_NAME}"
-
       - name: Add job summary
         shell: bash
         run: |
@@ -84,5 +78,5 @@ jobs:
             echo
             echo "Количество: **${{ steps.generate.outputs.article_count }}**"
             echo
-            echo "Все статьи сохранены как черновики. После завершения Cloudflare workflow проверьте тексты, факты, обложки, порядок и параметры публикации в Pages CMS."
+            echo "Все статьи сохранены как черновики и не опубликованы на сайте. Проверьте тексты, факты, обложки, порядок и параметры публикации в Pages CMS."
           } >> "${GITHUB_STEP_SUMMARY}"

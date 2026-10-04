@@ -765,7 +765,7 @@ content:
             type: select
             required: true
             default: draft
-            description: Черновики и запланированные статьи видны в Cloudflare, но до даты публикации не попадают в Yandex Cloud.
+            description: Черновики и запланированные статьи не отображаются на сайте. Запланированная статья появится после наступления даты публикации и запуска планировщика.
             options:
               values:
                 - name: draft

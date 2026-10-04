@@ -7,7 +7,6 @@ on:
   workflow_dispatch:
 
 permissions:
-  actions: write
   contents: write
 
 concurrency:
@@ -124,12 +123,6 @@ jobs:
           git add -- src/content/news
           git commit -m "content: опубликовать запланированные статьи"
           git push
-
-      - name: Refresh Cloudflare preview
-        if: steps.publish.outputs.published_count != '0'
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: gh workflow run cloudflare-preview.yml --ref "${GITHUB_REF_NAME}"
 
       - name: Add publication summary
         if: steps.publish.outputs.published_count != '0'

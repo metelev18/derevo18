@@ -1,7 +1,7 @@
 import { defineConfig } from 'astro/config';
 import react from '@astrojs/react';
 
-const siteUrl = process.env.PUBLIC_SITE_URL ?? 'https://derevo18-astro.workers.dev';
+const siteUrl = process.env.PUBLIC_SITE_URL ?? 'https://derevo18.com';
 
 export default defineConfig({
   integrations: [react()],

@@ -45,12 +45,12 @@ test('preserves article headings and lists without inventing a cover', async ({ 
 test('uses preview SEO policy on the list and article pages', async ({ page }) => {
   await openSitePage(page, '/material/');
   await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex, nofollow');
-  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://derevo18-astro.workers.dev/material/');
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://derevo18.com/material/');
 
   const article = materialArticles[1]!;
   await page.goto(article.route, { waitUntil: 'domcontentloaded' });
   await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex, nofollow');
-  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', `https://derevo18-astro.workers.dev${article.route}`);
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', `https://derevo18.com${article.route}`);
 });
 
 test('generates every material route', async ({ page }, testInfo) => {
