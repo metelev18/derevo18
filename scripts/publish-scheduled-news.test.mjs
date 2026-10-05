@@ -27,11 +27,27 @@ describe('scheduled news publication', () => {
       },
     ];
 
-    const plan = planPublications(entries, '2026-10-01', 1);
+    const plan = planPublications(entries, '2026-10-01');
 
     expect(plan.selectedEntries.map(({ fileName }) => fileName)).toEqual(['ready.json']);
     expect(plan.blockedEntries).toHaveLength(1);
     expect(plan.blockedEntries[0].reason).toContain('обложка');
+  });
+
+  it('publishes every ready article due on the same day in one run', () => {
+    const plan = planPublications([
+      { fileName: 'second.json', data: { ...readyArticle, order: 2 } },
+      { fileName: 'first.json', data: { ...readyArticle, order: 1 } },
+      {
+        fileName: 'future.json',
+        data: { ...readyArticle, publishAt: '2026-10-02', order: 3 },
+      },
+    ], '2026-10-01');
+
+    expect(plan.selectedEntries.map(({ fileName }) => fileName)).toEqual([
+      'first.json',
+      'second.json',
+    ]);
   });
 
   it('blocks unresolved editorial markers', () => {
@@ -48,7 +64,7 @@ describe('scheduled news publication', () => {
         data: { ...readyArticle, publishAt: undefined },
       },
       { fileName: 'ready.json', data: readyArticle },
-    ], '2026-10-01', 1);
+    ], '2026-10-01');
 
     expect(plan.selectedEntries.map(({ fileName }) => fileName)).toEqual(['ready.json']);
     expect(plan.blockedEntries[0].reason).toContain('дата');

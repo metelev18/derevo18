@@ -2,9 +2,9 @@ import { describe, expect, it } from 'vitest';
 import {
   buildScheduleDates,
   formatDisplayDate,
+  getDueScheduledArticles,
   parseArticleRequests,
   renderPromptTemplate,
-  selectDueArticles,
   validatePromptTemplate,
 } from './news-automation-utils.mjs';
 
@@ -50,6 +50,9 @@ describe('news automation utilities', () => {
       { fileName: 'draft.json', data: { status: 'draft', order: 0 } },
     ];
 
-    expect(selectDueArticles(entries, '2026-09-21', 1).map(({ fileName }) => fileName)).toEqual(['first.json']);
+    expect(getDueScheduledArticles(entries, '2026-09-21').map(({ fileName }) => fileName)).toEqual([
+      'first.json',
+      'second.json',
+    ]);
   });
 });

@@ -159,11 +159,3 @@ export function getDueScheduledArticles(entries, today) {
       || left.fileName.localeCompare(right.fileName)
     ));
 }
-
-export function selectDueArticles(entries, today, maximum) {
-  if (!Number.isInteger(maximum) || maximum < 1 || maximum > 10) {
-    throw new Error('maximum must be an integer from 1 to 10.');
-  }
-
-  return getDueScheduledArticles(entries, today).slice(0, maximum);
-}

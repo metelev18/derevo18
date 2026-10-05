@@ -3,6 +3,5 @@
   "model": "deepseek-flash",
   "temperature": 0.4,
   "maxBatchSize": 30,
-  "maxPublicationsPerRun": 1,
   "defaultCover": "/media/news-draft-placeholder.svg"
 }

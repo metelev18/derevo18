@@ -777,7 +777,7 @@ content:
           - name: publishAt
             label: Дата автоматической публикации
             type: date
-            description: Обязательна для статуса «Запланировано». Ежедневный workflow публикует готовые статьи с наступившей датой.
+            description: Обязательна для статуса «Запланировано». Ежедневный workflow за один запуск публикует все готовые статьи с наступившей датой.
             options:
               format: "yyyy-MM-dd"
           - name: order
@@ -936,12 +936,6 @@ content:
             type: number
             required: true
             default: 30
-          - name: maxPublicationsPerRun
-            label: Максимум публикаций за запуск планировщика
-            type: number
-            required: true
-            default: 1
-            description: Сколько готовых запланированных статей можно опубликовать за один ежедневный запуск. Для режима «одна статья в день» оставьте 1.
           - name: defaultCover
             label: Обложка для новых статей
             type: image

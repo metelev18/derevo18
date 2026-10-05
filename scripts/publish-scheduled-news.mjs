@@ -45,11 +45,7 @@ export function getPublicationBlockReason(data) {
   return undefined;
 }
 
-export function planPublications(entries, today, maximum) {
-  if (!Number.isInteger(maximum) || maximum < 1 || maximum > 10) {
-    throw new Error('maximum must be an integer from 1 to 10.');
-  }
-
+export function planPublications(entries, today) {
   const readyEntries = [];
   const blockedEntries = [];
   const validScheduledEntries = [];
@@ -73,7 +69,7 @@ export function planPublications(entries, today, maximum) {
   }
 
   return {
-    selectedEntries: readyEntries.slice(0, maximum),
+    selectedEntries: readyEntries,
     blockedEntries,
   };
 }
@@ -83,12 +79,6 @@ async function main() {
   if (typeof settings.scheduleEnabled !== 'boolean') {
     throw new Error('scheduleEnabled must be a boolean.');
   }
-  if (!Number.isInteger(settings.maxPublicationsPerRun)
-    || settings.maxPublicationsPerRun < 1
-    || settings.maxPublicationsPerRun > 10) {
-    throw new Error('maxPublicationsPerRun must be an integer from 1 to 10.');
-  }
-
   const today = dateInTimeZone();
   if (!settings.scheduleEnabled) {
     console.log('Scheduled publication is paused in Pages CMS.');
@@ -104,7 +94,6 @@ async function main() {
   const { selectedEntries, blockedEntries } = planPublications(
     await loadEntries(),
     today,
-    settings.maxPublicationsPerRun,
   );
 
   for (const { data, fileName, reason } of blockedEntries) {
