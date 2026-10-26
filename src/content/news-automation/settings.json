@@ -1,6 +1,6 @@
 {
   "scheduleEnabled": true,
-  "model": "deepseek-flash",
+  "model": "deepseek-v4-pro",
   "temperature": 0.4,
   "maxBatchSize": 30,
   "defaultCover": "/media/news-draft-placeholder.svg"
