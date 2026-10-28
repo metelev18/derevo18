@@ -9,5 +9,8 @@
   "size": "6×9 м",
   "floors": "1 этаж",
   "duration": "от 25 дней",
-  "image": "/media/catalog-sauna-boyarynya.webp"
+  "image": "/media/catalog-sauna-boyarynya.webp",
+  "gallery": [
+    "/media/catalog-sauna-boyarynya-gallery-01.webp"
+  ]
 }

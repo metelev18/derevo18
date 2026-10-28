@@ -11,5 +11,11 @@
   "rooms": "2 комнаты",
   "bathrooms": "1 санузел",
   "duration": "от 50 дней",
-  "image": "/media/catalog-house-dom-kompakt.webp"
+  "image": "/media/catalog-house-dom-kompakt.webp",
+  "gallery": [
+    "/media/catalog-house-dom-kompakt-gallery-01.webp",
+    "/media/catalog-house-dom-kompakt-gallery-02.webp",
+    "/media/catalog-house-dom-kompakt-gallery-03.webp",
+    "/media/catalog-house-dom-kompakt-gallery-04.webp"
+  ]
 }

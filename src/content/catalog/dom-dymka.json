@@ -11,5 +11,11 @@
   "rooms": "4 комнаты",
   "bathrooms": "1 санузел",
   "duration": "от 60 дней",
-  "image": "/media/catalog-house-dom-dymka.webp"
+  "image": "/media/catalog-house-dom-dymka.webp",
+  "gallery": [
+    "/media/catalog-house-dom-dymka-gallery-01.webp",
+    "/media/catalog-house-dom-dymka-gallery-02.webp",
+    "/media/catalog-house-dom-dymka-gallery-03.webp",
+    "/media/catalog-house-dom-dymka-gallery-04.webp"
+  ]
 }

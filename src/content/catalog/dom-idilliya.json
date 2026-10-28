@@ -11,5 +11,11 @@
   "rooms": "3 комнаты",
   "bathrooms": "3 санузла",
   "duration": "от 90 дней",
-  "image": "/media/catalog-house-dom-idilliya.webp"
+  "image": "/media/catalog-house-dom-idilliya.webp",
+  "gallery": [
+    "/media/catalog-house-dom-idilliya-gallery-01.webp",
+    "/media/catalog-house-dom-idilliya-gallery-02.webp",
+    "/media/catalog-house-dom-idilliya-gallery-03.webp",
+    "/media/catalog-house-dom-idilliya-gallery-04.webp"
+  ]
 }

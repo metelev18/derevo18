@@ -9,5 +9,10 @@
   "size": "7×5 м",
   "floors": "1 этаж",
   "duration": "от 25 дней",
-  "image": "/media/catalog-sauna-lesnaya.webp"
+  "image": "/media/catalog-sauna-lesnaya.webp",
+  "gallery": [
+    "/media/catalog-sauna-lesnaya-gallery-01.webp",
+    "/media/catalog-sauna-lesnaya-gallery-02.webp",
+    "/media/catalog-sauna-lesnaya-gallery-03.webp"
+  ]
 }

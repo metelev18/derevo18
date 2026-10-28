@@ -11,5 +11,11 @@
   "rooms": "1 комната",
   "bathrooms": "1 санузел",
   "duration": "от 60 дней",
-  "image": "/media/project-scandic.webp"
+  "image": "/media/project-scandic.webp",
+  "gallery": [
+    "/media/catalog-house-scandic-gallery-01.webp",
+    "/media/catalog-house-scandic-gallery-02.webp",
+    "/media/catalog-house-scandic-gallery-03.webp",
+    "/media/catalog-house-scandic-gallery-04.webp"
+  ]
 }

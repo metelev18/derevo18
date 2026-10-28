@@ -9,5 +9,11 @@
   "size": "6×11 м",
   "floors": "1 этаж",
   "duration": "от 30 дней",
-  "image": "/media/catalog-sauna-zdravnitsa.webp"
+  "image": "/media/catalog-sauna-zdravnitsa.webp",
+  "gallery": [
+    "/media/catalog-sauna-zdravnitsa-gallery-01.webp",
+    "/media/catalog-sauna-zdravnitsa-gallery-02.webp",
+    "/media/catalog-sauna-zdravnitsa-gallery-03.webp",
+    "/media/catalog-sauna-zdravnitsa-gallery-04.webp"
+  ]
 }

@@ -11,5 +11,10 @@
   "rooms": "4 комнаты",
   "bathrooms": "1 санузел",
   "duration": "от 75 дней",
-  "image": "/media/catalog-house-mechta.webp"
+  "image": "/media/catalog-house-mechta.webp",
+  "gallery": [
+    "/media/catalog-house-mechta-gallery-01.webp",
+    "/media/catalog-house-mechta-gallery-02.webp",
+    "/media/catalog-house-mechta-gallery-03.webp"
+  ]
 }

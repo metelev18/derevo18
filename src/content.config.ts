@@ -29,6 +29,7 @@ const catalog = defineCollection({
     bathrooms: z.string().optional(),
     duration: z.string(),
     image: z.string(),
+    gallery: z.array(z.string()).min(1),
   }),
 });
 
@@ -271,6 +272,11 @@ const catalogSettings = defineCollection({
   schema: z.object({
     seo: z.object({ house: seoSchema, sauna: seoSchema }),
     packageSections: z.array(z.object({ title: z.string(), items: z.array(z.string()) })),
+    interiorSections: z.array(z.object({
+      title: z.string(),
+      description: z.string(),
+      image: z.string(),
+    })),
   }),
 });
 

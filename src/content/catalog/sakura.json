@@ -11,5 +11,10 @@
   "rooms": "4 комнаты",
   "bathrooms": "1 санузел",
   "duration": "от 60 дней",
-  "image": "/media/catalog-house-sakura.webp"
+  "image": "/media/catalog-house-sakura.webp",
+  "gallery": [
+    "/media/catalog-house-sakura-gallery-01.webp",
+    "/media/catalog-house-sakura-gallery-02.webp",
+    "/media/catalog-house-sakura-gallery-03.webp"
+  ]
 }

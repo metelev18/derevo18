@@ -11,5 +11,11 @@
   "rooms": "2 комнаты",
   "bathrooms": "1 санузел",
   "duration": "от 60 дней",
-  "image": "/media/catalog-house-krasnaya-shapochka.webp"
+  "image": "/media/catalog-house-krasnaya-shapochka.webp",
+  "gallery": [
+    "/media/catalog-house-krasnaya-shapochka-gallery-01.webp",
+    "/media/catalog-house-krasnaya-shapochka-gallery-02.webp",
+    "/media/catalog-house-krasnaya-shapochka-gallery-03.webp",
+    "/media/catalog-house-krasnaya-shapochka-gallery-04.webp"
+  ]
 }

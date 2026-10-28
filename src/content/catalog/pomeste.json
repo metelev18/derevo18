@@ -11,5 +11,11 @@
   "rooms": "6 комнат",
   "bathrooms": "2 санузла",
   "duration": "от 90 дней",
-  "image": "/media/catalog-house-pomeste.webp"
+  "image": "/media/catalog-house-pomeste.webp",
+  "gallery": [
+    "/media/catalog-house-pomeste-gallery-01.webp",
+    "/media/catalog-house-pomeste-gallery-02.webp",
+    "/media/catalog-house-pomeste-gallery-03.webp",
+    "/media/catalog-house-pomeste-gallery-04.webp"
+  ]
 }

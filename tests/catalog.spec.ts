@@ -1,5 +1,5 @@
 import { expect, test, type Page } from '@playwright/test';
-import { allProjects } from '../src/data/catalog';
+import { allProjects, saunaProjects } from '../src/data/catalog';
 
 async function openReady(page: Page, route: string) {
   await page.goto(route);
@@ -37,10 +37,33 @@ test('renders a complete project card with preview SEO', async ({ page }) => {
   await expect(page.getByRole('heading', { level: 1, name: 'Проект дома «Подшивалово»' })).toBeVisible();
   await expect(page.locator('.project-specs')).toContainText('91 кв. м');
   await expect(page.locator('.project-package__grid article')).toHaveCount(6);
+  await expect(page.locator('.project-interior__grid article')).toHaveCount(5);
+  await expect(page.getByRole('heading', { name: 'Планировка', exact: true })).toHaveCount(0);
   await expect(page.locator('.related-projects .catalog-card')).toHaveCount(3);
   await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex, nofollow');
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://derevo18.com/catalog-house/dom-podshivalovo/');
   expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(1);
+});
+
+test('switches catalog images and opens the expanded gallery', async ({ page }) => {
+  const project = saunaProjects.find(({ slug }) => slug === 'banya-s-hozblokom')!;
+  await openReady(page, project.route);
+  await page.waitForFunction(() => {
+    const island = document.querySelector('.project-gallery')?.closest('astro-island');
+    return island && !island.hasAttribute('ssr');
+  });
+
+  await expect(page.locator('.project-gallery__thumbs button')).toHaveCount(4);
+  await expect(page.locator('.project-gallery__stage img')).toHaveAttribute('src', project.gallery[0]!);
+  await page.getByRole('button', { name: 'Следующее изображение' }).first().click();
+  await expect(page.locator('.project-gallery__stage img')).toHaveAttribute('src', project.gallery[1]!);
+
+  await page.getByRole('button', { name: 'Открыть фотографию на весь экран' }).click();
+  const dialog = page.getByRole('dialog', { name: `Галерея проекта ${project.title}` });
+  await expect(dialog).toBeVisible();
+  await expect(dialog.getByRole('img')).toHaveAttribute('src', project.gallery[1]!);
+  await dialog.getByRole('button', { name: 'Закрыть галерею' }).click();
+  await expect(dialog).toHaveCount(0);
 });
 
 test('submits the project presentation form with email', async ({ page }) => {

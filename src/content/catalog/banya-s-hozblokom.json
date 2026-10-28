@@ -9,5 +9,11 @@
   "size": "7×9 м",
   "floors": "1 этаж",
   "duration": "от 25 дней",
-  "image": "/media/catalog-sauna-banya-s-hozblokom.webp"
+  "image": "/media/catalog-sauna-banya-s-hozblokom.webp",
+  "gallery": [
+    "/media/catalog-sauna-banya-s-hozblokom-gallery-01.webp",
+    "/media/catalog-sauna-banya-s-hozblokom-gallery-02.webp",
+    "/media/catalog-sauna-banya-s-hozblokom-gallery-03.webp",
+    "/media/catalog-sauna-banya-s-hozblokom-gallery-04.webp"
+  ]
 }

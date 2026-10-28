@@ -11,5 +11,10 @@
   "rooms": "3 комнаты",
   "bathrooms": "1 санузел",
   "duration": "от 60 дней",
-  "image": "/media/catalog-sauna-rodnaya.webp"
+  "image": "/media/catalog-sauna-rodnaya.webp",
+  "gallery": [
+    "/media/catalog-sauna-dom-banya-rodnaya-gallery-01.webp",
+    "/media/catalog-sauna-dom-banya-rodnaya-gallery-02.webp",
+    "/media/catalog-sauna-dom-banya-rodnaya-gallery-03.webp"
+  ]
 }

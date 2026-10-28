@@ -9,5 +9,11 @@
   "size": "6×7 м",
   "floors": "1 этаж",
   "duration": "от 25 дней",
-  "image": "/media/catalog-sauna-klassika.webp"
+  "image": "/media/catalog-sauna-klassika.webp",
+  "gallery": [
+    "/media/catalog-sauna-klassika-gallery-01.webp",
+    "/media/catalog-sauna-klassika-gallery-02.webp",
+    "/media/catalog-sauna-klassika-gallery-03.webp",
+    "/media/catalog-sauna-klassika-gallery-04.webp"
+  ]
 }

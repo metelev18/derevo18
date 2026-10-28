@@ -9,5 +9,11 @@
   "size": "5×11 м",
   "floors": "1 этаж",
   "duration": "от 30 дней",
-  "image": "/media/catalog-sauna-evropa.webp"
+  "image": "/media/catalog-sauna-evropa.webp",
+  "gallery": [
+    "/media/catalog-sauna-evropa-gallery-01.webp",
+    "/media/catalog-sauna-evropa-gallery-02.webp",
+    "/media/catalog-sauna-evropa-gallery-03.webp",
+    "/media/catalog-sauna-evropa-gallery-04.webp"
+  ]
 }

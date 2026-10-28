@@ -9,5 +9,10 @@
   "size": "5×12 м",
   "floors": "1 этаж",
   "duration": "от 30 дней",
-  "image": "/media/catalog-sauna-solnechnaya.webp"
+  "image": "/media/catalog-sauna-solnechnaya.webp",
+  "gallery": [
+    "/media/catalog-sauna-solnechnaya-gallery-01.webp",
+    "/media/catalog-sauna-solnechnaya-gallery-02.webp",
+    "/media/catalog-sauna-solnechnaya-gallery-03.webp"
+  ]
 }

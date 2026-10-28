@@ -17,6 +17,7 @@ export interface CatalogProject {
   bathrooms?: string;
   duration: string;
   image: string;
+  gallery: string[];
 }
 
 type StoredCatalogProject = Omit<CatalogProject, 'slug' | 'route'> & {
@@ -27,6 +28,12 @@ type StoredCatalogProject = Omit<CatalogProject, 'slug' | 'route'> & {
 export interface PackageSection {
   title: string;
   items: string[];
+}
+
+export interface InteriorSection {
+  title: string;
+  description: string;
+  image: string;
 }
 
 const catalogEntries = await loadContentDirectory<StoredCatalogProject>('catalog');
@@ -42,10 +49,12 @@ export const saunaProjects = allProjects.filter((project) => project.category ==
 const catalogSettings = catalogSettingsJson as {
   seo: Record<ProjectCategory, SeoSettings>;
   packageSections: PackageSection[];
+  interiorSections: InteriorSection[];
 };
 
 export const catalogSeo = catalogSettings.seo;
 export const basePackageSections = catalogSettings.packageSections;
+export const interiorSections = catalogSettings.interiorSections;
 
 export function getProjectSeo(project: CatalogProject): SeoSettings {
   return {

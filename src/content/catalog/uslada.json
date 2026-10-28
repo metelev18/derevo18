@@ -9,5 +9,10 @@
   "size": "4×6 м",
   "floors": "2 этажа",
   "duration": "от 35 дней",
-  "image": "/media/catalog-sauna-uslada.webp"
+  "image": "/media/catalog-sauna-uslada.webp",
+  "gallery": [
+    "/media/catalog-sauna-uslada-gallery-01.webp",
+    "/media/catalog-sauna-uslada-gallery-02.webp",
+    "/media/catalog-sauna-uslada-gallery-03.webp"
+  ]
 }

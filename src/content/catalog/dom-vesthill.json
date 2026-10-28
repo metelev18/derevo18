@@ -11,5 +11,10 @@
   "rooms": "6 комнат",
   "bathrooms": "2 санузла",
   "duration": "от 100 дней",
-  "image": "/media/catalog-house-dom-vesthill.webp"
+  "image": "/media/catalog-house-dom-vesthill.webp",
+  "gallery": [
+    "/media/catalog-house-dom-vesthill-gallery-01.webp",
+    "/media/catalog-house-dom-vesthill-gallery-02.webp",
+    "/media/catalog-house-dom-vesthill-gallery-03.webp"
+  ]
 }

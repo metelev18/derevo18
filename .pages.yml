@@ -560,9 +560,18 @@ content:
             type: string
             required: true
           - name: image
-            label: Изображение проекта
+            label: Обложка карточки
             type: image
             required: true
+            description: Используется в общем списке проектов и для социальных сетей.
+          - name: gallery
+            label: Фотографии и планировки
+            type: image
+            required: true
+            options:
+              multiple: true
+              unique: true
+            description: Изображения карусели на странице проекта. Их можно перетаскивать, меняя порядок показа.
 
       - name: catalog_settings
         label: Настройки каталога
@@ -603,6 +612,27 @@ content:
                 type: string
                 required: true
                 list: true
+          - name: interiorSections
+            label: Интерьер домов
+            type: object
+            required: true
+            list:
+              collapsible:
+                collapsed: true
+                summary: "{title}"
+            fields:
+              - name: title
+                label: Помещение
+                type: string
+                required: true
+              - name: description
+                label: Описание
+                type: text
+                required: true
+              - name: image
+                label: Фотография
+                type: image
+                required: true
 
       - name: portfolio
         label: Портфолио

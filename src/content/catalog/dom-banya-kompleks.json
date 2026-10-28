@@ -11,5 +11,10 @@
   "rooms": "3 комнаты",
   "bathrooms": "1 санузел",
   "duration": "от 75 дней",
-  "image": "/media/catalog-house-dom-banya-kompleks.webp"
+  "image": "/media/catalog-house-dom-banya-kompleks.webp",
+  "gallery": [
+    "/media/catalog-house-dom-banya-kompleks-gallery-01.webp",
+    "/media/catalog-house-dom-banya-kompleks-gallery-02.webp",
+    "/media/catalog-house-dom-banya-kompleks-gallery-03.webp"
+  ]
 }

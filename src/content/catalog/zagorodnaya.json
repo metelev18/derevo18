@@ -9,5 +9,10 @@
   "size": "7×10 м",
   "floors": "2 этажа",
   "duration": "от 40 дней",
-  "image": "/media/catalog-sauna-zagorodnaya.webp"
+  "image": "/media/catalog-sauna-zagorodnaya.webp",
+  "gallery": [
+    "/media/catalog-sauna-zagorodnaya-gallery-01.webp",
+    "/media/catalog-sauna-zagorodnaya-gallery-02.webp",
+    "/media/catalog-sauna-zagorodnaya-gallery-03.webp"
+  ]
 }

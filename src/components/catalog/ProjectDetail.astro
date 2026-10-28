@@ -3,7 +3,8 @@ import LeadForm from '../site/LeadForm';
 import ContactMapSection from '../site/ContactMapSection.astro';
 import Breadcrumbs from '../ui/Breadcrumbs.astro';
 import CatalogCard from './CatalogCard.astro';
-import { basePackageSections, getProjectDescription, getProjectSeo, getRelatedProjects, type CatalogProject } from '../../data/catalog';
+import ProjectGallery from './ProjectGallery';
+import { basePackageSections, getProjectDescription, getProjectSeo, getRelatedProjects, interiorSections, type CatalogProject } from '../../data/catalog';
 import { siteContent } from '../../data/site';
 import SiteLayout from '../../layouts/SiteLayout.astro';
 
@@ -16,6 +17,7 @@ const categoryLabel = project.category === 'house' ? 'Дома' : 'Бани';
 const categoryRoute = project.category === 'house' ? '/catalog-house/' : '/catalog-sauna/';
 const description = getProjectDescription(project);
 const related = getRelatedProjects(project);
+const gallery = project.gallery.length > 0 ? project.gallery : [project.image];
 const specs = [
   { label: 'Площадь', value: project.area },
   { label: 'Размер', value: project.size },
@@ -33,9 +35,7 @@ const specs = [
       <h1>{project.title}</h1>
     </header>
     <section class="project-showcase container" aria-label="Основная информация о проекте">
-      <div class="project-showcase__image">
-        <img src={project.image} alt={project.title} width="1200" height="900" />
-      </div>
+      <ProjectGallery title={project.title} images={gallery} client:load />
       <aside class="project-showcase__aside">
         <button class="button button--accent project-showcase__download" type="button" data-lead-form="project">Скачать презентацию проекта</button>
         <dl class="project-specs">
@@ -61,19 +61,6 @@ const specs = [
       </div>
     </section>
 
-    <section class="project-plan container section-space" aria-labelledby="project-plan-title">
-      <div>
-        <p class="section-heading__eyebrow">ИНДИВИДУАЛЬНЫЙ ПОДХОД</p>
-        <h2 id="project-plan-title">Планировка</h2>
-        <p>В планировку можно внести любые изменения и дополнения. Архитектор адаптирует размеры помещений, расположение входов, окон и инженерных зон под образ жизни вашей семьи.</p>
-      </div>
-      <div class="project-plan__facts">
-        <span>{project.area}</span>
-        <strong>{project.size}</strong>
-        <small>Базовые параметры проекта</small>
-      </div>
-    </section>
-
     <section class="project-package section-space" aria-labelledby="project-package-title">
       <div class="container">
         <div class="section-heading">
@@ -91,6 +78,28 @@ const specs = [
         </div>
       </div>
     </section>
+
+    {project.category === 'house' && interiorSections.length > 0 && (
+      <section class="project-interior section-space" aria-labelledby="project-interior-title">
+        <div class="container">
+          <div class="section-heading">
+            <p class="section-heading__eyebrow">ИДЕИ ДЛЯ ВАШЕГО ДОМА</p>
+            <h2 id="project-interior-title">Интерьер</h2>
+          </div>
+          <div class="project-interior__grid">
+            {interiorSections.map((section) => (
+              <article>
+                <img src={section.image} alt={`${section.title} в деревянном доме`} width="900" height="620" loading="lazy" />
+                <div>
+                  <h3>{section.title}</h3>
+                  <p>{section.description}</p>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
 
     <section class="project-request section-space">
       <div class="container project-request__grid">

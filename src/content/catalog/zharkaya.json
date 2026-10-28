@@ -9,5 +9,10 @@
   "size": "6×8 м",
   "floors": "1 этаж",
   "duration": "от 25 дней",
-  "image": "/media/catalog-sauna-zharkaya.webp"
+  "image": "/media/catalog-sauna-zharkaya.webp",
+  "gallery": [
+    "/media/catalog-sauna-zharkaya-gallery-01.webp",
+    "/media/catalog-sauna-zharkaya-gallery-02.webp",
+    "/media/catalog-sauna-zharkaya-gallery-03.webp"
+  ]
 }

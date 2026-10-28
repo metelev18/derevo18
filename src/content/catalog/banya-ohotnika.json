@@ -9,5 +9,8 @@
   "size": "6×7 м",
   "floors": "1 этаж",
   "duration": "от 25 дней",
-  "image": "/media/catalog-sauna-banya-ohotnika.webp"
+  "image": "/media/catalog-sauna-banya-ohotnika.webp",
+  "gallery": [
+    "/media/catalog-sauna-banya-ohotnika-gallery-01.webp"
+  ]
 }

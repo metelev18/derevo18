@@ -11,5 +11,10 @@
   "rooms": "2 комнаты",
   "bathrooms": "1 санузел",
   "duration": "от 60 дней",
-  "image": "/media/catalog-house-tet-a-tet.webp"
+  "image": "/media/catalog-house-tet-a-tet.webp",
+  "gallery": [
+    "/media/catalog-house-tet-a-tet-gallery-01.webp",
+    "/media/catalog-house-tet-a-tet-gallery-02.webp",
+    "/media/catalog-house-tet-a-tet-gallery-03.webp"
+  ]
 }

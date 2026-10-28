@@ -11,5 +11,9 @@
   "rooms": "4 комнаты",
   "bathrooms": "1 санузел",
   "duration": "от 60 дней",
-  "image": "/media/catalog-house-dom-astra.webp"
+  "image": "/media/catalog-house-dom-astra.webp",
+  "gallery": [
+    "/media/catalog-house-dom-astra-gallery-01.webp",
+    "/media/catalog-house-dom-astra-gallery-02.webp"
+  ]
 }

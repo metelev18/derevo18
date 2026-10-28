@@ -11,5 +11,10 @@
   "rooms": "2 комнаты",
   "bathrooms": "1 санузел",
   "duration": "от 60 дней",
-  "image": "/media/catalog-house-dom-banya-sosnovaya.webp"
+  "image": "/media/catalog-house-dom-banya-sosnovaya.webp",
+  "gallery": [
+    "/media/catalog-house-dom-banya-sosnovaya-gallery-01.webp",
+    "/media/catalog-house-dom-banya-sosnovaya-gallery-02.webp",
+    "/media/catalog-house-dom-banya-sosnovaya-gallery-03.webp"
+  ]
 }

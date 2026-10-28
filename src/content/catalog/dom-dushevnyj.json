@@ -11,5 +11,10 @@
   "rooms": "5 комнат",
   "bathrooms": "1 санузел",
   "duration": "от 75 дней",
-  "image": "/media/catalog-house-dom-dushevnyj.webp"
+  "image": "/media/catalog-house-dom-dushevnyj.webp",
+  "gallery": [
+    "/media/catalog-house-dom-dushevnyj-gallery-01.webp",
+    "/media/catalog-house-dom-dushevnyj-gallery-02.webp",
+    "/media/catalog-house-dom-dushevnyj-gallery-03.webp"
+  ]
 }

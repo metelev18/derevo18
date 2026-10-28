@@ -11,5 +11,12 @@
   "rooms": "3 комнаты",
   "bathrooms": "1 санузел",
   "duration": "от 60 дней",
-  "image": "/media/catalog-house-dom-grafit.webp"
+  "image": "/media/catalog-house-dom-grafit.webp",
+  "gallery": [
+    "/media/catalog-house-dom-grafit-gallery-01.webp",
+    "/media/catalog-house-dom-grafit-gallery-02.webp",
+    "/media/catalog-house-dom-grafit-gallery-03.webp",
+    "/media/catalog-house-dom-grafit-gallery-04.webp",
+    "/media/catalog-house-dom-grafit-gallery-05.webp"
+  ]
 }
