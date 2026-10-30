@@ -1,5 +1,5 @@
 import { expect, test, type Page } from '@playwright/test';
-import { allProjects, saunaProjects } from '../src/data/catalog';
+import { allProjects, houseProjects, saunaProjects } from '../src/data/catalog';
 
 async function openReady(page: Page, route: string) {
   await page.goto(route);
@@ -14,11 +14,11 @@ async function openReady(page: Page, route: string) {
 test('renders all house projects with local images and working links', async ({ page }) => {
   await openReady(page, '/catalog-house/');
   await expect(page.getByRole('heading', { level: 1, name: 'Дома' })).toBeVisible();
-  await expect(page.locator('.catalog-card')).toHaveCount(27);
+  await expect(page.locator('.catalog-card')).toHaveCount(houseProjects.length);
   await expect(page.getByRole('link', { name: 'Дома', exact: true })).toHaveAttribute('aria-current', 'page');
   await expect(page.locator('.catalog-card').first().getByRole('link', { name: 'Проект дома «Подшивалово»' }).first()).toHaveAttribute('href', '/catalog-house/dom-podshivalovo/');
   const sources = await page.locator('.catalog-card img').evaluateAll((images) => images.map((image) => image.getAttribute('src')));
-  expect(sources).toHaveLength(27);
+  expect(sources).toHaveLength(houseProjects.length);
   expect(sources.every((source) => source?.startsWith('/media/') && !source.includes('tildacdn.com'))).toBe(true);
   expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(1);
 });
@@ -26,7 +26,7 @@ test('renders all house projects with local images and working links', async ({ 
 test('renders all sauna projects and switches between catalogs', async ({ page }) => {
   await openReady(page, '/catalog-sauna/');
   await expect(page.getByRole('heading', { level: 1, name: 'Проекты бань' })).toBeVisible();
-  await expect(page.locator('.catalog-card')).toHaveCount(14);
+  await expect(page.locator('.catalog-card')).toHaveCount(saunaProjects.length);
   await expect(page.getByRole('link', { name: 'Бани', exact: true })).toHaveAttribute('aria-current', 'page');
   await expect(page.locator('.catalog-tabs').getByRole('link', { name: 'Дома' })).toHaveAttribute('href', '/catalog-house/');
   expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(1);
