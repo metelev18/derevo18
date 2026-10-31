@@ -1,0 +1,19 @@
+{
+  "order": 0,
+  "category": "house",
+  "title": "Проект дома \"Заря\"",
+  "name": "Заря",
+  "area": "68",
+  "size": "5х8",
+  "floors": "2",
+  "rooms": "3",
+  "bathrooms": "1",
+  "duration": "от 60 дней",
+  "image": "/media/1ee3c038-feac-40e5-9b78-402cb679c01b.jpg",
+  "gallery": [
+    "/media/200ce748-da8f-4a92-8bf3-e5b09c431690.jpg",
+    "/media/82266c96-f1be-4402-8f94-055a28f7ad74.jpg",
+    "/media/efd7ac7e-7727-4756-a71a-49103f3e826f.jpg",
+    "/media/cflvzfrneqhzwvospjayk3sc1yb4q9aw1rykbmwed5akgvctfozylbiwgvggvur2juyvfmtyhk0ukzbg4eswwk90.jpg"
+  ]
+}
