@@ -9,11 +9,25 @@ interface Props {
 }
 
 const { project } = Astro.props;
+const details = [
+  project.buildingType ? { label: 'Тип объекта', value: project.buildingType } : null,
+  project.area ? { label: 'Площадь', value: project.area } : null,
+  project.material ? { label: 'Материал', value: project.material } : null,
+  project.location ? { label: 'Место', value: project.location } : null,
+  project.completedAt ? { label: 'Завершение', value: project.completedAt } : null,
+].filter(Boolean) as Array<{ label: string; value: string }>;
 ---
 
 <BaseLayout seo={getPortfolioProjectSeo(project)} bodyClass="portfolio-viewer-page">
   <a class="skip-link" href="#portfolio-work-title">К описанию работы</a>
   <main>
-    <PortfolioGallery title={project.title} images={project.images} client:load />
+    <PortfolioGallery
+      title={project.title}
+      images={project.images}
+      description={project.description}
+      details={details}
+      features={project.features}
+      client:load
+    />
   </main>
 </BaseLayout>

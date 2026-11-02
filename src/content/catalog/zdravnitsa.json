@@ -1,5 +1,6 @@
 {
   "order": 30,
+  "status": "published",
   "slug": "zdravnitsa",
   "route": "/catalog-sauna/zdravnitsa/",
   "category": "sauna",

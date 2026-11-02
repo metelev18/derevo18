@@ -1,5 +1,6 @@
 {
   "order": 1,
+  "status": "published",
   "slug": "proekt-doma-bars",
   "route": "/proekt-doma-bars/",
   "category": "house",

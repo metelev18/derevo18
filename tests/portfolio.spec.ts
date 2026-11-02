@@ -22,10 +22,10 @@ async function openGallery(page: Page, route: string) {
 test('renders all portfolio works with local covers and direct links', async ({ page }) => {
   await openSitePage(page, '/portfolio/');
   await expect(page.getByRole('heading', { level: 1, name: 'ПОРТФОЛИО' })).toBeVisible();
-  await expect(page.locator('.portfolio-list-card')).toHaveCount(36);
+  await expect(page.locator('.portfolio-list-card')).toHaveCount(portfolioProjects.length);
   await expect(page.locator('.portfolio-list-card').first().getByRole('link')).toHaveAttribute('href', portfolioProjects[0]!.route);
   const sources = await page.locator('.portfolio-list-card img').evaluateAll((images) => images.map((image) => image.getAttribute('src')));
-  expect(sources.every((source) => source?.startsWith('/media/portfolio-work-') && !source.includes('tildacdn.com'))).toBe(true);
+  expect(sources.every((source) => source?.startsWith('/media/') && !source.includes('tildacdn.com'))).toBe(true);
   expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(1);
 });
 

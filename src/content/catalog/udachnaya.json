@@ -1,5 +1,6 @@
 {
   "order": 31,
+  "status": "published",
   "slug": "udachnaya",
   "route": "/catalog-sauna/udachnaya/",
   "category": "sauna",

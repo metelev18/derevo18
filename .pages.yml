@@ -502,8 +502,19 @@ content:
           create: true
           rename: false
           delete: true
+        actions:
+          - name: generate-catalog-copy
+            label: Сформировать описание с ИИ
+            scope: entry
+            workflow: generate-project-copy.yml
+            ref: current
+            cancelable: false
+            confirm:
+              title: Сформировать текст карточки?
+              message: Сначала сохраните характеристики и фотографии. ИИ обновит только описание и SEO-поля, не изменяя факты и изображения. Карточка будет сохранена как черновик.
+              button: Запустить
         view:
-          fields: [title, category, area, order]
+          fields: [title, status, category, area, order]
           primary: title
           sort: [order, title, category]
           search: [title, name, category]
@@ -511,6 +522,18 @@ content:
             sort: order
             order: asc
         fields:
+          - name: status
+            label: Статус
+            type: select
+            required: true
+            default: draft
+            description: Черновик виден в preview-сборке, но не публикуется на production-сайте.
+            options:
+              values:
+                - name: draft
+                  label: Черновик
+                - name: published
+                  label: Опубликовано
           - name: order
             label: Позиция в списке
             type: number
@@ -559,6 +582,31 @@ content:
             label: Срок строительства
             type: string
             required: true
+          - name: material
+            label: Материал
+            type: string
+            description: Укажите только подтвержденный материал или оставьте поле пустым.
+          - name: features
+            label: Особенности проекта
+            type: string
+            list: true
+            description: По одному проверенному факту в каждом пункте.
+          - name: aiFacts
+            label: Дополнительные факты для ИИ
+            type: text
+            description: Это служебное поле не показывается на сайте. Не вводите секреты и персональные данные заказчиков.
+          - name: description
+            label: Описание проекта
+            type: text
+            description: Заполняется действием «Сформировать описание с ИИ». Текст можно отредактировать вручную.
+          - name: seoTitle
+            label: SEO-заголовок проекта
+            type: string
+            description: Заполняется ИИ, но остается редактируемым.
+          - name: seoDescription
+            label: SEO-описание проекта
+            type: text
+            description: Заполняется ИИ, но остается редактируемым.
           - name: image
             label: Обложка карточки
             type: image
@@ -634,6 +682,16 @@ content:
                 type: image
                 required: true
 
+      - name: catalog_generation_prompt
+        label: Промпт для каталога
+        type: file
+        path: prompts/catalog-project-prompt.md
+        format: code
+        operations:
+          create: false
+          rename: false
+          delete: false
+
       - name: portfolio
         label: Портфолио
         type: collection
@@ -646,8 +704,19 @@ content:
           create: true
           rename: false
           delete: true
+        actions:
+          - name: generate-portfolio-copy
+            label: Сформировать описание с ИИ
+            scope: entry
+            workflow: generate-project-copy.yml
+            ref: current
+            cancelable: false
+            confirm:
+              title: Сформировать текст о работе?
+              message: Сначала сохраните фотографии и хотя бы один проверенный факт. ИИ обновит только описание и SEO-поля, затем сохранит карточку как черновик.
+              button: Запустить
         view:
-          fields: [title, order]
+          fields: [title, status, order]
           primary: title
           sort: [order, title]
           search: [title]
@@ -655,6 +724,18 @@ content:
             sort: order
             order: asc
         fields:
+          - name: status
+            label: Статус
+            type: select
+            required: true
+            default: draft
+            description: Черновик виден в preview-сборке, но не публикуется на production-сайте.
+            options:
+              values:
+                - name: draft
+                  label: Черновик
+                - name: published
+                  label: Опубликовано
           - name: order
             label: Позиция в списке
             type: number
@@ -665,6 +746,48 @@ content:
             label: Название работы
             type: string
             required: true
+          - name: buildingType
+            label: Тип объекта
+            type: string
+            description: Например, дом, баня, дом-баня или беседка.
+          - name: location
+            label: Местоположение
+            type: string
+            description: Только населенный пункт или поселок, без адреса заказчика.
+          - name: area
+            label: Площадь
+            type: string
+          - name: material
+            label: Материал
+            type: string
+          - name: completedAt
+            label: Дата или год завершения
+            type: string
+          - name: workScope
+            label: Что выполнила компания
+            type: text
+            description: Перечисляйте только фактически выполненные работы.
+          - name: features
+            label: Особенности объекта
+            type: string
+            list: true
+            description: По одному проверенному факту в каждом пункте.
+          - name: aiFacts
+            label: Дополнительные факты для ИИ
+            type: text
+            description: Это служебное поле не показывается на сайте. Не вводите секреты, телефоны, адреса и другие персональные данные.
+          - name: description
+            label: Описание работы
+            type: text
+            description: Заполняется действием «Сформировать описание с ИИ». Текст можно отредактировать вручную.
+          - name: seoTitle
+            label: SEO-заголовок работы
+            type: string
+            description: Заполняется ИИ, но остается редактируемым.
+          - name: seoDescription
+            label: SEO-описание работы
+            type: text
+            description: Заполняется ИИ, но остается редактируемым.
           - name: cover
             label: Обложка
             type: image
@@ -707,6 +830,16 @@ content:
             label: Запретить индексацию
             type: boolean
             default: false
+
+      - name: portfolio_generation_prompt
+        label: Промпт для портфолио
+        type: file
+        path: prompts/portfolio-project-prompt.md
+        format: code
+        operations:
+          create: false
+          rename: false
+          delete: false
 
   - name: appearance
     label: Оформление сайта
@@ -930,7 +1063,7 @@ content:
             default: false
 
       - name: news_automation
-        label: ИИ и расписание новостей
+        label: Настройки ИИ и расписание новостей
         type: file
         path: src/content/news-automation/settings.json
         format: json
@@ -949,6 +1082,7 @@ content:
             type: select
             required: true
             default: deepseek-flash
+            description: Используется для новостей, каталога и портфолио.
             options:
               values:
                 - name: deepseek-flash
@@ -960,7 +1094,7 @@ content:
             type: number
             required: true
             default: 0.4
-            description: Значение от 0 до 2. Для стабильного стиля рекомендуется 0.3–0.6.
+            description: Значение от 0 до 2 для всех ИИ-текстов. Для стабильного стиля рекомендуется 0.3–0.6.
           - name: maxBatchSize
             label: Максимум статей за один запуск
             type: number

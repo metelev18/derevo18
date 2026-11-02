@@ -16,6 +16,7 @@ const { project } = Astro.props;
 const categoryLabel = project.category === 'house' ? 'Дома' : 'Бани';
 const categoryRoute = project.category === 'house' ? '/catalog-house/' : '/catalog-sauna/';
 const description = getProjectDescription(project);
+const descriptionParagraphs = description.split(/\n{2,}/).map((paragraph) => paragraph.trim()).filter(Boolean);
 const related = getRelatedProjects(project);
 const gallery = project.gallery.length > 0 ? project.gallery : [project.image];
 const specs = [
@@ -55,7 +56,7 @@ const specs = [
           <h2>Описание</h2>
         </div>
         <div>
-          <p>{description}</p>
+          {descriptionParagraphs.map((paragraph) => <p>{paragraph}</p>)}
           <p>Домокомплект доступен из оцилиндрованного бревна, профилированного или клееного бруса, кедра и лиственницы. Итоговый вариант подбирается после консультации и обследования участка.</p>
         </div>
       </div>

@@ -5,6 +5,9 @@ import {
   allProjects,
   basePackageSections,
   catalogSeo,
+  getCatalogProjectsForEnvironment,
+  getProjectDescription,
+  getProjectSeo,
   getRelatedProjects,
   houseProjects,
   interiorSections,
@@ -25,6 +28,7 @@ describe('catalog content', () => {
     expect(saunaProjects.length).toBeGreaterThan(0);
     expect(allProjects).toHaveLength(houseProjects.length + saunaProjects.length);
     expect(allProjects.every((project) => project.category === 'house' || project.category === 'sauna')).toBe(true);
+    expect(allProjects.every((project) => project.status === 'published')).toBe(true);
   });
 
   it('uses unique local routes and local images', () => {
@@ -42,6 +46,24 @@ describe('catalog content', () => {
     expect(catalogSeo.house.canonicalPath).toBe('/catalog-house/');
     expect(catalogSeo.sauna.canonicalPath).toBe('/catalog-sauna/');
     expect(getRelatedProjects(houseProjects[0]!, 3)).toHaveLength(3);
+
+    const generatedProject = {
+      ...houseProjects[0]!,
+      description: 'Уникальное описание проекта.',
+      seoTitle: 'Индивидуальный SEO-заголовок',
+      seoDescription: 'Индивидуальное SEO-описание.',
+    };
+    expect(getProjectDescription(generatedProject)).toBe(generatedProject.description);
+    expect(getProjectSeo(generatedProject)).toMatchObject({
+      title: generatedProject.seoTitle,
+      description: generatedProject.seoDescription,
+    });
+    const draftProject = { ...generatedProject, status: 'draft' as const };
+    expect(getCatalogProjectsForEnvironment([generatedProject, draftProject], 'production'))
+      .toEqual([generatedProject]);
+    expect(getCatalogProjectsForEnvironment([generatedProject, draftProject], 'preview'))
+      .toHaveLength(2);
+    expect(getProjectSeo(draftProject).noindex).toBe(true);
   });
 
   it('defines the complete package and house interior sections', () => {

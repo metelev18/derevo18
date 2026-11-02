@@ -4,9 +4,12 @@ import ArrowIcon from '../ui/ArrowIcon';
 interface Props {
   title: string;
   images: string[];
+  description?: string;
+  details?: Array<{ label: string; value: string }>;
+  features?: string[];
 }
 
-export default function PortfolioGallery({ title, images }: Props) {
+export default function PortfolioGallery({ title, images, description, details = [], features = [] }: Props) {
   const [active, setActive] = useState(0);
   const canMove = images.length > 1;
   const move = useCallback((step: number) => {
@@ -53,6 +56,32 @@ export default function PortfolioGallery({ title, images }: Props) {
         )}
 
         <h1 id="portfolio-work-title">{title}</h1>
+        {(details.length > 0 || description || features.length > 0) && (
+          <div className="portfolio-viewer__content">
+            {details.length > 0 && (
+              <dl className="portfolio-viewer__details">
+                {details.map((detail) => (
+                  <div key={detail.label}>
+                    <dt>{detail.label}</dt>
+                    <dd>{detail.value}</dd>
+                  </div>
+                ))}
+              </dl>
+            )}
+            {description && (
+              <div className="portfolio-viewer__description">
+                {description.split(/\n{2,}/).map((paragraph) => paragraph.trim()).filter(Boolean).map((paragraph, index) => (
+                  <p key={`${index}-${paragraph}`}>{paragraph}</p>
+                ))}
+              </div>
+            )}
+            {features.length > 0 && (
+              <ul className="portfolio-viewer__features">
+                {features.map((feature) => <li key={feature}>{feature}</li>)}
+              </ul>
+            )}
+          </div>
+        )}
         <a className="portfolio-viewer__back" href="/portfolio/">← Все работы</a>
       </div>
     </section>
