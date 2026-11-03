@@ -1,0 +1,20 @@
+{
+  "status": "draft",
+  "order": 0,
+  "category": "house",
+  "title": "Проект дома \"Дубрава\"",
+  "name": "Дубрава",
+  "area": "92",
+  "size": "9х12",
+  "floors": "1",
+  "rooms": "4",
+  "bathrooms": "1",
+  "duration": "от 60 дней",
+  "material": "Оцилиндрованное бревно",
+  "aiFacts": "Сделай описание дома с учетом квадратуры, планировки и полезного пространства .Полное описание для объявления",
+  "image": "/media/lhrwitedsjjkstnnl7gxolbfk80kcbnyk3wzs9jdmunadcb6sclmyhqd2pk9bgploptft5a8ldtxwkjw45kojszyanwgq.jpg",
+  "gallery": [
+    "/media/grlqccggbz13n8g8qsh6tejah3jnc9waoxcwkawlztwnpenhjolckkiebsyxsjfxbh2l2iicl-lei60vyh-gu4dzhfw.jpg",
+    "/media/ifyiw0tjadj8ip5ucybtfuevsux164wuefnqfwntjlf9jz-sau7az4ugnd8j6kbkjv39lpbii9kc4bo9r0ye-22.jpg"
+  ]
+}
