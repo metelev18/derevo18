@@ -28,7 +28,13 @@ describe('catalog content', () => {
     expect(saunaProjects.length).toBeGreaterThan(0);
     expect(allProjects).toHaveLength(houseProjects.length + saunaProjects.length);
     expect(allProjects.every((project) => project.category === 'house' || project.category === 'sauna')).toBe(true);
-    expect(allProjects.every((project) => project.status === 'published')).toBe(true);
+    expect(allProjects.every((project) => project.status === 'draft' || project.status === 'published')).toBe(true);
+
+    const productionProjects = getCatalogProjectsForEnvironment(allProjects, 'production');
+    expect(productionProjects.every((project) => project.status === 'published')).toBe(true);
+    expect(productionProjects).toHaveLength(
+      allProjects.filter((project) => project.status === 'published').length,
+    );
   });
 
   it('uses unique local routes and local images', () => {
