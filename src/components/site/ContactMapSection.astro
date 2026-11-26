@@ -1,9 +1,10 @@
 ---
 import { siteContent } from '../../data/site';
+import LocationMap from './LocationMap';
 ---
 
 <section id="contacts" class="contact-map" aria-labelledby="contact-map-title">
-  <iframe title="ДревМастер на карте" loading="lazy" src={siteContent.mapEmbedUrl}></iframe>
+  <LocationMap client:visible />
   <div class="contact-map__inner container">
     <div class="contact-map__card">
       <h2 id="contact-map-title">Контакты</h2>

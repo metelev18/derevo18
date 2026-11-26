@@ -38,7 +38,7 @@ describe('catalog content', () => {
   });
 
   it('uses unique local routes and local images', () => {
-    const mediaPaths = allProjects.flatMap((project) => [project.image, ...project.gallery]);
+    const mediaPaths = allProjects.flatMap((project) => [project.image, ...project.gallery, ...(project.floorPlans ?? [])]);
 
     expect(new Set(allProjects.map((project) => project.route)).size).toBe(allProjects.length);
     expect(allProjects.every((project) => project.route.startsWith('/') && project.route.endsWith('/'))).toBe(true);

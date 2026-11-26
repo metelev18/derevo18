@@ -613,13 +613,20 @@ content:
             required: true
             description: Используется в общем списке проектов и для социальных сетей.
           - name: gallery
-            label: Фотографии и планировки
+            label: Фотографии проекта
             type: image
             required: true
             options:
               multiple: true
               unique: true
             description: Изображения карусели на странице проекта. Их можно перетаскивать, меняя порядок показа.
+          - name: floorPlans
+            label: Планировки
+            type: image
+            options:
+              multiple: true
+              unique: true
+            description: Схемы этажей. Показываются отдельным блоком и в конце основной карусели, целиком без обрезки.
 
       - name: catalog_settings
         label: Настройки каталога
@@ -799,6 +806,7 @@ content:
             options:
               multiple: true
               unique: true
+            description: Сначала фотографии объекта и этапов строительства, затем визуализации проекта и планировки. Перетаскивайте изображения для изменения порядка.
 
       - name: portfolio_settings
         label: SEO портфолио
@@ -1429,6 +1437,8 @@ content:
                       label: Telegram
                     - name: whatsapp
                       label: WhatsApp
+                    - name: max
+                      label: MAX
           - name: forms
             label: Тексты форм
             type: object

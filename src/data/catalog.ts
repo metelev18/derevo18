@@ -27,6 +27,7 @@ export interface CatalogProject {
   seoDescription?: string;
   image: string;
   gallery: string[];
+  floorPlans?: string[];
 }
 
 type StoredCatalogProject = Omit<CatalogProject, 'slug' | 'route' | 'status'> & {

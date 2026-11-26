@@ -37,6 +37,7 @@ const catalog = defineCollection({
     seoDescription: z.string().optional(),
     image: z.string(),
     gallery: z.array(z.string()).min(1),
+    floorPlans: z.array(z.string()).optional(),
   }),
 });
 
@@ -185,7 +186,7 @@ const site = defineCollection({
     socials: z.array(z.object({
       label: z.string(),
       href: z.string(),
-      kind: z.enum(['vk', 'telegram', 'whatsapp']),
+      kind: z.enum(['vk', 'telegram', 'whatsapp', 'max']),
     })),
     forms: z.object({
       callback: formSchema,

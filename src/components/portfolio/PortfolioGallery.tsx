@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import ArrowIcon from '../ui/ArrowIcon';
+import GalleryLightbox from '../ui/GalleryLightbox';
 
 interface Props {
   title: string;
@@ -11,6 +12,7 @@ interface Props {
 
 export default function PortfolioGallery({ title, images, description, details = [], features = [] }: Props) {
   const [active, setActive] = useState(0);
+  const [expanded, setExpanded] = useState(false);
   const canMove = images.length > 1;
   const move = useCallback((step: number) => {
     setActive((current) => (current + step + images.length) % images.length);
@@ -18,20 +20,23 @@ export default function PortfolioGallery({ title, images, description, details =
 
   useEffect(() => {
     const keydown = (event: KeyboardEvent) => {
-      if (!canMove) return;
+      if (!canMove || expanded || /INPUT|TEXTAREA|SELECT/.test((event.target as HTMLElement).tagName)) return;
       if (event.key === 'ArrowRight') move(1);
       if (event.key === 'ArrowLeft') move(-1);
     };
     document.addEventListener('keydown', keydown);
     return () => document.removeEventListener('keydown', keydown);
-  }, [canMove, move]);
+  }, [canMove, expanded, move]);
 
   return (
     <section className="portfolio-viewer" aria-labelledby="portfolio-work-title">
       <a className="portfolio-viewer__close" href="/portfolio/" aria-label="Вернуться в портфолио">×</a>
       <div className="portfolio-viewer__inner">
         <div className="portfolio-viewer__stage">
-          <img src={images[active]} alt={`${title}, фотография ${active + 1}`} width="1800" height="1200" />
+          <button className="portfolio-viewer__expand" type="button" onClick={() => setExpanded(true)} aria-label="Открыть фотографию на весь экран">
+            <img src={images[active]} alt={`${title}, фотография ${active + 1}`} width="1800" height="1200" />
+            <span aria-hidden="true">↗</span>
+          </button>
           {canMove && (
             <>
               <button className="portfolio-viewer__arrow portfolio-viewer__arrow--left" type="button" onClick={() => move(-1)} aria-label="Предыдущая фотография">
@@ -83,6 +88,7 @@ export default function PortfolioGallery({ title, images, description, details =
           </div>
         )}
         <a className="portfolio-viewer__back" href="/portfolio/">← Все работы</a>
+        {expanded && <GalleryLightbox title={title} images={images} active={active} onChange={setActive} onClose={() => setExpanded(false)} />}
       </div>
     </section>
   );

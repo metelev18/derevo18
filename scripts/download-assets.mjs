@@ -5,6 +5,7 @@ import { materialArticleAssets } from './materials-assets.mjs';
 import { newsAssets } from './news-assets.mjs';
 import { portfolioAssets } from './portfolio-assets.mjs';
 import { reviewsAssets } from './reviews-assets.mjs';
+import { catalogFloorPlanAssets } from './catalog-floor-plan-assets.mjs';
 
 const assets = {
   'logo.webp': 'https://static.tildacdn.com/tild3961-3666-4565-a632-386532353866/logo_1.png',
@@ -30,6 +31,8 @@ const assets = {
   'portfolio-4.webp': 'https://static.tildacdn.com/tild3561-3066-4731-a532-336638303134/photo_2024-09-15_19-.jpg',
   'portfolio-5.webp': 'https://static.tildacdn.com/tild3861-3732-4430-a636-613437623734/3IrsQWLzYoM-17005036.jpg',
   'portfolio-6.webp': 'https://static.tildacdn.com/tild3366-3832-4865-b263-653333383466/yLSgAnOh9zY-17005038.jpg',
+  'home-portfolio-106.webp': 'https://static.tildacdn.com/stor3334-6666-4664-b766-343965633065/89977216.jpg',
+  'home-portfolio-97.webp': 'https://static.tildacdn.com/stor6539-3132-4166-b437-616134646139/84502364.jpg',
   'review-1.webp': 'https://static.tildacdn.com/tild3634-3463-4961-b736-386532656562/g7eH6d1r2yc.jpg',
   'review-2.webp': 'https://static.tildacdn.com/tild3535-6433-4435-a432-313439326665/photo_2024-09-15_19-.jpg',
   'review-3.webp': 'https://static.tildacdn.com/tild3166-3665-4938-a266-326530333164/photo_2024-09-06_08-.jpg',
@@ -88,6 +91,7 @@ const assets = {
   'og.jpg': 'https://static.tildacdn.com/tild6333-6536-4137-b535-616462623932/Frame_279.png',
   ...newsAssets,
   ...portfolioAssets,
+  ...catalogFloorPlanAssets,
   ...reviewsAssets,
   ...materialArticleAssets,
 };

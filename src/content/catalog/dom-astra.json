@@ -16,5 +16,8 @@
   "gallery": [
     "/media/catalog-house-dom-astra-gallery-01.webp",
     "/media/catalog-house-dom-astra-gallery-02.webp"
+  ],
+  "floorPlans": [
+    "/media/catalog-house-dom-astra-plan-01.webp"
   ]
 }

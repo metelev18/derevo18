@@ -18,7 +18,8 @@ const categoryRoute = project.category === 'house' ? '/catalog-house/' : '/catal
 const description = getProjectDescription(project);
 const descriptionParagraphs = description.split(/\n{2,}/).map((paragraph) => paragraph.trim()).filter(Boolean);
 const related = getRelatedProjects(project);
-const gallery = project.gallery.length > 0 ? project.gallery : [project.image];
+const floorPlans = project.floorPlans ?? [];
+const gallery = [...new Set([...(project.gallery.length > 0 ? project.gallery : [project.image]), ...floorPlans])];
 const specs = [
   { label: 'Площадь', value: project.area },
   { label: 'Размер', value: project.size },
@@ -36,7 +37,7 @@ const specs = [
       <h1>{project.title}</h1>
     </header>
     <section class="project-showcase container" aria-label="Основная информация о проекте">
-      <ProjectGallery title={project.title} images={gallery} client:load />
+      <ProjectGallery title={project.title} images={gallery} floorPlans={floorPlans} client:load />
       <aside class="project-showcase__aside">
         <button class="button button--accent project-showcase__download" type="button" data-lead-form="project">Скачать презентацию проекта</button>
         <dl class="project-specs">
@@ -48,6 +49,16 @@ const specs = [
         <p>Планировку, материалы и комплектацию можно изменить под ваш участок.</p>
       </aside>
     </section>
+
+    {floorPlans.length > 0 && (
+      <section class="project-floor-plans section-space container" aria-labelledby="project-floor-plans-title">
+        <div class="section-heading">
+          <h2 id="project-floor-plans-title">Планировка</h2>
+          <p>Нажмите на схему, чтобы рассмотреть её на весь экран. Планировку можно изменить под ваши пожелания.</p>
+        </div>
+        <ProjectGallery title={`${project.title} — планировка`} images={floorPlans} fit="contain" client:visible />
+      </section>
+    )}
 
     <section class="project-description section-space">
       <div class="container project-description__grid">

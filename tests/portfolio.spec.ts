@@ -34,11 +34,11 @@ test('opens an accessible local gallery and changes photographs', async ({ page 
   await openGallery(page, project.route);
   await expect(page.getByRole('heading', { level: 1, name: project.title })).toBeVisible();
   await expect(page.locator('.portfolio-viewer__thumbs button')).toHaveCount(project.images.length);
-  await expect(page.locator('.portfolio-viewer__stage > img')).toHaveAttribute('src', project.images[0]!);
+  await expect(page.locator('.portfolio-viewer__stage img')).toHaveAttribute('src', project.images[0]!);
   await page.getByRole('button', { name: 'Следующая фотография' }).click();
-  await expect(page.locator('.portfolio-viewer__stage > img')).toHaveAttribute('src', project.images[1]!);
+  await expect(page.locator('.portfolio-viewer__stage img')).toHaveAttribute('src', project.images[1]!);
   await page.keyboard.press('ArrowLeft');
-  await expect(page.locator('.portfolio-viewer__stage > img')).toHaveAttribute('src', project.images[0]!);
+  await expect(page.locator('.portfolio-viewer__stage img')).toHaveAttribute('src', project.images[0]!);
   await expect(page.getByRole('link', { name: 'Вернуться в портфолио' })).toHaveAttribute('href', '/portfolio/');
   expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(1);
 });

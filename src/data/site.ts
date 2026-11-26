@@ -16,7 +16,7 @@ export interface Contact {
 export interface SocialLink {
   label: string;
   href: string;
-  kind: 'vk' | 'telegram' | 'whatsapp';
+  kind: 'vk' | 'telegram' | 'whatsapp' | 'max';
 }
 
 export const formIds = ['callback', 'catalog', 'application', 'project', 'estimate'] as const;
