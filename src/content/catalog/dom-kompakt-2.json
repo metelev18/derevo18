@@ -12,13 +12,14 @@
   "rooms": "3 комнаты",
   "bathrooms": "1 санузел",
   "duration": "от 60 дней",
-  "image": "/media/catalog-house-dom-kompakt-2.webp",
+  "image": "/media/9b230518-e989-440a-8b89-3019e7af3b3d.jpg",
   "gallery": [
-    "/media/catalog-house-dom-kompakt-2-gallery-01.webp",
-    "/media/catalog-house-dom-kompakt-2-gallery-02.webp",
-    "/media/catalog-house-dom-kompakt-2-gallery-03.webp"
+    "/media/9b230518-e989-440a-8b89-3019e7af3b3d-1.jpg",
+    "/media/41c47a64-10de-40f0-82fc-54bd4d6f7882.jpg",
+    "/media/41b6cce8-9560-425e-9fa5-3b158f2fdaec.jpg",
+    "/media/58524120-a98a-4657-bd40-849925dc87c3.jpg"
   ],
   "floorPlans": [
-    "/media/catalog-house-dom-kompakt-2-plan-01.webp"
+    "/media/ed15f1ba-167b-46cd-a75b-b8928b4cef67.jpg"
   ]
 }
