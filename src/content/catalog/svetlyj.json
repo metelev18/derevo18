@@ -12,11 +12,11 @@
   "rooms": "3 комнаты",
   "bathrooms": "1 санузел",
   "duration": "от 60 дней",
-  "image": "/media/5921dbf5-6f83-4075-a56d-67fa46ae0b44.jpg",
+  "image": "/media/452e05d2-a2c6-4ff4-9202-b0454a37a847.jpg",
   "gallery": [
-    "/media/5921dbf5-6f83-4075-a56d-67fa46ae0b44-2.jpg",
-    "/media/51ba4e20-1adb-4777-8306-b239fa9f791d.jpg",
-    "/media/b45886a6-4169-4276-b45a-eda89bc1da16.jpg"
+    "/media/452e05d2-a2c6-4ff4-9202-b0454a37a847-1.jpg",
+    "/media/16e1cba6-3815-4ccd-8577-eb1d650df775.jpg",
+    "/media/9bd6088d-2bf8-40a9-8d2b-00a2258c64ff.jpg"
   ],
   "floorPlans": [
     "/media/a7f23c87-3e48-4dd4-9392-dd60beedf653.jpg"
