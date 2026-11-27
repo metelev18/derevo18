@@ -6,19 +6,19 @@
   "category": "house",
   "title": "Проект дома-бани «Сосновая»",
   "name": "Сосновая",
-  "area": "75 кв. м",
+  "area": "69 кв. м",
   "size": "5×8 м",
   "floors": "2 этажа",
   "rooms": "2 комнаты",
   "bathrooms": "1 санузел",
   "duration": "от 60 дней",
-  "image": "/media/catalog-house-dom-banya-sosnovaya.webp",
+  "image": "/media/c3101fcf-d80c-4916-acb4-1184d433ecf1.jpg",
   "gallery": [
-    "/media/catalog-house-dom-banya-sosnovaya-gallery-01.webp",
-    "/media/catalog-house-dom-banya-sosnovaya-gallery-02.webp",
-    "/media/catalog-house-dom-banya-sosnovaya-gallery-03.webp"
+    "/media/c3101fcf-d80c-4916-acb4-1184d433ecf1-1.jpg",
+    "/media/f0d9c9db-d521-4aec-815c-7fb627d0fc40.jpg",
+    "/media/dfcb87c2-2fa0-4adf-bb20-63dfece68725.jpg"
   ],
   "floorPlans": [
-    "/media/catalog-house-dom-banya-sosnovaya-plan-01.webp"
+    "/media/6a5f3725-7495-4dea-9a70-8861f29cb0ad.jpg"
   ]
 }
